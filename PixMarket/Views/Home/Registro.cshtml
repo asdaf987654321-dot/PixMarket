@@ -1,0 +1,72 @@
+﻿@{
+    ViewData["Title"] = "Crear Cuenta";
+}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow p-4">
+                <h2 class="text-center mb-4">
+                    Crear una Cuenta
+                </h2>
+                <form>
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Nombre
+                        </label>
+
+                        <input type="text"
+                               class="form-control"
+                               placeholder="Ingrese su nombre"
+                               required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Correo
+                        </label>
+
+                        <input type="email"
+                               class="form-control"
+                               placeholder="Ingrese su correo"
+                               required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Telefono
+                        </label>
+
+                        <input type="tel"
+                               class="form-control"
+                               placeholder="Ingrese su numero de teléfono"
+                               required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">
+                            Contraseña
+                        </label>
+
+                        <input type="password"
+                               class="form-control"
+                               placeholder="Ingrese su contraseña"
+                               required />
+                    </div>
+
+                    <button type="submit"
+                            class="btn btn-success w-100">
+                        Crear Cuenta
+                    </button>
+
+                </form>
+
+                <div class="text-center mt-3">
+                    <span>¿Ya tienes una cuenta?</span>
+
+                    <a asp-controller="Home"
+                       asp-action="Login"
+                       class="text-decoration-none">
+                        Iniciar Sesión
+                    </a>
+                </div>
+            </div>
+        </div>
+        </div>
+     </div>
