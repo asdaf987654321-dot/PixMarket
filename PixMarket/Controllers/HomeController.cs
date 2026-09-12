@@ -41,9 +41,9 @@ namespace PixMarket.Controllers
         }
 
         [HttpPost]
-        public IActionResult Login(string correo, string contraseña)
+        public IActionResult Login(string correo, string contrasenia)
         {
-            var usuario = _context.Usuarios.FirstOrDefault(u => u.Correo == correo && u.Contrasenia == contraseña);
+            var usuario = _context.Usuarios.FirstOrDefault(u => u.Correo == correo && u.Contrasenia == contrasenia);
             if (usuario != null)
             {
                 return RedirectToAction("Index");
@@ -61,7 +61,7 @@ namespace PixMarket.Controllers
         }
 
         [HttpPost]
-        public IActionResult Registro(string nombre, string correo, string contraseña)
+        public IActionResult Registro(string nombre, string correo, string contrasenia)
         {
             var usuarioExistente = _context.Usuarios.FirstOrDefault(u => u.Correo == correo);
             if (usuarioExistente != null)
@@ -73,7 +73,7 @@ namespace PixMarket.Controllers
             {
                 Nombre = nombre,
                 Correo = correo,
-                Contrasenia = contraseña,
+                Contrasenia = contrasenia,
                 Rol = "Usuario"
             };
             _context.Usuarios.Add(nuevoUsuario);
