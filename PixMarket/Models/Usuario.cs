@@ -9,5 +9,6 @@ namespace PixMarket.Models
         public string? Correo { get; set; }
         public string? Contrasenia { get; set; }
         public string? Rol { get; set; }
+        public int Telefono { get; set; }
     }
 }
