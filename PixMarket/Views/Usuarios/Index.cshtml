@@ -12,7 +12,7 @@
                     Iniciar Sesión
                 </h2>
 
-                <form>
+                <form method="post" asp-controller="Usuarios" asp-action="Index">
 
                     <div class="mb-3">
                         <label class="form-label">
@@ -22,7 +22,8 @@
                         <input type="email"
                                class="form-control"
                                placeholder="Ingrese su correo"
-                               required />
+                               required
+                               name="correo"/>
                     </div>
 
                     <div class="mb-3">
@@ -33,7 +34,8 @@
                         <input type="password"
                                class="form-control"
                                placeholder="Ingrese su contraseña"
-                               required />
+                               required
+                               name="contrasenia"/>
                     </div>
 
                     <button type="submit"

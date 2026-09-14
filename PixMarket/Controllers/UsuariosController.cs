@@ -22,9 +22,18 @@ namespace PixMarket.Controllers
             var usuario = _context.Usuarios.FirstOrDefault(u => u.Correo == correo && u.Contrasenia == contrasenia);
             if (usuario != null)
             {
-                return RedirectToAction("Index");
+                if (usuario.Rol == "Administrador")
+                {
+                    return RedirectToAction("Administrador");
+                }
+                else
+                {
+                    return RedirectToAction("Cliente");
+                }
+                
             }
             ViewBag.Error = "El correo o la contraseña son incorrectos";
+            
             return View();
         }
 
@@ -53,6 +62,16 @@ namespace PixMarket.Controllers
             _context.Usuarios.Add(nuevoUsuario);
             _context.SaveChanges();
             return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public IActionResult Administrador()
+        {
+            return View();
+        }
+        [HttpGet]
+        public IActionResult Cliente()
+        {
+            return View();
         }
     }
 }
