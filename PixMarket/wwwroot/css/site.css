@@ -20,3 +20,97 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.color-principal {
+    background-color: #28A3BD; 
+}
+
+.text-principal {
+    color: #1F2937
+}
+
+.color-secundario {
+    background-color: #285ABD;
+}
+
+.text-secundario {
+    color: #64748B
+}
+
+.exito {
+    background-color: #28BD8B;
+    color: #F4F7F9
+}
+
+
+.error {
+    background-color: #BD4128;
+    color: #F4F7F9
+}
+
+.fondo {
+    background-color: #F4F7F9;
+}
+
+.text-fondo {
+    color: #F4F7F9;
+}
+
+.contenedor {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+/*css raros */
+
+body {
+    margin: 0;
+    font-family: Arial;
+}
+
+.principal {
+    position: relative;
+    height: 80vh;
+}
+
+    .principal img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+.slogan {
+    position: absolute;
+    top: 40%;
+    width: 100%;
+    text-align: center;
+    color: white;
+}
+
+    .slogan h1 {
+        font-size: 50px;
+    }
+
+    .slogan p {
+        font-size: 20px;
+    }
+
+.contenedor {
+    display: flex;
+    gap: 30px;
+    padding: 40px;
+}
+
+.cuadro {
+    width: 50%;
+    text-align: center;
+    border: 1px solid #ddd;
+    padding: 20px;
+}
+
+    .cuadro img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+    }
