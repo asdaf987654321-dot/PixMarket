@@ -34,51 +34,5 @@ namespace PixMarket.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Login(string correo, string contrasenia)
-        {
-            var usuario = _context.Usuarios.FirstOrDefault(u => u.Correo == correo && u.Contrasenia == contrasenia);
-            if (usuario != null)
-            {
-                return RedirectToAction("Index");
-            }
-            ViewBag.Error = "El correo o la contraseña son incorrectos";
-            return View();
-        }
-
-
-
-        [HttpGet]
-        public IActionResult Registro()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult Registro(string nombre, string correo, string contrasenia)
-        {
-            var usuarioExistente = _context.Usuarios.FirstOrDefault(u => u.Correo == correo);
-            if (usuarioExistente != null)
-            {
-                ViewBag.Error = "El correo ya existe";
-                return View();
-            }
-            var nuevoUsuario = new Usuario
-            {
-                Nombre = nombre,
-                Correo = correo,
-                Contrasenia = contrasenia,
-                Rol = "Usuario"
-            };
-            _context.Usuarios.Add(nuevoUsuario);
-            _context.SaveChanges();
-            return RedirectToAction("Login");
-        }
     }
 }

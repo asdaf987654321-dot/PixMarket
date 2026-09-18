@@ -8,7 +8,7 @@
                 <h2 class="text-center mb-4">
                     Crear una Cuenta
                 </h2>
-                <form>
+                <form method="post" asp-controller="Usuarios" asp-action="Registro">
                     <div class="mb-3">
                         <label class="form-label">
                             Nombre
@@ -17,7 +17,8 @@
                         <input type="text"
                                class="form-control"
                                placeholder="Ingrese su nombre"
-                               required />
+                               required
+                               name="nombre"/>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">
@@ -27,7 +28,8 @@
                         <input type="email"
                                class="form-control"
                                placeholder="Ingrese su correo"
-                               required />
+                               required
+                               name="correo"/>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">
@@ -37,7 +39,8 @@
                         <input type="tel"
                                class="form-control"
                                placeholder="Ingrese su numero de teléfono"
-                               required />
+                               required
+                               name="telefono"/>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">
@@ -47,7 +50,8 @@
                         <input type="password"
                                class="form-control"
                                placeholder="Ingrese su contraseña"
-                               required />
+                               required
+                               name="contrasenia"/>
                     </div>
 
                     <button type="submit"
