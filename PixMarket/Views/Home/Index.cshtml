@@ -2,32 +2,375 @@
     ViewData["Title"] = "Inicio";
 }
 
-<link rel="stylesheet" href="~/css/site.css" />
 
-<div class="principal">
+<!-- =====================================================
+     HERO
+     ===================================================== -->
 
-    <img src="~/imagenes/banner.jpg" alt="banner de la tienda">
+<section class="home-hero">
 
-    <div class="slogan ">
-        <h1 class=" text-fondo">PIX MARKET</h1>
-        <p class=" text-fondo">tienda de cartas tcg</p>
-    </div>
+    <div class="home-hero-overlay"></div>
 
-</div>
+    <div class="home-hero-content">
 
-<div class="contenedor">
+        <span class="home-welcome">
+            Bienvenido a
+        </span>
 
-    <div class="cuadro">
-        <img src="~/imagenes/imagen1.jpg" alt="Estudiantes">
-    </div>
+        <h1>
+            Block du <span>Booster</span>
+        </h1>
 
-    <div class="cuadro color-secundario">
+        <h2>
+            Tu destino para cartas coleccionables
+        </h2>
 
-        <h2 class=" text-principal">que somos</h2>
-
-        <p class=" text-principal">
-            Tienda de cartas coleccionables tcg de magik, pokemon y yugioh, contamos con un amplio catalogo de cartas y accesorios para todos los jugadores.
+        <p>
+            Encuentra tus cartas favoritas de
+            Yu-Gi-Oh!, Pokémon, Magic y mucho más.
+            Colecciona, intercambia y forma parte
+            de nuestra comunidad de duelistas y
+            coleccionistas.
         </p>
+
+
+        <div class="home-buttons">
+
+            <a href="#" class="btn-primary-pix">
+
+                <i class="bi bi-cart3"></i>
+
+                Ver productos
+
+            </a>
+
+
+            <a asp-controller="Categorias"
+               asp-action="Index"
+               class="btn-outline-pix">
+
+                <i class="bi bi-grid"></i>
+
+                Explorar categorías
+
+            </a>
+
+        </div>
+
     </div>
 
-</div>
+</section>
+
+
+<!-- =====================================================
+     CATEGORÍAS
+     ===================================================== -->
+
+<section class="home-categories">
+
+    <a href="#" class="category-box yugioh">
+
+        <div class="category-logo">
+            Yu-Gi-Oh!
+        </div>
+
+        <span>
+            Yu-Gi-Oh!
+        </span>
+
+        <i class="bi bi-arrow-right"></i>
+
+    </a>
+
+
+    <a href="#" class="category-box pokemon">
+
+        <div class="category-logo">
+            Pokémon
+        </div>
+
+        <span>
+            Pokémon
+        </span>
+
+        <i class="bi bi-arrow-right"></i>
+
+    </a>
+
+
+    <a href="#" class="category-box magic">
+
+        <div class="category-logo">
+            MAGIC
+        </div>
+
+        <span>
+            Magic
+        </span>
+
+        <i class="bi bi-arrow-right"></i>
+
+    </a>
+
+
+    <a href="#" class="category-box others">
+
+        <div class="category-logo">
+            <i class="bi bi-stack"></i>
+        </div>
+
+        <span>
+            Otros
+        </span>
+
+        <i class="bi bi-arrow-right"></i>
+
+    </a>
+
+</section>
+
+
+<!-- =====================================================
+     PRODUCTOS DESTACADOS
+     ===================================================== -->
+
+<section class="featured-products">
+
+    <div class="section-heading">
+
+        <h2>
+            <i class="bi bi-star-fill"></i>
+            Productos destacados
+        </h2>
+
+        <a asp-controller="Categorias"
+           asp-action="Index">
+
+            Ver todos los productos
+            <i class="bi bi-arrow-right"></i>
+
+        </a>
+
+    </div>
+
+
+    <div class="featured-grid">
+
+
+        <!-- PRODUCTO 1 -->
+
+        <article class="featured-card">
+
+            <button class="favorite">
+                <i class="bi bi-heart"></i>
+            </button>
+
+            <div class="product-image">
+
+                <img src="~/Imagenes/imagen1.jpg"
+                     alt="Blue-Eyes White Dragon" />
+
+            </div>
+
+            <div class="product-info">
+
+                <span class="product-game yugioh-tag">
+                    Yu-Gi-Oh!
+                </span>
+
+                <h3>
+                    Blue-Eyes White Dragon
+                </h3>
+
+                <span class="product-rarity">
+                    Ultra Rara
+                </span>
+
+                <strong class="product-price">
+                    Bs 320
+                </strong>
+
+                <button class="add-cart">
+                    <i class="bi bi-cart3"></i>
+                    Agregar al carrito
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- PRODUCTO 2 -->
+
+        <article class="featured-card">
+
+            <button class="favorite">
+                <i class="bi bi-heart"></i>
+            </button>
+
+            <div class="product-image">
+
+                <img src="~/Imagenes/imagen2.jpg"
+                     alt="Pikachu ex" />
+
+            </div>
+
+            <div class="product-info">
+
+                <span class="product-game pokemon-tag">
+                    Pokémon
+                </span>
+
+                <h3>
+                    Pikachu ex
+                </h3>
+
+                <span class="product-rarity">
+                    Ultra Rara
+                </span>
+
+                <strong class="product-price">
+                    Bs 280
+                </strong>
+
+                <button class="add-cart">
+                    <i class="bi bi-cart3"></i>
+                    Agregar al carrito
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- PRODUCTO 3 -->
+
+        <article class="featured-card">
+
+            <button class="favorite">
+                <i class="bi bi-heart"></i>
+            </button>
+
+            <div class="product-image">
+
+                <img src="~/Imagenes/banner.jpg"
+                     alt="Black Lotus" />
+
+            </div>
+
+            <div class="product-info">
+
+                <span class="product-game magic-tag">
+                    Magic
+                </span>
+
+                <h3>
+                    Black Lotus
+                </h3>
+
+                <span class="product-rarity">
+                    Rara
+                </span>
+
+                <strong class="product-price">
+                    Bs 950
+                </strong>
+
+                <button class="add-cart">
+                    <i class="bi bi-cart3"></i>
+                    Agregar al carrito
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- PRODUCTO 4 -->
+
+        <article class="featured-card">
+
+            <button class="favorite">
+                <i class="bi bi-heart"></i>
+            </button>
+
+            <div class="product-image">
+
+                <img src="~/Imagenes/imagen1.jpg"
+                     alt="Dark Magician" />
+
+            </div>
+
+            <div class="product-info">
+
+                <span class="product-game yugioh-tag">
+                    Yu-Gi-Oh!
+                </span>
+
+                <h3>
+                    Dark Magician
+                </h3>
+
+                <span class="product-rarity">
+                    Rara
+                </span>
+
+                <strong class="product-price">
+                    Bs 180
+                </strong>
+
+                <button class="add-cart">
+                    <i class="bi bi-cart3"></i>
+                    Agregar al carrito
+                </button>
+
+            </div>
+
+        </article>
+
+
+        <!-- PRODUCTO 5 -->
+
+        <article class="featured-card">
+
+            <button class="favorite">
+                <i class="bi bi-heart"></i>
+            </button>
+
+            <div class="product-image">
+
+                <img src="~/Imagenes/imagen2.jpg"
+                     alt="Charizard ex" />
+
+            </div>
+
+            <div class="product-info">
+
+                <span class="product-game pokemon-tag">
+                    Pokémon
+                </span>
+
+                <h3>
+                    Charizard ex
+                </h3>
+
+                <span class="product-rarity">
+                    Ultra Rara
+                </span>
+
+                <strong class="product-price">
+                    Bs 450
+                </strong>
+
+                <button class="add-cart">
+                    <i class="bi bi-cart3"></i>
+                    Agregar al carrito
+                </button>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>

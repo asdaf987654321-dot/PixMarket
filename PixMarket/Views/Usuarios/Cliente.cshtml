@@ -1,33 +1,159 @@
 ﻿@{
-    ViewData["Title"] = "Inicio";
+    ViewData["Title"] = "PixMarket";
 }
 
-<link rel="stylesheet" href="~/css/site.css" />
+<!-- ENCABEZADO DE CLIENTE -->
+<section class="cliente-header">
 
-<div class="principal">
+    <div>
+        <span class="seccion-etiqueta">
+            PIXMARKET
+        </span>
 
-    <img src="~/imagenes/banner.jpg" alt="banner de la tienda">
+        <h1>
+            Bienvenido a <span>PixMarket</span>
+        </h1>
 
-    <div class="slogan ">
-        <h1 class=" text-fondo">PIX MARKET</h1>
-        <p class=" text-fondo">tienda de cartas tcg</p>
-    </div>
-
-</div>
-
-<div class="contenedor">
-
-    <div class="cuadro">
-        <img src="~/imagenes/imagen1.jpg" alt="Estudiantes">
-    </div>
-
-    <div class="cuadro color-secundario">
-
-        <h2 class=" text-principal">que somos</h2>
-
-        <p class=" text-principal">
-            Tienda de cartas coleccionables tcg de magik, pokemon y yugioh, contamos con un amplio catalogo de cartas y accesorios para todos los jugadores.
+        <p>
+            Explora nuestro catálogo de cartas coleccionables
+            y encuentra tus productos favoritos.
         </p>
     </div>
 
-</div>
+</section>
+
+
+<!-- CATEGORÍAS -->
+<section class="cliente-categorias">
+
+    <div class="cliente-titulo">
+
+        <span class="seccion-etiqueta">
+            CATEGORÍAS
+        </span>
+
+        <h2>
+            Explora nuestros juegos
+        </h2>
+
+    </div>
+
+
+    <div class="cliente-grid">
+
+        <!-- POKÉMON -->
+        <div class="juego-card">
+
+            <div class="juego-imagen">
+                <img src="~/Imagenes/imagen1.jpg"
+                     alt="Pokémon" />
+            </div>
+
+            <div class="juego-contenido">
+
+                <span>TCG</span>
+
+                <h3>Pokémon</h3>
+
+                <p>
+                    Descubre cartas y productos
+                    relacionados con Pokémon.
+                </p>
+
+                <a href="#" class="juego-boton">
+                    Ver colección
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- YU-GI-OH -->
+        <div class="juego-card">
+
+            <div class="juego-imagen">
+                <img src="~/Imagenes/imagen2.jpg"
+                     alt="Yu-Gi-Oh!" />
+            </div>
+
+            <div class="juego-contenido">
+
+                <span>TCG</span>
+
+                <h3>Yu-Gi-Oh!</h3>
+
+                <p>
+                    Encuentra cartas para tus
+                    partidas y colecciones.
+                </p>
+
+                <a href="#" class="juego-boton">
+                    Ver colección
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- MAGIC -->
+        <div class="juego-card">
+
+            <div class="juego-imagen">
+
+                <img src="~/Imagenes/banner.jpg"
+                     alt="Magic" />
+
+            </div>
+
+            <div class="juego-contenido">
+
+                <span>TCG</span>
+
+                <h3>Magic</h3>
+
+                <p>
+                    Explora cartas y accesorios
+                    para Magic.
+                </p>
+
+                <a href="#" class="juego-boton">
+                    Ver colección
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PROMOCIÓN -->
+<section class="cliente-promocion">
+
+    <div>
+
+        <span class="seccion-etiqueta">
+            PIXMARKET
+        </span>
+
+        <h2>
+            Encuentra tu próxima carta favorita.
+        </h2>
+
+        <p>
+            Revisa nuestro catálogo y descubre
+            diferentes productos para jugadores
+            y coleccionistas.
+        </p>
+
+        <a href="#" class="btn-pix">
+            Ver catálogo
+        </a>
+
+    </div>
+
+</section>

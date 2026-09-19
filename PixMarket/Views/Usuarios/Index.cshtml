@@ -2,56 +2,120 @@
     ViewData["Title"] = "Iniciar Sesión";
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-4">
+<section class="login-page">
 
-            <div class="card shadow p-4">
+    <div class="login-container">
 
-                <h2 class="text-center mb-4">
-                    Iniciar Sesión
+        <!-- PARTE IZQUIERDA -->
+        <div class="login-presentacion">
+
+            <div class="login-presentacion-contenido">
+
+                <div class="login-logo">
+                    PIX<span>MARKET</span>
+                </div>
+
+                <p class="login-etiqueta">
+                    TIENDA DE CARTAS COLECCIONABLES
+                </p>
+
+                <h1>
+                    Bienvenido de nuevo
+                </h1>
+
+                <p>
+                    Inicia sesión para acceder a tu cuenta
+                    y disfrutar de nuestros productos y
+                    servicios.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- PARTE DERECHA -->
+        <div class="login-formulario">
+
+            <div class="login-formulario-contenido">
+
+                <span class="seccion-etiqueta">
+                    CUENTA
+                </span>
+
+                <h2>
+                    Iniciar sesión
                 </h2>
 
-                <form method="post" asp-controller="Usuarios" asp-action="Index">
+                <p class="login-subtitulo">
+                    Ingresa tus datos para continuar.
+                </p>
 
-                    <div class="mb-3">
-                        <label class="form-label">
-                            Correo
+
+                <form method="post"
+                      asp-controller="Usuarios"
+                      asp-action="Index">
+
+
+                    <!-- CORREO -->
+                    <div class="login-campo">
+
+                        <label for="correo">
+                            Correo electrónico
                         </label>
 
                         <input type="email"
-                               class="form-control"
+                               id="correo"
+                               name="correo"
                                placeholder="Ingrese su correo"
-                               required
-                               name="correo"/>
+                               required />
+
                     </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">
+
+                    <!-- CONTRASEÑA -->
+                    <div class="login-campo">
+
+                        <label for="contrasenia">
                             Contraseña
                         </label>
 
                         <input type="password"
-                               class="form-control"
+                               id="contrasenia"
+                               name="contrasenia"
                                placeholder="Ingrese su contraseña"
-                               required
-                               name="contrasenia"/>
+                               required />
+
                     </div>
 
+
+                    <!-- BOTÓN -->
                     <button type="submit"
-                            class="btn btn-primary w-100">
-                        Iniciar Sesión
+                            class="login-boton">
+                        Iniciar sesión
                     </button>
+
                 </form>
-                <div class="text-center mt-3">
-                    <span>¿No tienes una cuenta?</span>
+
+
+                <!-- REGISTRO -->
+                <div class="login-registro">
+
+                    <span>
+                        ¿No tienes una cuenta?
+                    </span>
+
                     <a asp-controller="Usuarios"
-                       asp-action="Registro"
-                       class="text-decoration-none">
+                       asp-action="Registro">
                         Crear una cuenta
                     </a>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
-</div>
+
+</section>

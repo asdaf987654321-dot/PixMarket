@@ -1,65 +1,208 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title class=" text-principal">@ViewData["Title"] - PixMarket</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/PixMarket.styles.css" asp-append-version="true" />
 
+    <title>@ViewData["Title"] - Block du Booster</title>
 
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
 </head>
 
-<body class=" fondo">
-    <header >
-        <nav class=" navbar navbar-expand-sm navbar-toggleable-sm navbar-light">
-            <div class="container-fluid color-principal">
-                <a class="navbar-brand text-principal" asp-area="" asp-controller="Home" asp-action="Index">PixMarket</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-principal" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-principal" asp-area="" asp-controller="Cliente" asp-action="Catalogo">Pokemon</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-principal" asp-area="" asp-controller="Cliente" asp-action="Catalogo">Yugioh</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-principal" asp-area="" asp-controller="Cliente" asp-action="Catalogo">Magic</a>
-                        </li>
-                        
-                    </ul>
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
+<body>
 
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Usuarios" asp-action="Index">Iniciar Sesion</a>
-                        </li>
-                    </ul>
+    <!-- ================= NAVBAR ================= -->
+
+    <header class="main-navbar">
+
+        <div class="navbar-inner">
+
+            <!-- LOGO -->
+
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="brand">
+
+                <div class="brand-icon">
+                    <i class="bi bi-layers"></i>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="color-principal border-top footer nabar-light">
-        <div class="container color-principal">
-            &copy; 2026 - PixMarket - <a class=" text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                <div class="brand-text">
+
+                    <strong>
+                        Block du <span>Booster</span>
+                    </strong>
+
+                    <small>
+                        Cartas · Coleccionables · Comunidad
+                    </small>
+
+                </div>
+
+            </a>
+
+
+            <!-- MENÚ -->
+
+            <nav class="main-menu">
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="nav-link-custom active">
+                    Inicio
+                </a>
+
+                <a asp-controller="Categorias"
+                   asp-action="Index"
+                   class="nav-link-custom">
+                    Tienda
+                </a>
+
+                <a asp-controller="Categorias"
+                   asp-action="Index"
+                   class="nav-link-custom">
+                    Categorías
+                </a>
+
+                <a href="#"
+                   class="nav-link-custom">
+                    Torneos
+                </a>
+
+                <a href="#"
+                   class="nav-link-custom">
+                    Contacto
+                </a>
+
+            </nav>
+
+
+            <!-- BUSCADOR -->
+
+            <div class="navbar-search">
+
+                <i class="bi bi-search"></i>
+
+                <input type="text"
+                       placeholder="Buscar cartas, productos..." />
+
+            </div>
+
+
+            <!-- ICONOS -->
+
+            <div class="navbar-actions">
+
+                <a href="#" class="navbar-icon">
+                    <i class="bi bi-person"></i>
+                </a>
+
+                <a href="#" class="navbar-icon cart-icon">
+
+                    <i class="bi bi-cart3"></i>
+
+                    <span class="cart-number">
+                        0
+                    </span>
+
+                </a>
+
+            </div>
+
         </div>
+
+    </header>
+
+
+    <!-- ================= CONTENIDO ================= -->
+
+    <main>
+        @RenderBody()
+    </main>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer class="main-footer">
+
+        <div class="footer-feature">
+
+            <div class="footer-feature-item">
+
+                <div class="footer-icon">
+                    <i class="bi bi-truck"></i>
+                </div>
+
+                <div>
+                    <strong>Envíos seguros</strong>
+                    <small>A todo el país</small>
+                </div>
+
+            </div>
+
+
+            <div class="footer-feature-item">
+
+                <div class="footer-icon">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+
+                <div>
+                    <strong>Pagos confiables</strong>
+                    <small>Transferencia, QR y más</small>
+                </div>
+
+            </div>
+
+
+            <div class="footer-feature-item">
+
+                <div class="footer-icon">
+                    <i class="bi bi-people"></i>
+                </div>
+
+                <div>
+                    <strong>Comunidad activa</strong>
+                    <small>Torneos y eventos</small>
+                </div>
+
+            </div>
+
+
+            <div class="footer-feature-item">
+
+                <div class="footer-icon">
+                    <i class="bi bi-star"></i>
+                </div>
+
+                <div>
+                    <strong>Productos originales</strong>
+                    <small>Calidad garantizada</small>
+                </div>
+
+            </div>
+
+        </div>
+
     </footer>
+
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <script src="~/js/site.js"
+            asp-append-version="true"></script>
+
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>
