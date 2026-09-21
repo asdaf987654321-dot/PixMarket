@@ -1,87 +1,308 @@
 ﻿@{
-    ViewData["Title"] = "Panel de Administracion";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Panel de Administración";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
-<div class="row mb-4">
-    <div class="col-12">
-        <h2><i class="bi bi-speedometer2"></i> @ViewData["Title"]</h2>
-        <hr />
-    </div>
-</div>
+<div class="admin-layout">
 
-<div class="row">
-    <div class="col-md-3 mb-3">
-        <div class="text-fondo color-secundario">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="card-title">ventas totales</h6>
-                        <h2>contador de ventas</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3 mb-3">
-        <div class="text-fondo color-principal">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="card-title">reservas</h6>
-                        <h2>contador de reservas</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3 mb-3">
-        <div class="error">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="card-title">stocks bajos</h6>
-                        <h2>nro de stocks bajos</h2>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3 mb-3">
-        <div class=" exito">
-            <div class="card-body">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <h6 class="card-title">descontinuados</h6>
-                        <h2>fueara del catalogo</h2>
-                    </div>
-                    <i class="bi bi-book" style="font-size: 2.5rem;"></i>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+    <!-- ================= SIDEBAR ================= -->
+    <aside class="admin-sidebar">
 
-<div class="row mt-4">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-header">
-                <h5>Accesos Rapidos</h5>
+        <div class="admin-sidebar-brand">
+            <div class="admin-brand-icon">
+                <i class="bi bi-layers"></i>
             </div>
-            <div class="card-body">
-                <div class="list-group">
-                    <a asp-action="Productos" class="list-group-item list-group-item-action">
-                        <i class="bi bi-person-workspace"></i> administrar productos
-                    </a>
-                    <a asp-action="Reservas" class="list-group-item list-group-item-action">
-                        <i class="bi bi-person-badge"></i> administrar reservas
-                    </a>
-                    <a asp-action="Reportes" class="list-group-item list-group-item-action">
-                        <i class="bi bi-person-badge"></i> reportes
-                    </a>
-                </div>
+            <div class="admin-brand-text">
+                <strong>Block du <span>Booster</span></strong>
+                <small>Cartas · Coleccionables · Comunidad</small>
             </div>
         </div>
-    </div>
+
+        <nav class="admin-menu">
+
+            <a href="#" class="admin-menu-link active">
+                <i class="bi bi-house-door"></i>
+                <span>Inicio</span>
+            </a>
+
+            <a href="#" class="admin-menu-link">
+                <i class="bi bi-box-seam"></i>
+                <span>Productos</span>
+            </a>
+
+            <a href="#" class="admin-menu-link">
+                <i class="bi bi-boxes"></i>
+                <span>Inventario</span>
+            </a>
+
+            <a href="#" class="admin-menu-link">
+                <i class="bi bi-cart-check"></i>
+                <span>Ventas</span>
+            </a>
+
+            <a href="#" class="admin-menu-link">
+                <i class="bi bi-clipboard-check"></i>
+                <span>Pedidos</span>
+            </a>
+
+            <a href="#" class="admin-menu-link">
+                <i class="bi bi-people"></i>
+                <span>Usuarios</span>
+            </a>
+
+            <a href="#" class="admin-menu-link">
+                <i class="bi bi-bar-chart"></i>
+                <span>Reportes</span>
+            </a>
+
+            <a href="#" class="admin-menu-link">
+                <i class="bi bi-gear"></i>
+                <span>Configuración</span>
+            </a>
+
+        </nav>
+
+        <div class="admin-sidebar-footer">
+            <img src="~/Imagenes/banner.jpg" alt="Block du Booster" />
+            <p>¡Más que cartas,<br />una pasión!</p>
+        </div>
+
+    </aside>
+
+
+    <!-- ================= CONTENIDO PRINCIPAL ================= -->
+    <main class="admin-main">
+
+        <!-- ================= TOPBAR ================= -->
+        <header class="admin-topbar">
+
+            <div class="admin-search">
+                <i class="bi bi-search"></i>
+                <input type="text" placeholder="Buscar productos, usuarios, pedidos..." />
+            </div>
+
+            <div class="admin-topbar-actions">
+
+                <button class="admin-icon-btn">
+                    <i class="bi bi-bell"></i>
+                    <span class="admin-badge">3</span>
+                </button>
+
+                <div class="admin-user">
+                    <div class="admin-user-avatar">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+                    <div class="admin-user-info">
+                        <strong>Admin</strong>
+                        <small>Administrador</small>
+                    </div>
+                    <i class="bi bi-chevron-down"></i>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- ================= CONTENIDO ================= -->
+        <section class="admin-content">
+
+            <!-- BIENVENIDA -->
+            <div class="admin-welcome">
+                <div>
+                    <h1>👋 ¡Hola, Admin!</h1>
+                    <p>Aquí tienes un resumen de lo que está pasando en tu tienda.</p>
+                </div>
+                <div class="admin-fecha">
+                    <i class="bi bi-calendar3"></i>
+                    <div>
+                        <strong>15 de septiembre de 2026</strong>
+                        <small>Cochabamba, Bolivia</small>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- TARJETAS DE MÉTRICAS -->
+            <div class="admin-stats">
+
+                <div class="admin-stat-card blue">
+                    <div class="admin-stat-icon">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+                    <div class="admin-stat-info">
+                        <span>Productos</span>
+                        <h2>1,248</h2>
+                        <small class="up"><i class="bi bi-arrow-up"></i> 12% vs. mes anterior</small>
+                    </div>
+                </div>
+
+                <div class="admin-stat-card green">
+                    <div class="admin-stat-icon">
+                        <i class="bi bi-cart-check"></i>
+                    </div>
+                    <div class="admin-stat-info">
+                        <span>Ventas del día</span>
+                        <h2>Bs 2,850</h2>
+                        <small class="up"><i class="bi bi-arrow-up"></i> 8% vs. ayer</small>
+                    </div>
+                </div>
+
+                <div class="admin-stat-card orange">
+                    <div class="admin-stat-icon">
+                        <i class="bi bi-clipboard-check"></i>
+                    </div>
+                    <div class="admin-stat-info">
+                        <span>Pedidos pendientes</span>
+                        <h2>7</h2>
+                        <small class="neutral"><i class="bi bi-arrow-right"></i> 0% vs. ayer</small>
+                    </div>
+                </div>
+
+                <div class="admin-stat-card purple">
+                    <div class="admin-stat-icon">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <div class="admin-stat-info">
+                        <span>Usuarios registrados</span>
+                        <h2>342</h2>
+                        <small class="up"><i class="bi bi-arrow-up"></i> 15% vs. mes anterior</small>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- GRID PRINCIPAL -->
+            <div class="admin-grid">
+
+                <!-- GRÁFICO DE VENTAS -->
+                <div class="admin-panel">
+                    <div class="admin-panel-header">
+                        <h3><i class="bi bi-bar-chart-line"></i> Ventas de los últimos 7 días</h3>
+                        <select>
+                            <option>Últimos 7 días</option>
+                            <option>Últimos 30 días</option>
+                        </select>
+                    </div>
+                    <div class="admin-chart-placeholder">
+                        <p>📊 Aquí irá el gráfico de ventas</p>
+                        <small>(Puedes usar Chart.js o similar)</small>
+                    </div>
+                </div>
+
+
+                <!-- STOCK BAJO -->
+                <div class="admin-panel">
+                    <div class="admin-panel-header">
+                        <h3><i class="bi bi-exclamation-triangle"></i> Stock bajo</h3>
+                        <a href="#">Ver todo →</a>
+                    </div>
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Carta</th>
+                                <th>Categoría</th>
+                                <th>Stock</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Charizard EX</td>
+                                <td>Pokémon</td>
+                                <td><span class="stock-badge red">2</span></td>
+                            </tr>
+                            <tr>
+                                <td>Blue-Eyes White Dragon</td>
+                                <td>Yu-Gi-Oh!</td>
+                                <td><span class="stock-badge red">1</span></td>
+                            </tr>
+                            <tr>
+                                <td>Black Lotus</td>
+                                <td>Magic</td>
+                                <td><span class="stock-badge orange">3</span></td>
+                            </tr>
+                            <tr>
+                                <td>Pikachu (Promo)</td>
+                                <td>Pokémon</td>
+                                <td><span class="stock-badge orange">4</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+
+            <!-- PEDIDOS RECIENTES -->
+            <div class="admin-panel full-width">
+
+                <div class="admin-panel-header">
+                    <h3><i class="bi bi-clipboard-list"></i> Pedidos recientes</h3>
+                    <a href="#">Ver todos →</a>
+                </div>
+
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th># Pedido</th>
+                            <th>Cliente</th>
+                            <th>Total</th>
+                            <th>Estado</th>
+                            <th>Fecha</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#000123</td>
+                            <td>Carlos Rojas</td>
+                            <td>Bs 450</td>
+                            <td><span class="estado pendiente">Pendiente de confirmación</span></td>
+                            <td>15/09/2026 14:32</td>
+                        </tr>
+                        <tr>
+                            <td>#000122</td>
+                            <td>Ana López</td>
+                            <td>Bs 320</td>
+                            <td><span class="estado completado">Completado</span></td>
+                            <td>15/09/2026 11:20</td>
+                        </tr>
+                        <tr>
+                            <td>#000121</td>
+                            <td>Miguel Torres</td>
+                            <td>Bs 780</td>
+                            <td><span class="estado completado">Completado</span></td>
+                            <td>15/09/2026 10:05</td>
+                        </tr>
+                        <tr>
+                            <td>#000120</td>
+                            <td>Sofía Vargas</td>
+                            <td>Bs 150</td>
+                            <td><span class="estado completado">Completado</span></td>
+                            <td>14/09/2026 18:45</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+
+
+            <!-- RECORDATORIO -->
+            <div class="admin-recordatorio">
+                <div class="admin-recordatorio-icon">
+                    <i class="bi bi-check-circle"></i>
+                </div>
+                <div>
+                    <strong>¡Recuerda!</strong>
+                    <p>Valida el stock físico antes de confirmar un pedido web. Así evitamos problemas y mantenemos a nuestros duelistas felices.</p>
+                </div>
+                <div class="admin-recordatorio-frase">
+                    <em>Cartas que<br />conectan personas</em>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
 
 </div>
