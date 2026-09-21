@@ -1,0 +1,126 @@
+@{
+    ViewData["Title"] = "Editar Carta";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@model Item
+
+<section class="admin-content" style="max-width: 720px;">
+
+    <div class="admin-welcome">
+        <div>
+            <h1>Editar carta</h1>
+            <p>Actualiza los datos del producto.</p>
+        </div>
+    </div>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="login-error mb-3">
+            <i class="bi bi-exclamation-circle"></i>
+            @ViewBag.Error
+        </div>
+    }
+
+    <div class="admin-panel">
+        <form method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ImagenRuta" />
+
+            <div class="text-center mb-3">
+                @if (!string.IsNullOrEmpty(Model.ImagenRuta))
+                {
+                    <img src="@Url.Content(Model.ImagenRuta)" alt="@Model.Nombre" style="width: 110px; height: 150px; object-fit: contain; border: 1px solid #dce8ee; border-radius: 8px;" />
+                }
+                else
+                {
+                    <i class="bi bi-image" style="font-size: 3rem; color: #9aadb8;"></i>
+                }
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Nombre" class="form-label fw-bold">Nombre</label>
+                    <input asp-for="Nombre" class="form-control" />
+                    <span asp-validation-for="Nombre" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Juego" class="form-label fw-bold">Juego</label>
+                    <select asp-for="Juego" class="form-select">
+                        <option value="">Seleccionar...</option>
+                        <option>Yu-Gi-Oh!</option>
+                        <option>Pokémon</option>
+                        <option>Magic: The Gathering</option>
+                        <option>Otros</option>
+                    </select>
+                    <span asp-validation-for="Juego" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Categoria" class="form-label fw-bold">Categoría</label>
+                    <select asp-for="Categoria" class="form-select">
+                        <option value="">Seleccionar...</option>
+                        <option>Monstruo</option>
+                        <option>Hechizo</option>
+                        <option>Trampa</option>
+                        <option>Entrenador</option>
+                        <option>Criatura</option>
+                        <option>Energía</option>
+                        <option>Otros</option>
+                    </select>
+                    <span asp-validation-for="Categoria" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Rareza" class="form-label fw-bold">Rareza</label>
+                    <select asp-for="Rareza" class="form-select">
+                        <option value="">Seleccionar...</option>
+                        <option>Common</option>
+                        <option>Uncommon</option>
+                        <option>Rare</option>
+                        <option>Super Rare</option>
+                        <option>Ultra Rare</option>
+                        <option>Secret Rare</option>
+                    </select>
+                    <span asp-validation-for="Rareza" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Descripcion" class="form-label fw-bold">Descripción</label>
+                <textarea asp-for="Descripcion" class="form-control" rows="3"></textarea>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Precio" class="form-label fw-bold">Precio (Bs)</label>
+                    <input asp-for="Precio" class="form-control" type="number" step="0.01" min="0.01" />
+                    <span asp-validation-for="Precio" class="text-danger small"></span>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Stock" class="form-label fw-bold">Stock</label>
+                    <input asp-for="Stock" class="form-control" type="number" min="0" />
+                    <span asp-validation-for="Stock" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label for="imagen" class="form-label fw-bold">Nueva imagen (JPG, PNG o WebP)</label>
+                <input type="file" id="imagen" name="imagen" class="form-control" accept=".jpg,.jpeg,.png,.webp" />
+                <small class="text-muted">Deja vacío para conservar la imagen actual.</small>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100" style="background: linear-gradient(90deg, #10afa5, #0a9992); border: none;">
+                <i class="bi bi-check-circle"></i> Guardar cambios
+            </button>
+
+            <a asp-action="Index" class="btn btn-link w-100 mt-2" style="color: #0ba69c;">Volver a la lista</a>
+        </form>
+    </div>
+
+</section>

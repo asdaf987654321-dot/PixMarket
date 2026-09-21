@@ -1,0 +1,65 @@
+@{
+    ViewData["Title"] = "Detalle de Carta";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@model Item
+
+<section class="admin-content" style="max-width: 720px;">
+
+    <div class="admin-welcome">
+        <div>
+            <h1>Detalle de la carta</h1>
+            <p>Información completa del producto.</p>
+        </div>
+    </div>
+
+    <div class="admin-panel">
+
+        <div class="text-center mb-4">
+            @if (!string.IsNullOrEmpty(Model.ImagenRuta))
+            {
+                <img src="@Url.Content(Model.ImagenRuta)" alt="@Model.Nombre" style="width: 160px; height: 220px; object-fit: contain; border: 1px solid #dce8ee; border-radius: 8px;" />
+            }
+            else
+            {
+                <i class="bi bi-image" style="font-size: 4rem; color: #9aadb8;"></i>
+            }
+        </div>
+
+        <dl class="row mb-0">
+            <dt class="col-sm-4 fw-bold">Nombre</dt>
+            <dd class="col-sm-8">@Model.Nombre</dd>
+
+            <dt class="col-sm-4 fw-bold">Juego</dt>
+            <dd class="col-sm-8">@Model.Juego</dd>
+
+            <dt class="col-sm-4 fw-bold">Categoría</dt>
+            <dd class="col-sm-8">@Model.Categoria</dd>
+
+            <dt class="col-sm-4 fw-bold">Rareza</dt>
+            <dd class="col-sm-8">@Model.Rareza</dd>
+
+            <dt class="col-sm-4 fw-bold">Descripción</dt>
+            <dd class="col-sm-8">@(string.IsNullOrWhiteSpace(Model.Descripcion) ? "—" : Model.Descripcion)</dd>
+
+            <dt class="col-sm-4 fw-bold">Precio</dt>
+            <dd class="col-sm-8">Bs @Model.Precio.ToString("N2")</dd>
+
+            <dt class="col-sm-4 fw-bold">Stock</dt>
+            <dd class="col-sm-8">@Model.Stock</dd>
+        </dl>
+
+        <div class="d-flex gap-2 mt-4">
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">
+                <i class="bi bi-pencil"></i> Editar
+            </a>
+            <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
+                <i class="bi bi-trash"></i> Eliminar
+            </a>
+            <a asp-action="Index" class="btn btn-outline-secondary">Volver a la lista</a>
+        </div>
+
+    </div>
+
+</section>

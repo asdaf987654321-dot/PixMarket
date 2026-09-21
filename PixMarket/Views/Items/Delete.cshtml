@@ -1,0 +1,49 @@
+@{
+    ViewData["Title"] = "Eliminar Carta";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+@model Item
+
+<section class="admin-content" style="max-width: 720px;">
+
+    <div class="admin-welcome">
+        <div>
+            <h1>Eliminar carta</h1>
+            <p>Esta acción no se puede deshacer.</p>
+        </div>
+    </div>
+
+    <div class="admin-panel text-center">
+
+        <div class="mb-3">
+            @if (!string.IsNullOrEmpty(Model.ImagenRuta))
+            {
+                <img src="@Url.Content(Model.ImagenRuta)" alt="@Model.Nombre" style="width: 130px; height: 180px; object-fit: contain; border: 1px solid #dce8ee; border-radius: 8px;" />
+            }
+            else
+            {
+                <i class="bi bi-image" style="font-size: 3rem; color: #9aadb8;"></i>
+            }
+        </div>
+
+        <h4 class="mb-2" style="color: #123b5e;">¿Eliminar "@Model.Nombre"?</h4>
+        <p style="color: #5f788a;">
+            @Model.Juego · @Model.Categoria · @Model.Rareza
+            <br />
+            Precio: Bs @Model.Precio.ToString("N2") · Stock: @Model.Stock
+        </p>
+
+        <form method="post" asp-action="DeleteConfirmed" asp-route-id="@Model.Id">
+            @Html.AntiForgeryToken()
+
+            <button type="submit" class="btn btn-danger">
+                <i class="bi bi-trash"></i> Confirmar eliminación
+            </button>
+
+            <a asp-action="Index" class="btn btn-outline-secondary">Cancelar</a>
+        </form>
+
+    </div>
+
+</section>
