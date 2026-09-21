@@ -1,0 +1,170 @@
+@{
+    ViewData["Title"] = "Carrito";
+}
+
+@model List<PixMarket.Models.ItemCarrito>
+
+
+<section class="store-content" style="max-width: 1100px; margin: 0 auto; padding: 30px 24px;">
+
+    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+
+        <h2 style="font-size: 1.5rem; margin: 0; color: #12263f;">
+            <i class="bi bi-cart3" style="color: #0d4f8b;"></i>
+            Tu carrito
+        </h2>
+
+        @if (Model.Any())
+        {
+            <form method="post" asp-controller="Carrito" asp-action="Vaciar" style="margin: 0;">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-sm btn-outline-danger">
+                    <i class="bi bi-trash"></i>
+                    Vaciar carrito
+                </button>
+            </form>
+        }
+
+    </div>
+
+    @if (TempData["MensajeCarrito"] != null)
+    {
+        <div class="alert alert-warning py-2" role="alert">
+            @TempData["MensajeCarrito"]
+        </div>
+    }
+
+    @if (!Model.Any())
+    {
+        <div style="text-align: center; padding: 60px 20px; background: white; border: 1px solid #dbe7ee; border-radius: 9px; color: #5f788a;">
+            <i class="bi bi-bag" style="font-size: 3rem; color: #9aadb8;"></i>
+            <p class="mb-1 mt-3">Tu carrito está vacío.</p>
+            <a asp-controller="Categorias" asp-action="Index" class="btn btn-primary mt-2">
+                Ir a la tienda
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table align-middle" style="background: white; border: 1px solid #dbe7ee; border-radius: 9px; overflow: hidden; margin: 0;">
+
+                <thead style="background: #f0f5fa; color: #334e68;">
+                    <tr>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 14px;">
+                                    <img src="@(string.IsNullOrEmpty(item.ImagenRuta) ? Url.Content("~/Imagenes/imagen1.jpg") : Url.Content(item.ImagenRuta))"
+                                         alt="@item.Nombre"
+                                         style="width: 64px; height: 64px; object-fit: cover; border-radius: 8px; border: 1px solid #e3ecf3;" />
+
+                                    <div>
+                                        <strong style="color: #12263f;">@item.Nombre</strong>
+                                        <br />
+                                        <small style="color: #829ab1;">
+                                            @item.Juego | @item.Categoria
+                                            <span class="badge" style="background: #e9f2fb; color: #0d4f8b; margin-left: 4px;">@item.Rareza</span>
+                                        </small>
+
+                                        @if (item.Stock <= 0)
+                                        {
+                                            <br />
+                                            <small style="color: #df5960;">Producto agotado</small>
+                                        }
+                                        else if (item.Cantidad > item.Stock)
+                                        {
+                                            <br />
+                                            <small style="color: #df5960;">Stock disponible: @item.Stock</small>
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+
+                            <td style="color: #334e68;">
+                                Bs @item.Precio.ToString("N2")
+                            </td>
+
+                            <td>
+                                <form method="post" asp-controller="Carrito" asp-action="ActualizarCantidad"
+                                      style="display: flex; align-items: center; gap: 8px; margin: 0;">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <input type="number" name="cantidad" value="@item.Cantidad" min="1" max="@(item.Stock > 0 ? item.Stock : 1)"
+                                           class="form-control form-control-sm" style="width: 72px;" />
+                                    <button type="submit" class="btn btn-sm btn-outline-primary">
+                                        <i class="bi bi-arrow-repeat"></i>
+                                    </button>
+                                </form>
+                            </td>
+
+                            <td style="color: #12263f; font-weight: 600;">
+                                Bs @item.Subtotal.ToString("N2")
+                            </td>
+
+                            <td>
+                                <form method="post" asp-controller="Carrito" asp-action="Eliminar" style="margin: 0;">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; margin-top: 20px; gap: 12px; align-items: center; flex-wrap: wrap;">
+
+            <a asp-controller="Categorias" asp-action="Index" class="btn btn-outline-secondary">
+                Seguir comprando
+            </a>
+
+            <div style="background: white; border: 1px solid #dbe7ee; border-radius: 9px; padding: 16px 22px; text-align: right;">
+                <div style="color: #5f788a; font-size: .95rem;">
+                    Total
+                </div>
+                <div style="font-size: 1.4rem; font-weight: 700; color: #0d4f8b;">
+                    Bs @Model.Sum(i => i.Subtotal).ToString("N2")
+                </div>
+
+                <form method="post"
+                      asp-controller="Carrito"
+                      asp-action="Finalizar"
+                      style="margin: 0;">
+
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit"
+                            class="btn btn-primary mt-2"
+                            style="width: 100%;">
+                        Finalizar
+                        <i class="bi bi-check2-circle"></i>
+                    </button>
+
+                </form>
+
+                <small class="d-block mt-2 text-muted">
+                    <i class="bi bi-info-circle"></i>
+                    Inicia sesión para finalizar; se descuenta el stock de los productos.
+                </small>
+            </div>
+
+        </div>
+    }
+
+</section>

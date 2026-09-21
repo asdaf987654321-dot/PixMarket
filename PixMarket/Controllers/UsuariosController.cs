@@ -1,7 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PixMarket.Data;
 using PixMarket.Models;
+using System.Security.Claims;
 
 namespace PixMarket.Controllers
 {
@@ -32,9 +36,10 @@ namespace PixMarket.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Index(
+        public async Task<IActionResult> Index(
             string correo,
-            string contrasenia)
+            string contrasenia,
+            bool recordarme)
         {
             if (string.IsNullOrWhiteSpace(correo) ||
                 string.IsNullOrWhiteSpace(contrasenia))
@@ -61,6 +66,33 @@ namespace PixMarket.Controllers
             }
 
 
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, usuario.Id.ToString()),
+                new Claim(ClaimTypes.Name, usuario.Nombre ?? usuario.Correo ?? ""),
+                new Claim(ClaimTypes.Email, usuario.Correo ?? ""),
+                new Claim(ClaimTypes.Role, usuario.Rol ?? "")
+            };
+
+            var identity = new ClaimsIdentity(
+                claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var principal = new ClaimsPrincipal(identity);
+
+            var propiedades = new AuthenticationProperties();
+
+            if (recordarme)
+            {
+                propiedades.IsPersistent = true;
+                propiedades.ExpiresUtc = DateTimeOffset.UtcNow.AddDays(7);
+            }
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                principal,
+                propiedades);
+
+
             if (usuario.Rol == "Administrador")
             {
                 return RedirectToAction("Administrador");
@@ -68,6 +100,21 @@ namespace PixMarket.Controllers
 
 
             return RedirectToAction("Cliente");
+        }
+
+
+        // =====================================================
+        // LOGOUT
+        // =====================================================
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction("Index", "Home");
         }
 
 
@@ -218,6 +265,7 @@ namespace PixMarket.Controllers
         // =====================================================
 
         [HttpGet]
+        [Authorize(Roles = "Administrador")]
         public IActionResult Administrador()
         {
             return View();
@@ -229,6 +277,7 @@ namespace PixMarket.Controllers
         // =====================================================
 
         [HttpGet]
+        [Authorize(Roles = "Usuario")]
         public IActionResult Cliente()
         {
             return View();

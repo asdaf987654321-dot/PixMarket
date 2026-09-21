@@ -2,6 +2,8 @@
     ViewData["Title"] = "Tienda";
 }
 
+@model List<Item>
+
 
 <div class="store-layout">
 
@@ -53,198 +55,249 @@
         </div>
 
 
-        <!-- JUEGO -->
+        <form method="get"
+              asp-controller="Categorias"
+              asp-action="Index"
+              id="filtros-form"
+              style="margin: 0;">
 
-        <div class="filter-section">
+            <input type="hidden" name="buscar" value="@(ViewBag.Buscar ?? "")" />
 
-            <div class="filter-heading">
-                Juego
+            <input type="hidden" name="juego" value="@(ViewBag.Juego ?? "")" />
 
-                <i class="bi bi-chevron-up"></i>
-            </div>
 
+            <!-- JUEGO -->
 
-            <label class="check-option">
+            <div class="filter-section">
 
-                <input type="checkbox"
-                       checked />
+                <div class="filter-heading">
+                    Juego
 
-                <span></span>
+                    <i class="bi bi-chevron-up"></i>
+                </div>
 
-                Yu-Gi-Oh!
 
-            </label>
+                <label class="check-option">
 
+                    <input type="checkbox"
+                           name="juegos"
+                           value="Yu-Gi-Oh!"
+                           @(ViewBag.SelJuegos?.Contains("Yu-Gi-Oh!") == true ? "checked" : "") />
 
-            <label class="check-option">
+                    <span></span>
 
-                <input type="checkbox"
-                       checked />
+                    Yu-Gi-Oh!
 
-                <span></span>
+                </label>
 
-                Pokémon
 
-            </label>
+                <label class="check-option">
 
+                    <input type="checkbox"
+                           name="juegos"
+                           value="Pokémon"
+                           @(ViewBag.SelJuegos?.Contains("Pokémon") == true ? "checked" : "") />
 
-            <label class="check-option">
+                    <span></span>
 
-                <input type="checkbox"
-                       checked />
+                    Pokémon
 
-                <span></span>
+                </label>
 
-                Magic: The Gathering
 
-            </label>
+                <label class="check-option">
 
-        </div>
+                    <input type="checkbox"
+                           name="juegos"
+                           value="Magic: The Gathering"
+                           @(ViewBag.SelJuegos?.Contains("Magic: The Gathering") == true ? "checked" : "") />
 
+                    <span></span>
 
-        <!-- CATEGORÍA -->
+                    Magic: The Gathering
 
-        <div class="filter-section">
-
-            <div class="filter-heading">
-                Categoría
-
-                <i class="bi bi-chevron-up"></i>
-            </div>
-
-
-            <label class="check-option">
-                <input type="checkbox" checked />
-                <span></span>
-                Monstruos
-            </label>
-
-
-            <label class="check-option">
-                <input type="checkbox" />
-                <span></span>
-                Hechizos
-            </label>
-
-
-            <label class="check-option">
-                <input type="checkbox" />
-                <span></span>
-                Trampas
-            </label>
-
-
-            <label class="check-option">
-                <input type="checkbox" />
-                <span></span>
-                Entrenadores
-            </label>
-
-
-            <label class="check-option">
-                <input type="checkbox" />
-                <span></span>
-                Otros
-            </label>
-
-        </div>
-
-
-        <!-- RAREZA -->
-
-        <div class="filter-section">
-
-            <div class="filter-heading">
-                Rareza
-
-                <i class="bi bi-chevron-up"></i>
-            </div>
-
-
-            <label class="check-option">
-                <input type="checkbox" />
-                <span></span>
-                Common
-            </label>
-
-
-            <label class="check-option">
-                <input type="checkbox" />
-                <span></span>
-                Uncommon
-            </label>
-
-
-            <label class="check-option">
-                <input type="checkbox" checked />
-                <span></span>
-                Rare
-            </label>
-
-
-            <label class="check-option">
-                <input type="checkbox" checked />
-                <span></span>
-                Super Rare
-            </label>
-
-
-            <label class="check-option">
-                <input type="checkbox" />
-                <span></span>
-                Ultra Rare
-            </label>
-
-
-            <label class="check-option">
-                <input type="checkbox" />
-                <span></span>
-                Secret Rare
-            </label>
-
-        </div>
-
-
-        <!-- PRECIO -->
-
-        <div class="filter-section">
-
-            <div class="filter-heading">
-                Rango de precio
-
-                <i class="bi bi-chevron-up"></i>
-            </div>
-
-
-            <div class="price-values">
-
-                <span>
-                    Bs 0
-                </span>
-
-                <span>
-                    Bs 1,000+
-                </span>
+                </label>
 
             </div>
 
 
-            <div class="fake-slider">
+            <!-- CATEGORÍA -->
 
-                <div class="slider-line"></div>
+            <div class="filter-section">
 
-                <span class="slider-dot left"></span>
+                <div class="filter-heading">
+                    Categoría
 
-                <span class="slider-dot right"></span>
+                    <i class="bi bi-chevron-up"></i>
+                </div>
+
+
+                <label class="check-option">
+                    <input type="checkbox" name="categorias" value="Monstruo"
+                           @(ViewBag.SelCategorias?.Contains("Monstruo") == true ? "checked" : "") />
+                    <span></span>
+                    Monstruo
+                </label>
+
+
+                <label class="check-option">
+                    <input type="checkbox" name="categorias" value="Hechizo"
+                           @(ViewBag.SelCategorias?.Contains("Hechizo") == true ? "checked" : "") />
+                    <span></span>
+                    Hechizo
+                </label>
+
+
+                <label class="check-option">
+                    <input type="checkbox" name="categorias" value="Trampa"
+                           @(ViewBag.SelCategorias?.Contains("Trampa") == true ? "checked" : "") />
+                    <span></span>
+                    Trampa
+                </label>
+
+
+                <label class="check-option">
+                    <input type="checkbox" name="categorias" value="Entrenador"
+                           @(ViewBag.SelCategorias?.Contains("Entrenador") == true ? "checked" : "") />
+                    <span></span>
+                    Entrenador
+                </label>
+
+
+                <label class="check-option">
+                    <input type="checkbox" name="categorias" value="Otros"
+                           @(ViewBag.SelCategorias?.Contains("Otros") == true ? "checked" : "") />
+                    <span></span>
+                    Otros
+                </label>
 
             </div>
 
 
-            <button class="apply-filter">
-                Aplicar filtros
-            </button>
+            <!-- RAREZA -->
 
-        </div>
+            <div class="filter-section">
+
+                <div class="filter-heading">
+                    Rareza
+
+                    <i class="bi bi-chevron-up"></i>
+                </div>
+
+
+                <label class="check-option">
+                    <input type="checkbox" name="rarezas" value="Common"
+                           @(ViewBag.SelRarezas?.Contains("Common") == true ? "checked" : "") />
+                    <span></span>
+                    Common
+                </label>
+
+
+                <label class="check-option">
+                    <input type="checkbox" name="rarezas" value="Uncommon"
+                           @(ViewBag.SelRarezas?.Contains("Uncommon") == true ? "checked" : "") />
+                    <span></span>
+                    Uncommon
+                </label>
+
+
+                <label class="check-option">
+                    <input type="checkbox" name="rarezas" value="Rare"
+                           @(ViewBag.SelRarezas?.Contains("Rare") == true ? "checked" : "") />
+                    <span></span>
+                    Rare
+                </label>
+
+
+                <label class="check-option">
+                    <input type="checkbox" name="rarezas" value="Super Rare"
+                           @(ViewBag.SelRarezas?.Contains("Super Rare") == true ? "checked" : "") />
+                    <span></span>
+                    Super Rare
+                </label>
+
+
+                <label class="check-option">
+                    <input type="checkbox" name="rarezas" value="Ultra Rare"
+                           @(ViewBag.SelRarezas?.Contains("Ultra Rare") == true ? "checked" : "") />
+                    <span></span>
+                    Ultra Rare
+                </label>
+
+
+                <label class="check-option">
+                    <input type="checkbox" name="rarezas" value="Secret Rare"
+                           @(ViewBag.SelRarezas?.Contains("Secret Rare") == true ? "checked" : "") />
+                    <span></span>
+                    Secret Rare
+                </label>
+
+            </div>
+
+
+            <!-- PRECIO -->
+
+            <div class="filter-section">
+
+                <div class="filter-heading">
+                    Rango de precio
+
+                    <i class="bi bi-chevron-up"></i>
+                </div>
+
+
+                @{
+                    var maxSlider = Math.Max(100, (int)Math.Ceiling((decimal)ViewBag.PrecioMaximoReal / 100) * 100);
+                }
+
+                <div class="price-values">
+
+                    <span class="valor-min">
+                        Bs 0
+                    </span>
+
+                    <span class="valor-max">
+                        Bs @maxSlider.ToString("N0")+
+                    </span>
+
+                </div>
+
+
+                <div class="price-ranges">
+                    <input type="hidden" name="precioMin" class="precio-min-hidden" value="@(ViewBag.PrecioMin?.ToString() ?? "")" />
+                    <input type="hidden" name="precioMax" class="precio-max-hidden" value="@(ViewBag.PrecioMax?.ToString() ?? "")" />
+                </div>
+
+
+                <div class="fake-slider"
+                     data-max="@maxSlider"
+                     data-min-val="@(ViewBag.PrecioMin?.ToString() ?? "")"
+                     data-max-val="@(ViewBag.PrecioMax?.ToString() ?? "")">
+
+                    <div class="slider-line"></div>
+
+                    <input type="range"
+                           class="slider-input min"
+                           min="0"
+                           max="@maxSlider"
+                           value="@((int)(ViewBag.PrecioMin ?? 0))" />
+
+                    <input type="range"
+                           class="slider-input max"
+                           min="0"
+                           max="@maxSlider"
+                           value="@((int)(ViewBag.PrecioMax ?? maxSlider))" />
+
+                </div>
+
+
+                <button type="submit" class="apply-filter">
+                    Aplicar filtros
+                </button>
+
+            </div>
+
+        </form>
 
     </aside>
 
@@ -317,31 +370,67 @@
 
             <div class="store-tabs">
 
-                <button class="store-tab active">
+                <a asp-controller="Categorias"
+                   asp-action="Index"
+                   asp-route-buscar="@(string.IsNullOrEmpty(ViewBag.Buscar?.ToString()) ? null : ViewBag.Buscar)"
+                   asp-route-juego=""
+                   class="store-tab @(string.IsNullOrEmpty((string)ViewBag.Juego) ? "active" : "")">
+
                     <i class="bi bi-hexagon"></i>
+
                     Todos
-                    <small>(248)</small>
-                </button>
 
-                <button class="store-tab">
+                    <small>(@ViewBag.TotalItems)</small>
+
+                </a>
+
+                <a asp-controller="Categorias"
+                   asp-action="Index"
+                   asp-route-buscar="@(string.IsNullOrEmpty(ViewBag.Buscar?.ToString()) ? null : ViewBag.Buscar)"
+                   asp-route-juego="Yu-Gi-Oh!"
+                   class="store-tab @((string)ViewBag.Juego == "Yu-Gi-Oh!" ? "active" : "")">
+
                     Yu-Gi-Oh!
-                    <small>(112)</small>
-                </button>
 
-                <button class="store-tab">
+                    <small>(@ViewBag.CYgo)</small>
+
+                </a>
+
+                <a asp-controller="Categorias"
+                   asp-action="Index"
+                   asp-route-buscar="@(string.IsNullOrEmpty(ViewBag.Buscar?.ToString()) ? null : ViewBag.Buscar)"
+                   asp-route-juego="Pokémon"
+                   class="store-tab @((string)ViewBag.Juego == "Pokémon" ? "active" : "")">
+
                     Pokémon
-                    <small>(98)</small>
-                </button>
 
-                <button class="store-tab">
+                    <small>(@ViewBag.CPokemon)</small>
+
+                </a>
+
+                <a asp-controller="Categorias"
+                   asp-action="Index"
+                   asp-route-buscar="@(string.IsNullOrEmpty(ViewBag.Buscar?.ToString()) ? null : ViewBag.Buscar)"
+                   asp-route-juego="Magic: The Gathering"
+                   class="store-tab @((string)ViewBag.Juego == "Magic: The Gathering" ? "active" : "")">
+
                     Magic
-                    <small>(26)</small>
-                </button>
 
-                <button class="store-tab">
+                    <small>(@ViewBag.CMagic)</small>
+
+                </a>
+
+                <a asp-controller="Categorias"
+                   asp-action="Index"
+                   asp-route-buscar="@(string.IsNullOrEmpty(ViewBag.Buscar?.ToString()) ? null : ViewBag.Buscar)"
+                   asp-route-juego="Otros"
+                   class="store-tab @((string)ViewBag.Juego == "Otros" ? "active" : "")">
+
                     Otros
-                    <small>(12)</small>
-                </button>
+
+                    <small>(@ViewBag.COtros)</small>
+
+                </a>
 
             </div>
 
@@ -362,557 +451,122 @@
         </div>
 
 
+        <!-- RESULTADO DE BÚSQUEDA -->
+
+        @if (!string.IsNullOrWhiteSpace(ViewBag.Buscar?.ToString()))
+        {
+            <div class="search-result-bar">
+
+                <i class="bi bi-search"></i>
+
+                <span>
+                    @Model.Count resultados para
+                    <strong>"@ViewBag.Buscar"</strong>
+                </span>
+
+                <a asp-controller="Categorias"
+                   asp-action="Index"
+                   class="search-result-clear">
+                    Limpiar búsqueda
+                </a>
+
+            </div>
+        }
+
+
         <!-- PRODUCTOS -->
 
         <div class="store-products">
 
+            @if (!Model.Any())
+            {
+                <div class="store-empty">
+                    <i class="bi bi-inbox" style="font-size: 2.5rem; color: #9aadb8;"></i>
+                    <p class="mb-0 mt-2">No hay cartas que coincidan con la búsqueda o los filtros.</p>
 
-            <!-- CARD -->
-
-            <article class="store-product">
-
-                <span class="product-badge new">
-                    Nuevo
-                </span>
-
-                <button class="product-heart">
-                    <i class="bi bi-heart"></i>
-                </button>
-
-                <div class="store-product-image">
-
-                    <img src="~/Imagenes/imagen1.jpg"
-                         alt="Blue-Eyes White Dragon" />
-
+                    <a asp-controller="Categorias"
+                       asp-action="Index"
+                       class="btn btn-sm btn-outline-primary mt-3">
+                        Ver todas las cartas
+                    </a>
                 </div>
+            }
 
+            @foreach (var item in Model)
+            {
+                <article class="store-product">
 
-                <div class="store-product-body">
+                    @if (item.Stock > 0 && item.Stock <= 3)
+                    {
+                        <span class="product-badge offer">
+                            Stock bajo
+                        </span>
+                    }
 
-                    <h3>
-                        Blue-Eyes White Dragon
-                    </h3>
-
-                    <small>
-                        Yu-Gi-Oh! | Monstruo
-                    </small>
-
-                    <span class="rarity">
-                        Ultra Rare
-                    </span>
-
-                    <strong class="store-price">
-                        Bs 320
-                    </strong>
-
-                    <span class="stock">
-                        <i class="bi bi-circle-fill"></i>
-                        En stock (5)
-                    </span>
-
-
-                    <div class="quantity">
-                        <button>−</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div>
-
-
-                    <button class="store-cart">
-                        <i class="bi bi-cart3"></i>
-                        Agregar al carrito
+                    <button class="product-heart">
+                        <i class="bi bi-heart"></i>
                     </button>
 
-                </div>
+                    <div class="store-product-image">
 
-            </article>
+                        <img src="@(string.IsNullOrEmpty(item.ImagenRuta) ? Url.Content("~/Imagenes/imagen1.jpg") : Url.Content(item.ImagenRuta))"
+                             alt="@item.Nombre" />
 
-
-            <!-- CARD -->
-
-            <article class="store-product">
-
-                <span class="product-badge best">
-                    Más vendido
-                </span>
-
-                <button class="product-heart">
-                    <i class="bi bi-heart"></i>
-                </button>
-
-                <div class="store-product-image">
-
-                    <img src="~/Imagenes/imagen2.jpg"
-                         alt="Pikachu ex" />
-
-                </div>
-
-
-                <div class="store-product-body">
-
-                    <h3>
-                        Pikachu ex
-                    </h3>
-
-                    <small>
-                        Pokémon | Pokémon ex
-                    </small>
-
-                    <span class="rarity">
-                        Ultra Rare
-                    </span>
-
-                    <strong class="store-price">
-                        Bs 280
-                    </strong>
-
-                    <span class="stock">
-                        <i class="bi bi-circle-fill"></i>
-                        En stock (8)
-                    </span>
-
-
-                    <div class="quantity">
-                        <button>−</button>
-                        <span>1</span>
-                        <button>+</button>
                     </div>
 
+                    <div class="store-product-body">
 
-                    <button class="store-cart">
-                        <i class="bi bi-cart3"></i>
-                        Agregar al carrito
-                    </button>
+                        <h3>
+                            @item.Nombre
+                        </h3>
 
-                </div>
+                        <small>
+                            @item.Juego | @item.Categoria
+                        </small>
 
-            </article>
+                        <span class="rarity">
+                            @item.Rareza
+                        </span>
 
+                        <strong class="store-price">
+                            Bs @item.Precio.ToString("N2")
+                        </strong>
 
-            <!-- CARD -->
-
-            <article class="store-product">
-
-                <button class="product-heart">
-                    <i class="bi bi-heart"></i>
-                </button>
-
-                <div class="store-product-image">
-
-                    <img src="~/Imagenes/banner.jpg"
-                         alt="Dark Magician" />
-
-                </div>
+                        <span class="stock" style="@(item.Stock == 0 ? "color:#df5960" : "")">
+                            <i class="bi bi-circle-fill"></i>
+                            @(item.Stock == 0 ? "Agotado" : $"En stock ({item.Stock})")
+                        </span>
 
 
-                <div class="store-product-body">
+                        <form method="post"
+                              asp-controller="Carrito"
+                              asp-action="Agregar"
+                              class="store-cart-form"
+                              style="margin: 0;">
 
-                    <h3>
-                        Dark Magician
-                    </h3>
+                            @Html.AntiForgeryToken()
 
-                    <small>
-                        Yu-Gi-Oh! | Monstruo
-                    </small>
+                            <input type="hidden" name="id" value="@item.Id" />
 
-                    <span class="rarity">
-                        Ultra Rare
-                    </span>
+                            <div class="quantity" data-stock="@item.Stock">
+                                <button type="button" class="btn-qty-less">−</button>
+                                <span class="qty-value">1</span>
+                                <button type="button" class="btn-qty-more">+</button>
+                            </div>
 
-                    <strong class="store-price">
-                        Bs 180
-                    </strong>
+                            <input type="hidden" name="cantidad" class="qty-hidden" value="1" />
 
-                    <span class="stock">
-                        <i class="bi bi-circle-fill"></i>
-                        En stock (6)
-                    </span>
+                            <button type="submit" class="store-cart">
+                                <i class="bi bi-cart3"></i>
+                                Agregar al carrito
+                            </button>
 
+                        </form>
 
-                    <div class="quantity">
-                        <button>−</button>
-                        <span>1</span>
-                        <button>+</button>
                     </div>
 
-
-                    <button class="store-cart">
-                        <i class="bi bi-cart3"></i>
-                        Agregar al carrito
-                    </button>
-
-                </div>
-
-            </article>
-
-
-            <!-- CARD -->
-
-            <article class="store-product">
-
-                <span class="product-badge offer">
-                    Oferta
-                </span>
-
-                <button class="product-heart">
-                    <i class="bi bi-heart"></i>
-                </button>
-
-                <div class="store-product-image">
-
-                    <img src="~/Imagenes/imagen1.jpg"
-                         alt="Charizard ex" />
-
-                </div>
-
-
-                <div class="store-product-body">
-
-                    <h3>
-                        Charizard ex
-                    </h3>
-
-                    <small>
-                        Pokémon | Pokémon ex
-                    </small>
-
-                    <span class="rarity">
-                        Super Rare
-                    </span>
-
-                    <strong class="store-price">
-                        <del>Bs 550</del>
-                        Bs 450
-                    </strong>
-
-                    <span class="stock">
-                        <i class="bi bi-circle-fill"></i>
-                        En stock (4)
-                    </span>
-
-
-                    <div class="quantity">
-                        <button>−</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div>
-
-
-                    <button class="store-cart">
-                        <i class="bi bi-cart3"></i>
-                        Agregar al carrito
-                    </button>
-
-                </div>
-
-            </article>
-
-
-            <!-- CARD 5 -->
-
-            <article class="store-product">
-
-                <button class="product-heart">
-                    <i class="bi bi-heart"></i>
-                </button>
-
-                <div class="store-product-image">
-
-                    <img src="~/Imagenes/imagen2.jpg"
-                         alt="Ash Blossom" />
-
-                </div>
-
-
-                <div class="store-product-body">
-
-                    <h3>
-                        Ash Blossom
-                    </h3>
-
-                    <small>
-                        Yu-Gi-Oh! | Monstruo
-                    </small>
-
-                    <span class="rarity">
-                        Common
-                    </span>
-
-                    <strong class="store-price">
-                        Bs 120
-                    </strong>
-
-                    <span class="stock">
-                        <i class="bi bi-circle-fill"></i>
-                        En stock (10)
-                    </span>
-
-
-                    <div class="quantity">
-                        <button>−</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div>
-
-
-                    <button class="store-cart">
-                        <i class="bi bi-cart3"></i>
-                        Agregar al carrito
-                    </button>
-
-                </div>
-
-            </article>
-
-
-            <!-- SEGUNDA FILA -->
-
-            <article class="store-product">
-
-                <span class="product-badge new">
-                    Nuevo
-                </span>
-
-                <div class="store-product-image">
-
-                    <img src="~/Imagenes/imagen2.jpg"
-                         alt="Espeon V" />
-
-                </div>
-
-                <div class="store-product-body">
-
-                    <h3>
-                        Espeon V
-                    </h3>
-
-                    <small>
-                        Pokémon | Pokémon V
-                    </small>
-
-                    <span class="rarity">
-                        Ultra Rare
-                    </span>
-
-                    <strong class="store-price">
-                        Bs 350
-                    </strong>
-
-                    <span class="stock">
-                        <i class="bi bi-circle-fill"></i>
-                        En stock (3)
-                    </span>
-
-                    <div class="quantity">
-                        <button>−</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div>
-
-                    <button class="store-cart">
-                        <i class="bi bi-cart3"></i>
-                        Agregar al carrito
-                    </button>
-
-                </div>
-
-            </article>
-
-
-            <article class="store-product">
-
-                <div class="store-product-image">
-
-                    <img src="~/Imagenes/banner.jpg"
-                         alt="Infinite Impermanence" />
-
-                </div>
-
-                <div class="store-product-body">
-
-                    <h3>
-                        Infinite Impermanence
-                    </h3>
-
-                    <small>
-                        Yu-Gi-Oh! | Trampa
-                    </small>
-
-                    <span class="rarity">
-                        Super Rare
-                    </span>
-
-                    <strong class="store-price">
-                        Bs 210
-                    </strong>
-
-                    <span class="stock">
-                        <i class="bi bi-circle-fill"></i>
-                        En stock (5)
-                    </span>
-
-                    <div class="quantity">
-                        <button>−</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div>
-
-                    <button class="store-cart">
-                        <i class="bi bi-cart3"></i>
-                        Agregar al carrito
-                    </button>
-
-                </div>
-
-            </article>
-
-
-            <article class="store-product">
-
-                <div class="store-product-image">
-
-                    <img src="~/Imagenes/banner.jpg"
-                         alt="Raigeki" />
-
-                </div>
-
-                <div class="store-product-body">
-
-                    <h3>
-                        Raigeki
-                    </h3>
-
-                    <small>
-                        Yu-Gi-Oh! | Hechizo
-                    </small>
-
-                    <span class="rarity">
-                        Ultra Rare
-                    </span>
-
-                    <strong class="store-price">
-                        Bs 160
-                    </strong>
-
-                    <span class="stock">
-                        <i class="bi bi-circle-fill"></i>
-                        En stock (7)
-                    </span>
-
-                    <div class="quantity">
-                        <button>−</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div>
-
-                    <button class="store-cart">
-                        <i class="bi bi-cart3"></i>
-                        Agregar al carrito
-                    </button>
-
-                </div>
-
-            </article>
-
-
-            <article class="store-product">
-
-                <span class="product-badge best">
-                    Más vendido
-                </span>
-
-                <div class="store-product-image">
-
-                    <img src="~/Imagenes/imagen2.jpg"
-                         alt="Mewtwo V" />
-
-                </div>
-
-                <div class="store-product-body">
-
-                    <h3>
-                        Mewtwo V
-                    </h3>
-
-                    <small>
-                        Pokémon | Pokémon V
-                    </small>
-
-                    <span class="rarity">
-                        Ultra Rare
-                    </span>
-
-                    <strong class="store-price">
-                        Bs 290
-                    </strong>
-
-                    <span class="stock">
-                        <i class="bi bi-circle-fill"></i>
-                        En stock (4)
-                    </span>
-
-                    <div class="quantity">
-                        <button>−</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div>
-
-                    <button class="store-cart">
-                        <i class="bi bi-cart3"></i>
-                        Agregar al carrito
-                    </button>
-
-                </div>
-
-            </article>
-
-
-            <article class="store-product">
-
-                <div class="store-product-image">
-
-                    <img src="~/Imagenes/imagen1.jpg"
-                         alt="Goblin Bikers" />
-
-                </div>
-
-                <div class="store-product-body">
-
-                    <h3>
-                        Goblin Bikers
-                    </h3>
-
-                    <small>
-                        Magic | Criatura
-                    </small>
-
-                    <span class="rarity">
-                        Rare
-                    </span>
-
-                    <strong class="store-price">
-                        Bs 140
-                    </strong>
-
-                    <span class="stock">
-                        <i class="bi bi-circle-fill"></i>
-                        En stock (6)
-                    </span>
-
-                    <div class="quantity">
-                        <button>−</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div>
-
-                    <button class="store-cart">
-                        <i class="bi bi-cart3"></i>
-                        Agregar al carrito
-                    </button>
-
-                </div>
-
-            </article>
+                </article>
+            }
 
         </div>
 

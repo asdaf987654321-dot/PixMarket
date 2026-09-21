@@ -1,4 +1,20 @@
 ﻿<!DOCTYPE html>
+@{
+    var cartJson = Context.Session?.GetString("Carrito");
+    var carritoCount = 0;
+    if (!string.IsNullOrEmpty(cartJson))
+    {
+        try
+        {
+            var carrito = JsonSerializer.Deserialize<List<ItemCarrito>>(cartJson);
+            carritoCount = carrito?.Sum(c => c.Cantidad) ?? 0;
+        }
+        catch
+        {
+            carritoCount = 0;
+        }
+    }
+}
 <html lang="es">
 <head>
     <meta charset="utf-8" />
@@ -89,25 +105,100 @@
 
             <!-- BUSCADOR -->
 
-            <div class="navbar-search">
+            <form method="get"
+                  asp-controller="Categorias"
+                  asp-action="Index"
+                  class="navbar-search">
 
                 <i class="bi bi-search"></i>
 
                 <input type="text"
+                       name="buscar"
+                       value="@(Context.Request.Query["buscar"])"
                        placeholder="Buscar cartas, productos..." />
 
-            </div>
+            </form>
 
 
             <!-- ICONOS -->
 
             <div class="navbar-actions">
 
-                <a asp-controller="Usuarios"
-                   asp-action="Index"
-                   class="navbar-icon">
-                    <i class="bi bi-person"></i>
-                </a>
+                @if (User.Identity?.IsAuthenticated == true)
+                {
+                    <div class="dropdown">
+
+                        <a href="#"
+                           class="navbar-icon dropdown-toggle"
+                           data-bs-toggle="dropdown"
+                           data-bs-auto-close="outside"
+                           title="Mi cuenta">
+
+                            <i class="bi bi-person-circle"></i>
+
+                            <span class="navbar-user-name">
+                                @User.Identity.Name
+                            </span>
+
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end shadow">
+
+                            <li class="dropdown-header text-muted small">
+                                Hola, @User.Identity.Name
+                            </li>
+
+                            @if (User.IsInRole("Administrador"))
+                            {
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-controller="Usuarios"
+                                       asp-action="Administrador">
+                                        <i class="bi bi-speedometer2"></i>
+                                        Panel de administración
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a class="dropdown-item"
+                                       asp-controller="Usuarios"
+                                       asp-action="Cliente">
+                                        <i class="bi bi-person"></i>
+                                        Mi cuenta
+                                    </a>
+                                </li>
+                            }
+
+                            <li><hr class="dropdown-divider" /></li>
+
+                            <li>
+                                <form method="post"
+                                      asp-controller="Usuarios"
+                                      asp-action="Logout">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit"
+                                            class="dropdown-item">
+                                        <i class="bi bi-box-arrow-right"></i>
+                                        Cerrar sesión
+                                    </button>
+                                </form>
+                            </li>
+
+                        </ul>
+
+                    </div>
+                }
+                else
+                {
+                    <a asp-controller="Usuarios"
+                       asp-action="Index"
+                       class="navbar-icon"
+                       title="Iniciar sesión">
+                        <i class="bi bi-person"></i>
+                    </a>
+                }
 
                 <a asp-controller="Carrito"
                    asp-action="Index"
@@ -116,7 +207,7 @@
                     <i class="bi bi-cart3"></i>
 
                     <span class="cart-number">
-                        0
+                        @carritoCount
                     </span>
 
                 </a>

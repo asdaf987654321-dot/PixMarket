@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PixMarket.Data;
@@ -5,6 +6,7 @@ using PixMarket.Models;
 
 namespace PixMarket.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     public class ItemsController : Controller
     {
         private readonly PixContext _context;
