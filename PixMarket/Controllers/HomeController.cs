@@ -26,12 +26,6 @@ namespace PixMarket.Controllers
         {
             return View();
         }
-
-        public IActionResult Torneos()
-        {
-            return View();
-        }
-
         public IActionResult Privacy()
         {
             return View();
