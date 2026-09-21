@@ -1,921 +1,207 @@
 ﻿@{
-    ViewData["Title"] = "Tienda";
+    ViewData["Title"] = "Categorías";
 }
 
+<div class="categorias-page">
 
-<div class="store-layout">
+    <section class="categorias-hero">
 
+        <div class="categorias-hero-content">
 
-    <!-- =================================================
-         SIDEBAR
-         ================================================= -->
+            <span class="categorias-label">
+                EXPLORA NUESTRAS COLECCIONES
+            </span>
 
-    <aside class="store-sidebar">
+            <h1>
+                Encuentra tus cartas
+                <span>favoritas</span>
+            </h1>
 
-        <div class="sidebar-title">
-            <i class="bi bi-shop"></i>
-            Tienda
+            <p>
+                Explora las diferentes categorías de cartas
+                coleccionables disponibles en Block du Booster.
+            </p>
+
         </div>
 
-
-        <a class="sidebar-link active">
-            <i class="bi bi-shop"></i>
-            Tienda
-        </a>
-
-        <a class="sidebar-link">
-            <i class="bi bi-collection"></i>
-            Productos
-        </a>
-
-        <a class="sidebar-link">
-            <i class="bi bi-grid"></i>
-            Categorías
-        </a>
-
-        <a class="sidebar-link">
-            <i class="bi bi-tag"></i>
-            Ofertas
-        </a>
+    </section>
 
 
-        <div class="sidebar-separator"></div>
+    <section class="categorias-contenido">
 
+        <div class="categorias-titulo">
 
-        <!-- FILTROS -->
+            <span>
+                CATEGORÍAS
+            </span>
 
-        <div class="filter-title">
+            <h2>
+                Elige tu juego favorito
+            </h2>
 
-            <i class="bi bi-funnel"></i>
-
-            Filtros
+            <p>
+                Descubre cartas, productos y colecciones
+                de tus juegos favoritos.
+            </p>
 
         </div>
 
 
-        <!-- JUEGO -->
+        <div class="categorias-grid">
 
-        <div class="filter-section">
 
-            <div class="filter-heading">
-                Juego
+            <!-- YU-GI-OH -->
 
-                <i class="bi bi-chevron-up"></i>
-            </div>
+            <a asp-controller="Categorias"
+               asp-action="Index"
+               class="categoria-principal yugioh">
 
-
-            <label class="check-option">
-
-                <input type="checkbox"
-                       checked />
-
-                <span></span>
-
-                Yu-Gi-Oh!
-
-            </label>
-
-
-            <label class="check-option">
-
-                <input type="checkbox"
-                       checked />
-
-                <span></span>
-
-                Pokémon
-
-            </label>
-
-
-            <label class="check-option">
-
-                <input type="checkbox"
-                       checked />
-
-                <span></span>
-
-                Magic: The Gathering
-
-            </label>
-
-        </div>
-
-
-        <!-- CATEGORÍA -->
-
-        <div class="filter-section">
-
-            <div class="filter-heading">
-                Categoría
-
-                <i class="bi bi-chevron-up"></i>
-            </div>
-
-
-            <label class="check-option">
-                <input type="checkbox" checked />
-                <span></span>
-                Monstruos
-            </label>
-
-
-            <label class="check-option">
-                <input type="checkbox" />
-                <span></span>
-                Hechizos
-            </label>
-
-
-            <label class="check-option">
-                <input type="checkbox" />
-                <span></span>
-                Trampas
-            </label>
-
-
-            <label class="check-option">
-                <input type="checkbox" />
-                <span></span>
-                Entrenadores
-            </label>
-
-
-            <label class="check-option">
-                <input type="checkbox" />
-                <span></span>
-                Otros
-            </label>
-
-        </div>
-
-
-        <!-- RAREZA -->
-
-        <div class="filter-section">
-
-            <div class="filter-heading">
-                Rareza
-
-                <i class="bi bi-chevron-up"></i>
-            </div>
-
-
-            <label class="check-option">
-                <input type="checkbox" />
-                <span></span>
-                Common
-            </label>
-
-
-            <label class="check-option">
-                <input type="checkbox" />
-                <span></span>
-                Uncommon
-            </label>
-
-
-            <label class="check-option">
-                <input type="checkbox" checked />
-                <span></span>
-                Rare
-            </label>
-
-
-            <label class="check-option">
-                <input type="checkbox" checked />
-                <span></span>
-                Super Rare
-            </label>
-
-
-            <label class="check-option">
-                <input type="checkbox" />
-                <span></span>
-                Ultra Rare
-            </label>
-
-
-            <label class="check-option">
-                <input type="checkbox" />
-                <span></span>
-                Secret Rare
-            </label>
-
-        </div>
-
-
-        <!-- PRECIO -->
-
-        <div class="filter-section">
-
-            <div class="filter-heading">
-                Rango de precio
-
-                <i class="bi bi-chevron-up"></i>
-            </div>
-
-
-            <div class="price-values">
-
-                <span>
-                    Bs 0
-                </span>
-
-                <span>
-                    Bs 1,000+
-                </span>
-
-            </div>
-
-
-            <div class="fake-slider">
-
-                <div class="slider-line"></div>
-
-                <span class="slider-dot left"></span>
-
-                <span class="slider-dot right"></span>
-
-            </div>
-
-
-            <button class="apply-filter">
-                Aplicar filtros
-            </button>
-
-        </div>
-
-    </aside>
-
-
-    <!-- =================================================
-         CONTENIDO
-         ================================================= -->
-
-    <main class="store-content">
-
-
-        <!-- BREADCRUMB -->
-
-        <div class="breadcrumb-store">
-
-            <i class="bi bi-house-fill"></i>
-
-            <i class="bi bi-chevron-right"></i>
-
-            Tienda
-
-        </div>
-
-
-        <!-- BANNER -->
-
-        <section class="store-banner">
-
-            <div class="store-banner-content">
-
-                <h1>
-                    Las mejores <span>cartas</span>
-                    <br />
-                    de tus sagas favoritas
-                </h1>
-
-                <p>
-                    Yu-Gi-Oh!, Pokémon y Magic,
-                    todo en un solo lugar.
-                </p>
-
-
-                <div class="store-benefits">
-
-                    <span>
-                        <i class="bi bi-shield-check"></i>
-                        Productos originales
-                    </span>
-
-                    <span>
-                        <i class="bi bi-truck"></i>
-                        Envíos seguros
-                    </span>
-
-                    <span>
-                        <i class="bi bi-star"></i>
-                        Calidad garantizada
-                    </span>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- CATEGORÍAS -->
-
-        <div class="store-toolbar">
-
-            <div class="store-tabs">
-
-                <button class="store-tab active">
-                    <i class="bi bi-hexagon"></i>
-                    Todos
-                    <small>(248)</small>
-                </button>
-
-                <button class="store-tab">
-                    Yu-Gi-Oh!
-                    <small>(112)</small>
-                </button>
-
-                <button class="store-tab">
-                    Pokémon
-                    <small>(98)</small>
-                </button>
-
-                <button class="store-tab">
-                    Magic
-                    <small>(26)</small>
-                </button>
-
-                <button class="store-tab">
-                    Otros
-                    <small>(12)</small>
-                </button>
-
-            </div>
-
-
-            <button class="order-button">
-
-                <i class="bi bi-sliders2"></i>
-
-                <span>
-                    Ordenar por:
-                    <strong>Más recientes</strong>
-                </span>
-
-                <i class="bi bi-chevron-down"></i>
-
-            </button>
-
-        </div>
-
-
-        <!-- PRODUCTOS -->
-
-        <div class="store-products">
-
-
-            <!-- CARD -->
-
-            <article class="store-product">
-
-                <span class="product-badge new">
-                    Nuevo
-                </span>
-
-                <button class="product-heart">
-                    <i class="bi bi-heart"></i>
-                </button>
-
-                <div class="store-product-image">
-
-                    <img src="~/Imagenes/imagen1.jpg"
-                         alt="Blue-Eyes White Dragon" />
-
-                </div>
-
-
-                <div class="store-product-body">
-
-                    <h3>
-                        Blue-Eyes White Dragon
-                    </h3>
-
-                    <small>
-                        Yu-Gi-Oh! | Monstruo
-                    </small>
-
-                    <span class="rarity">
-                        Ultra Rare
-                    </span>
-
-                    <strong class="store-price">
-                        Bs 320
-                    </strong>
-
-                    <span class="stock">
-                        <i class="bi bi-circle-fill"></i>
-                        En stock (5)
-                    </span>
-
-
-                    <div class="quantity">
-                        <button>−</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div>
-
-
-                    <button class="store-cart">
-                        <i class="bi bi-cart3"></i>
-                        Agregar al carrito
-                    </button>
-
-                </div>
-
-            </article>
-
-
-            <!-- CARD -->
-
-            <article class="store-product">
-
-                <span class="product-badge best">
-                    Más vendido
-                </span>
-
-                <button class="product-heart">
-                    <i class="bi bi-heart"></i>
-                </button>
-
-                <div class="store-product-image">
-
-                    <img src="~/Imagenes/imagen2.jpg"
-                         alt="Pikachu ex" />
-
-                </div>
-
-
-                <div class="store-product-body">
-
-                    <h3>
-                        Pikachu ex
-                    </h3>
-
-                    <small>
-                        Pokémon | Pokémon ex
-                    </small>
-
-                    <span class="rarity">
-                        Ultra Rare
-                    </span>
-
-                    <strong class="store-price">
-                        Bs 280
-                    </strong>
-
-                    <span class="stock">
-                        <i class="bi bi-circle-fill"></i>
-                        En stock (8)
-                    </span>
-
-
-                    <div class="quantity">
-                        <button>−</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div>
-
-
-                    <button class="store-cart">
-                        <i class="bi bi-cart3"></i>
-                        Agregar al carrito
-                    </button>
-
-                </div>
-
-            </article>
-
-
-            <!-- CARD -->
-
-            <article class="store-product">
-
-                <button class="product-heart">
-                    <i class="bi bi-heart"></i>
-                </button>
-
-                <div class="store-product-image">
+                <div class="categoria-imagen">
 
                     <img src="~/Imagenes/banner.jpg"
-                         alt="Dark Magician" />
+                         alt="Yu-Gi-Oh!" />
 
                 </div>
 
+                <div class="categoria-info">
 
-                <div class="store-product-body">
+                    <span class="categoria-tag">
+                        JUEGO DE CARTAS
+                    </span>
 
                     <h3>
-                        Dark Magician
+                        Yu-Gi-Oh!
                     </h3>
 
-                    <small>
-                        Yu-Gi-Oh! | Monstruo
-                    </small>
+                    <p>
+                        Monstruos, hechizos, trampas
+                        y cartas legendarias.
+                    </p>
 
-                    <span class="rarity">
-                        Ultra Rare
+                    <span class="categoria-boton">
+                        Ver colección
+                        <i class="bi bi-arrow-right"></i>
                     </span>
-
-                    <strong class="store-price">
-                        Bs 180
-                    </strong>
-
-                    <span class="stock">
-                        <i class="bi bi-circle-fill"></i>
-                        En stock (6)
-                    </span>
-
-
-                    <div class="quantity">
-                        <button>−</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div>
-
-
-                    <button class="store-cart">
-                        <i class="bi bi-cart3"></i>
-                        Agregar al carrito
-                    </button>
 
                 </div>
 
-            </article>
+            </a>
 
 
-            <!-- CARD -->
+            <!-- POKÉMON -->
 
-            <article class="store-product">
+            <a asp-controller="Categorias"
+               asp-action="Index"
+               class="categoria-principal pokemon">
 
-                <span class="product-badge offer">
-                    Oferta
-                </span>
+                <div class="categoria-imagen">
 
-                <button class="product-heart">
-                    <i class="bi bi-heart"></i>
-                </button>
+                    <img src="~/Imagenes/imagen2.jpg"
+                         alt="Pokémon" />
 
-                <div class="store-product-image">
+                </div>
+
+                <div class="categoria-info">
+
+                    <span class="categoria-tag">
+                        JUEGO DE CARTAS
+                    </span>
+
+                    <h3>
+                        Pokémon
+                    </h3>
+
+                    <p>
+                        Pokémon ex, V, entrenadores
+                        y cartas coleccionables.
+                    </p>
+
+                    <span class="categoria-boton">
+                        Ver colección
+                        <i class="bi bi-arrow-right"></i>
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <!-- MAGIC -->
+
+            <a asp-controller="Categorias"
+               asp-action="Index"
+               class="categoria-principal magic">
+
+                <div class="categoria-imagen">
 
                     <img src="~/Imagenes/imagen1.jpg"
-                         alt="Charizard ex" />
+                         alt="Magic The Gathering" />
 
                 </div>
 
+                <div class="categoria-info">
 
-                <div class="store-product-body">
+                    <span class="categoria-tag">
+                        JUEGO DE CARTAS
+                    </span>
 
                     <h3>
-                        Charizard ex
+                        Magic: The Gathering
                     </h3>
 
-                    <small>
-                        Pokémon | Pokémon ex
-                    </small>
+                    <p>
+                        Criaturas, tierras, hechizos
+                        y cartas especiales.
+                    </p>
 
-                    <span class="rarity">
-                        Super Rare
+                    <span class="categoria-boton">
+                        Ver colección
+                        <i class="bi bi-arrow-right"></i>
                     </span>
-
-                    <strong class="store-price">
-                        <del>Bs 550</del>
-                        Bs 450
-                    </strong>
-
-                    <span class="stock">
-                        <i class="bi bi-circle-fill"></i>
-                        En stock (4)
-                    </span>
-
-
-                    <div class="quantity">
-                        <button>−</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div>
-
-
-                    <button class="store-cart">
-                        <i class="bi bi-cart3"></i>
-                        Agregar al carrito
-                    </button>
 
                 </div>
 
-            </article>
+            </a>
 
 
-            <!-- CARD 5 -->
+            <!-- OTROS -->
 
-            <article class="store-product">
+            <a asp-controller="Categorias"
+               asp-action="Index"
+               class="categoria-principal otros">
 
-                <button class="product-heart">
-                    <i class="bi bi-heart"></i>
-                </button>
+                <div class="categoria-imagen categoria-icono">
 
-                <div class="store-product-image">
-
-                    <img src="~/Imagenes/imagen2.jpg"
-                         alt="Ash Blossom" />
+                    <i class="bi bi-collection"></i>
 
                 </div>
 
+                <div class="categoria-info">
 
-                <div class="store-product-body">
+                    <span class="categoria-tag">
+                        COLECCIONES
+                    </span>
 
                     <h3>
-                        Ash Blossom
+                        Otros
                     </h3>
 
-                    <small>
-                        Yu-Gi-Oh! | Monstruo
-                    </small>
+                    <p>
+                        Encuentra otras cartas y
+                        productos coleccionables.
+                    </p>
 
-                    <span class="rarity">
-                        Common
+                    <span class="categoria-boton">
+                        Ver colección
+                        <i class="bi bi-arrow-right"></i>
                     </span>
-
-                    <strong class="store-price">
-                        Bs 120
-                    </strong>
-
-                    <span class="stock">
-                        <i class="bi bi-circle-fill"></i>
-                        En stock (10)
-                    </span>
-
-
-                    <div class="quantity">
-                        <button>−</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div>
-
-
-                    <button class="store-cart">
-                        <i class="bi bi-cart3"></i>
-                        Agregar al carrito
-                    </button>
 
                 </div>
 
-            </article>
-
-
-            <!-- SEGUNDA FILA -->
-
-            <article class="store-product">
-
-                <span class="product-badge new">
-                    Nuevo
-                </span>
-
-                <div class="store-product-image">
-
-                    <img src="~/Imagenes/imagen2.jpg"
-                         alt="Espeon V" />
-
-                </div>
-
-                <div class="store-product-body">
-
-                    <h3>
-                        Espeon V
-                    </h3>
-
-                    <small>
-                        Pokémon | Pokémon V
-                    </small>
-
-                    <span class="rarity">
-                        Ultra Rare
-                    </span>
-
-                    <strong class="store-price">
-                        Bs 350
-                    </strong>
-
-                    <span class="stock">
-                        <i class="bi bi-circle-fill"></i>
-                        En stock (3)
-                    </span>
-
-                    <div class="quantity">
-                        <button>−</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div>
-
-                    <button class="store-cart">
-                        <i class="bi bi-cart3"></i>
-                        Agregar al carrito
-                    </button>
-
-                </div>
-
-            </article>
-
-
-            <article class="store-product">
-
-                <div class="store-product-image">
-
-                    <img src="~/Imagenes/banner.jpg"
-                         alt="Infinite Impermanence" />
-
-                </div>
-
-                <div class="store-product-body">
-
-                    <h3>
-                        Infinite Impermanence
-                    </h3>
-
-                    <small>
-                        Yu-Gi-Oh! | Trampa
-                    </small>
-
-                    <span class="rarity">
-                        Super Rare
-                    </span>
-
-                    <strong class="store-price">
-                        Bs 210
-                    </strong>
-
-                    <span class="stock">
-                        <i class="bi bi-circle-fill"></i>
-                        En stock (5)
-                    </span>
-
-                    <div class="quantity">
-                        <button>−</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div>
-
-                    <button class="store-cart">
-                        <i class="bi bi-cart3"></i>
-                        Agregar al carrito
-                    </button>
-
-                </div>
-
-            </article>
-
-
-            <article class="store-product">
-
-                <div class="store-product-image">
-
-                    <img src="~/Imagenes/banner.jpg"
-                         alt="Raigeki" />
-
-                </div>
-
-                <div class="store-product-body">
-
-                    <h3>
-                        Raigeki
-                    </h3>
-
-                    <small>
-                        Yu-Gi-Oh! | Hechizo
-                    </small>
-
-                    <span class="rarity">
-                        Ultra Rare
-                    </span>
-
-                    <strong class="store-price">
-                        Bs 160
-                    </strong>
-
-                    <span class="stock">
-                        <i class="bi bi-circle-fill"></i>
-                        En stock (7)
-                    </span>
-
-                    <div class="quantity">
-                        <button>−</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div>
-
-                    <button class="store-cart">
-                        <i class="bi bi-cart3"></i>
-                        Agregar al carrito
-                    </button>
-
-                </div>
-
-            </article>
-
-
-            <article class="store-product">
-
-                <span class="product-badge best">
-                    Más vendido
-                </span>
-
-                <div class="store-product-image">
-
-                    <img src="~/Imagenes/imagen2.jpg"
-                         alt="Mewtwo V" />
-
-                </div>
-
-                <div class="store-product-body">
-
-                    <h3>
-                        Mewtwo V
-                    </h3>
-
-                    <small>
-                        Pokémon | Pokémon V
-                    </small>
-
-                    <span class="rarity">
-                        Ultra Rare
-                    </span>
-
-                    <strong class="store-price">
-                        Bs 290
-                    </strong>
-
-                    <span class="stock">
-                        <i class="bi bi-circle-fill"></i>
-                        En stock (4)
-                    </span>
-
-                    <div class="quantity">
-                        <button>−</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div>
-
-                    <button class="store-cart">
-                        <i class="bi bi-cart3"></i>
-                        Agregar al carrito
-                    </button>
-
-                </div>
-
-            </article>
-
-
-            <article class="store-product">
-
-                <div class="store-product-image">
-
-                    <img src="~/Imagenes/imagen1.jpg"
-                         alt="Goblin Bikers" />
-
-                </div>
-
-                <div class="store-product-body">
-
-                    <h3>
-                        Goblin Bikers
-                    </h3>
-
-                    <small>
-                        Magic | Criatura
-                    </small>
-
-                    <span class="rarity">
-                        Rare
-                    </span>
-
-                    <strong class="store-price">
-                        Bs 140
-                    </strong>
-
-                    <span class="stock">
-                        <i class="bi bi-circle-fill"></i>
-                        En stock (6)
-                    </span>
-
-                    <div class="quantity">
-                        <button>−</button>
-                        <span>1</span>
-                        <button>+</button>
-                    </div>
-
-                    <button class="store-cart">
-                        <i class="bi bi-cart3"></i>
-                        Agregar al carrito
-                    </button>
-
-                </div>
-
-            </article>
+            </a>
 
         </div>
 
-    </main>
+    </section>
 
 </div>
