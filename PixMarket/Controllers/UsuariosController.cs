@@ -57,7 +57,7 @@ namespace PixMarket.Controllers
                 Correo = correo,
                 Contrasenia = contrasenia,
                 Telefono = telefono,
-                Rol = "Usuario"
+                Rol = "Cliente"
             };
             _context.Usuarios.Add(nuevoUsuario);
             _context.SaveChanges();

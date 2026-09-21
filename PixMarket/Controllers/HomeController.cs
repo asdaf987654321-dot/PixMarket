@@ -10,27 +10,19 @@ namespace PixMarket.Controllers
     {
         
         private readonly ILogger<HomeController> _logger;
-        private readonly PixContext _context;
+        
 
-        public HomeController(ILogger<HomeController> logger, PixContext context)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _context = context;
+            
         }
 
         public IActionResult Index()
         {
             return View();
         }
-        public IActionResult Categorias()
-        {
-            return View();
-        }
-
-        public IActionResult Torneos()
-        {
-            return View();
-        }
+        
 
         public IActionResult Privacy()
         {
