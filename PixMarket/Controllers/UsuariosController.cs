@@ -46,7 +46,7 @@ namespace PixMarket.Controllers
         public IActionResult Registro(string nombre, string correo, string contrasenia, int telefono)
         {
             var usuarioExistente = _context.Usuarios.FirstOrDefault(u => u.Correo == correo);
-            if (usuarioExistente != null)
+            if (usuarioExistente != null) 
             {
                 ViewBag.Error = "El correo ya existe";
                 return View();
