@@ -2442,3 +2442,266 @@ body {
         height: 170px;
     }
 }
+/* =========================================================
+   LOGIN
+   ========================================================= */
+
+.login-page {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 50px 25px;
+    background: linear-gradient( 135deg, #edf7fa, #f7fbfd );
+}
+
+
+.login-container {
+    width: 100%;
+    max-width: 1050px;
+    min-height: 570px;
+    display: grid;
+    grid-template-columns: 48% 52%;
+    overflow: hidden;
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0 18px 50px rgba(4,44,70,.16);
+}
+
+
+/* IZQUIERDA */
+
+.login-presentacion {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 55px;
+    background: linear-gradient( 145deg, #062b48, #07506a );
+    overflow: hidden;
+}
+
+
+    .login-presentacion::before {
+        content: "";
+        position: absolute;
+        width: 430px;
+        height: 430px;
+        right: -170px;
+        bottom: -190px;
+        border-radius: 50%;
+        border: 80px solid rgba(32,224,208,.08);
+    }
+
+
+.login-presentacion-contenido {
+    position: relative;
+    z-index: 2;
+    max-width: 420px;
+}
+
+
+.login-logo {
+    color: white;
+    font-size: 34px;
+    font-weight: 900;
+    letter-spacing: -1px;
+}
+
+
+    .login-logo span {
+        color: #20e0d0;
+    }
+
+
+.login-etiqueta {
+    margin-top: 8px;
+    color: #20e0d0;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+
+.login-presentacion h1 {
+    margin-top: 55px;
+    margin-bottom: 15px;
+    color: white;
+    font-size: 38px;
+    line-height: 1.1;
+    font-weight: 800;
+}
+
+
+.login-presentacion-contenido > p:last-child {
+    max-width: 390px;
+    color: #c6dce5;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+
+/* DERECHA */
+
+.login-formulario {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 55px;
+}
+
+
+.login-formulario-contenido {
+    width: 100%;
+    max-width: 410px;
+    margin: auto;
+}
+
+
+.seccion-etiqueta {
+    color: #0ba69c;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+
+.login-formulario h2 {
+    margin: 7px 0;
+    color: #123b5e;
+    font-size: 31px;
+    font-weight: 800;
+}
+
+
+.login-subtitulo {
+    margin-bottom: 30px;
+    color: #7890a0;
+    font-size: 13px;
+}
+
+
+/* CAMPOS */
+
+.login-campo {
+    margin-bottom: 20px;
+}
+
+
+    .login-campo label {
+        display: block;
+        margin-bottom: 7px;
+        color: #244a66;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+
+    .login-campo input {
+        width: 100%;
+        height: 48px;
+        padding: 0 15px;
+        border: 1px solid #d5e3e9;
+        border-radius: 8px;
+        background: #f8fbfc;
+        color: #123b5e;
+        font-size: 13px;
+        outline: none;
+        transition: .2s;
+    }
+
+
+        .login-campo input:focus {
+            border-color: #20cfc0;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(32,224,208,.10);
+        }
+
+
+        .login-campo input::placeholder {
+            color: #9aadb8;
+        }
+
+
+/* BOTÓN */
+
+.login-boton {
+    width: 100%;
+    height: 48px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient( 90deg, #10afa5, #0a9992 );
+    color: white;
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: .2s;
+}
+
+
+    .login-boton:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 7px 18px rgba(10,160,150,.25);
+    }
+
+
+/* REGISTRO */
+
+.login-registro {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #e4edf1;
+    text-align: center;
+    font-size: 12px;
+    color: #7a909e;
+}
+
+
+    .login-registro a {
+        margin-left: 5px;
+        color: #0ba69c !important;
+        text-decoration: none;
+        font-weight: 800;
+    }
+
+
+        .login-registro a:hover {
+            text-decoration: underline;
+        }
+
+
+/* ERROR */
+
+.login-error {
+    padding: 11px 13px;
+    margin-bottom: 18px;
+    border-radius: 7px;
+    background: #fff0f0;
+    border: 1px solid #ffd0d0;
+    color: #c54848;
+    font-size: 12px;
+}
+
+
+/* RESPONSIVE */
+
+@media(max-width: 800px) {
+
+    .login-container {
+        grid-template-columns: 1fr;
+    }
+
+    .login-presentacion {
+        min-height: 280px;
+        padding: 35px;
+    }
+
+        .login-presentacion h1 {
+            margin-top: 25px;
+            font-size: 30px;
+        }
+
+    .login-formulario {
+        padding: 40px 30px;
+    }
+}

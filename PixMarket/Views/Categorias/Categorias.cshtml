@@ -1,0 +1,207 @@
+﻿@{
+    ViewData["Title"] = "Categorías";
+}
+
+<div class="categorias-page">
+
+    <section class="categorias-hero">
+
+        <div class="categorias-hero-content">
+
+            <span class="categorias-label">
+                EXPLORA NUESTRAS COLECCIONES
+            </span>
+
+            <h1>
+                Encuentra tus cartas
+                <span>favoritas</span>
+            </h1>
+
+            <p>
+                Explora las diferentes categorías de cartas
+                coleccionables disponibles en Block du Booster.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="categorias-contenido">
+
+        <div class="categorias-titulo">
+
+            <span>
+                CATEGORÍAS
+            </span>
+
+            <h2>
+                Elige tu juego favorito
+            </h2>
+
+            <p>
+                Descubre cartas, productos y colecciones
+                de tus juegos favoritos.
+            </p>
+
+        </div>
+
+
+        <div class="categorias-grid">
+
+
+            <!-- YU-GI-OH -->
+
+            <a asp-controller="Categorias"
+               asp-action="Index"
+               class="categoria-principal yugioh">
+
+                <div class="categoria-imagen">
+
+                    <img src="~/Imagenes/banner.jpg"
+                         alt="Yu-Gi-Oh!" />
+
+                </div>
+
+                <div class="categoria-info">
+
+                    <span class="categoria-tag">
+                        JUEGO DE CARTAS
+                    </span>
+
+                    <h3>
+                        Yu-Gi-Oh!
+                    </h3>
+
+                    <p>
+                        Monstruos, hechizos, trampas
+                        y cartas legendarias.
+                    </p>
+
+                    <span class="categoria-boton">
+                        Ver colección
+                        <i class="bi bi-arrow-right"></i>
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <!-- POKÉMON -->
+
+            <a asp-controller="Categorias"
+               asp-action="Index"
+               class="categoria-principal pokemon">
+
+                <div class="categoria-imagen">
+
+                    <img src="~/Imagenes/imagen2.jpg"
+                         alt="Pokémon" />
+
+                </div>
+
+                <div class="categoria-info">
+
+                    <span class="categoria-tag">
+                        JUEGO DE CARTAS
+                    </span>
+
+                    <h3>
+                        Pokémon
+                    </h3>
+
+                    <p>
+                        Pokémon ex, V, entrenadores
+                        y cartas coleccionables.
+                    </p>
+
+                    <span class="categoria-boton">
+                        Ver colección
+                        <i class="bi bi-arrow-right"></i>
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <!-- MAGIC -->
+
+            <a asp-controller="Categorias"
+               asp-action="Index"
+               class="categoria-principal magic">
+
+                <div class="categoria-imagen">
+
+                    <img src="~/Imagenes/imagen1.jpg"
+                         alt="Magic The Gathering" />
+
+                </div>
+
+                <div class="categoria-info">
+
+                    <span class="categoria-tag">
+                        JUEGO DE CARTAS
+                    </span>
+
+                    <h3>
+                        Magic: The Gathering
+                    </h3>
+
+                    <p>
+                        Criaturas, tierras, hechizos
+                        y cartas especiales.
+                    </p>
+
+                    <span class="categoria-boton">
+                        Ver colección
+                        <i class="bi bi-arrow-right"></i>
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <!-- OTROS -->
+
+            <a asp-controller="Categorias"
+               asp-action="Index"
+               class="categoria-principal otros">
+
+                <div class="categoria-imagen categoria-icono">
+
+                    <i class="bi bi-collection"></i>
+
+                </div>
+
+                <div class="categoria-info">
+
+                    <span class="categoria-tag">
+                        COLECCIONES
+                    </span>
+
+                    <h3>
+                        Otros
+                    </h3>
+
+                    <p>
+                        Encuentra otras cartas y
+                        productos coleccionables.
+                    </p>
+
+                    <span class="categoria-boton">
+                        Ver colección
+                        <i class="bi bi-arrow-right"></i>
+                    </span>
+
+                </div>
+
+            </a>
+
+        </div>
+
+    </section>
+
+</div>
