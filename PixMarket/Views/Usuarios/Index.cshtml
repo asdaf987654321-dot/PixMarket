@@ -50,7 +50,13 @@
                 <p class="login-subtitulo">
                     Ingresa tus datos para continuar.
                 </p>
-
+                @if (ViewBag.Error != null)
+{
+    <div class="login-error">
+        <i class="bi bi-exclamation-circle"></i>
+        @ViewBag.Error
+    </div>
+}
 
                 <form method="post"
                       asp-controller="Usuarios"

@@ -1,76 +1,185 @@
 ﻿@{
     ViewData["Title"] = "Crear Cuenta";
 }
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card shadow p-4">
-                <h2 class="text-center mb-4">
-                    Crear una Cuenta
+
+<section class="registro-page">
+
+    <div class="registro-container">
+
+
+        <!-- ================= IZQUIERDA ================= -->
+
+        <div class="registro-presentacion">
+
+            <div>
+
+                <div class="registro-logo">
+                    PIX<span>MARKET</span>
+                </div>
+
+                <span class="registro-etiqueta">
+                    TIENDA DE CARTAS COLECCIONABLES
+                </span>
+
+                <h1>
+                    Únete a nuestra comunidad
+                </h1>
+
+                <p>
+                    Crea tu cuenta y disfruta de productos,
+                    torneos y colecciones de cartas.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= FORMULARIO ================= -->
+
+        <div class="registro-formulario">
+
+            <div class="registro-formulario-contenido">
+
+                <span class="seccion-etiqueta">
+                    NUEVA CUENTA
+                </span>
+
+                <h2>
+                    Crear una cuenta
                 </h2>
-                <form method="post" asp-controller="Usuarios" asp-action="Registro">
-                    <div class="mb-3">
-                        <label class="form-label">
+
+                <p class="registro-subtitulo">
+                    Completa tus datos para registrarte.
+                </p>
+
+
+                @if (ViewBag.Error != null)
+                {
+                    <div class="login-error">
+
+                        <i class="bi bi-exclamation-circle"></i>
+
+                        @ViewBag.Error
+
+                    </div>
+                }
+
+
+                <form method="post"
+                      asp-controller="Usuarios"
+                      asp-action="Registro">
+
+
+                    @Html.AntiForgeryToken()
+
+
+                    <!-- NOMBRE -->
+
+                    <div class="registro-campo">
+
+                        <label for="nombre">
                             Nombre
                         </label>
 
                         <input type="text"
-                               class="form-control"
+                               id="nombre"
+                               name="nombre"
                                placeholder="Ingrese su nombre"
-                               required
-                               name="nombre"/>
+                               required />
+
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">
-                            Correo
+
+
+                    <!-- CORREO -->
+
+                    <div class="registro-campo">
+
+                        <label for="correo">
+                            Correo electrónico
                         </label>
 
                         <input type="email"
-                               class="form-control"
+                               id="correo"
+                               name="correo"
                                placeholder="Ingrese su correo"
-                               required
-                               name="correo"/>
+                               required />
+
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">
-                            Telefono
+
+
+                    <!-- TELEFONO -->
+
+                    <div class="registro-campo">
+
+                        <label for="telefono">
+                            Teléfono
                         </label>
 
                         <input type="tel"
-                               class="form-control"
-                               placeholder="Ingrese su numero de teléfono"
-                               required
-                               name="telefono"/>
+                               id="telefono"
+                               name="telefono"
+                               placeholder="Ingrese su número"
+                               inputmode="numeric"
+                               pattern="[0-9]+"
+                               required />
+
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">
+
+
+                    <!-- CONTRASEÑA -->
+
+                    <div class="registro-campo">
+
+                        <label for="contrasenia">
                             Contraseña
                         </label>
 
                         <input type="password"
-                               class="form-control"
-                               placeholder="Ingrese su contraseña"
-                               required
-                               name="contrasenia"/>
+                               id="contrasenia"
+                               name="contrasenia"
+                               placeholder="Mínimo 6 caracteres"
+                               minlength="6"
+                               required />
+
                     </div>
 
+
+                    <!-- BOTÓN -->
+
                     <button type="submit"
-                            class="btn btn-success w-100">
-                        Crear Cuenta
+                            class="registro-boton">
+
+                        Crear cuenta
+
+                        <i class="bi bi-arrow-right"></i>
+
                     </button>
 
                 </form>
 
-                <div class="text-center mt-3">
-                    <span>¿Ya tienes una cuenta?</span>
+
+                <!-- LOGIN -->
+
+                <div class="registro-login">
+
+                    <span>
+                        ¿Ya tienes una cuenta?
+                    </span>
 
                     <a asp-controller="Usuarios"
-                       asp-action="Index"
-                       class="text-decoration-none">
-                        Iniciar Sesión
+                       asp-action="Index">
+
+                        Iniciar sesión
+
                     </a>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
-</div>
+
+</section>
