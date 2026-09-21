@@ -72,12 +72,14 @@
                     Categorías
                 </a>
 
-                <a href="#"
+                <a asp-controller="Torneos"
+                   asp-action="Index"
                    class="nav-link-custom">
                     Torneos
                 </a>
 
-                <a href="#"
+                <a asp-controller="Contacto"
+                   asp-action="Index"
                    class="nav-link-custom">
                     Contacto
                 </a>
@@ -101,11 +103,15 @@
 
             <div class="navbar-actions">
 
-                <a href="#" class="navbar-icon">
+                <a asp-controller="Usuarios"
+                   asp-action="Index"
+                   class="navbar-icon">
                     <i class="bi bi-person"></i>
                 </a>
 
-                <a href="#" class="navbar-icon cart-icon">
+                <a asp-controller="Carrito"
+                   asp-action="Index"
+                   class="navbar-icon cart-icon">
 
                     <i class="bi bi-cart3"></i>
 

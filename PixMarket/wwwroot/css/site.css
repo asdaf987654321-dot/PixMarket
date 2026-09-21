@@ -1392,676 +1392,805 @@ body {
     }
 }
 /* =========================================================
-   TORNEOS PIXMARKET
+   INTERFAZ TORNEOS - ESTILO BLOCK DU BOOSTER
    ========================================================= */
 
-.torneos-page {
-    background: #f4f8fb;
-    color: #173c61;
-    min-height: 100vh;
+.torneos-layout {
+    min-height: calc(100vh - 80px);
+    background: #f3f8fb;
+    display: flex;
 }
 
 
 /* =========================================================
-   HERO
+   SIDEBAR
    ========================================================= */
 
-.torneos-hero {
-    min-height: 430px;
-    background: radial-gradient( circle at 75% 45%, rgba(40, 214, 196, .18), transparent 30% ), linear-gradient( 110deg, #06243d, #083b59 );
+.torneos-sidebar {
+    width: 222px;
+    min-width: 222px;
+    background: linear-gradient( 180deg, #062b48 0%, #073b59 70%, #062b48 100% );
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+
+.torneos-sidebar-menu {
+    padding: 20px 12px;
+}
+
+
+.torneo-side-link {
     display: flex;
+    align-items: center;
+    gap: 15px;
+    min-height: 45px;
+    padding: 0 15px;
+    margin-bottom: 4px;
+    color: #e5f1f6 !important;
+    text-decoration: none;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: .2s;
+}
+
+
+    .torneo-side-link i {
+        width: 22px;
+        font-size: 19px;
+    }
+
+
+    .torneo-side-link:hover {
+        background: rgba(32,224,208,.12);
+        color: #20e0d0 !important;
+    }
+
+
+    .torneo-side-link.active {
+        background: linear-gradient( 90deg, #14a99e, #159f9b );
+        color: white !important;
+    }
+
+
+.torneo-side-separator {
+    height: 1px;
+    background: rgba(255,255,255,.14);
+    margin: 15px 0;
+}
+
+
+.torneo-sidebar-frase {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 35px;
+    text-align: center;
+    padding: 20px;
+}
+
+
+    .torneo-sidebar-frase i {
+        color: #20e0d0;
+        font-size: 30px;
+    }
+
+
+    .torneo-sidebar-frase p {
+        margin: 10px 0 0;
+        color: white;
+        font-size: 19px;
+        line-height: 1.25;
+        font-style: italic;
+    }
+
+
+/* =========================================================
+   CONTENIDO
+   ========================================================= */
+
+.torneos-content {
+    flex: 1;
+    padding: 15px;
+    min-width: 0;
+}
+
+
+/* =========================================================
+   BANNER
+   ========================================================= */
+
+.torneos-banner {
+    height: 235px;
+    border-radius: 8px;
     overflow: hidden;
     position: relative;
-}
-
-
-.torneos-hero-contenido {
-    width: 55%;
-    padding: 70px 30px 60px 8%;
-    position: relative;
-    z-index: 2;
-}
-
-
-.torneos-label {
-    display: inline-block;
-    color: #28d6c4;
-    border: 1px solid #28d6c4;
-    border-radius: 20px;
-    padding: 7px 14px;
-    font-size: 12px;
-    font-weight: 800;
-    letter-spacing: 1px;
+    background: #062b48;
+    display: flex;
     margin-bottom: 18px;
 }
 
 
-.torneos-hero h1 {
-    color: #ffffff;
-    font-size: 60px;
-    line-height: 1;
-    margin: 0;
-    font-weight: 800;
-}
-
-
-    .torneos-hero h1 span {
-        color: #28d6c4;
-    }
-
-
-.torneos-hero p {
-    color: #d8e8ef;
-    max-width: 600px;
-    font-size: 17px;
-    line-height: 1.7;
-    margin: 22px 0;
-}
-
-
-.torneos-hero-botones {
-    display: flex;
-    gap: 15px;
-}
-
-
-.btn-torneo-principal,
-.btn-torneo-secundario {
-    padding: 14px 24px;
-    border-radius: 9px;
-    text-decoration: none;
-    font-weight: 700;
-    transition: .25s;
-}
-
-
-.btn-torneo-principal {
-    background: #28d6c4;
-    color: #06243d;
-}
-
-
-    .btn-torneo-principal:hover {
-        background: #20b8aa;
-        color: #ffffff;
-    }
-
-
-.btn-torneo-secundario {
-    color: #ffffff;
-    border: 2px solid #28d6c4;
-}
-
-
-    .btn-torneo-secundario:hover {
-        background: #28d6c4;
-        color: #06243d;
-    }
-
-
-/* =========================================================
-   ELEMENTOS DECORATIVOS
-   ========================================================= */
-
-.torneos-hero-imagen {
+.torneos-banner-texto {
     width: 45%;
     position: relative;
-    min-height: 430px;
+    z-index: 2;
+    padding: 27px 25px;
 }
 
 
-.torneo-circulo {
-    position: absolute;
-    width: 240px;
-    height: 240px;
-    border-radius: 50%;
-    background: rgba(40, 214, 196, .12);
-    border: 2px solid rgba(40, 214, 196, .35);
-    right: 18%;
-    top: 90px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 105px;
-    box-shadow: 0 0 50px rgba(40, 214, 196, .12);
-}
-
-
-.torneo-carta {
-    position: absolute;
-    width: 90px;
-    height: 125px;
-    border-radius: 9px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 42px;
-    background: linear-gradient( 145deg, #123f5d, #0b263d );
-    border: 2px solid #28d6c4;
-    box-shadow: 0 15px 35px rgba(0,0,0,.3);
-}
-
-
-.carta-1 {
-    right: 60%;
-    top: 80px;
-    transform: rotate(-18deg);
-}
-
-
-.carta-2 {
-    right: 5%;
-    top: 55px;
-    transform: rotate(15deg);
-}
-
-
-.carta-3 {
-    right: 10%;
-    bottom: 40px;
-    transform: rotate(-10deg);
-}
-
-
-/* =========================================================
-   ESTADISTICAS
-   ========================================================= */
-
-.torneos-estadisticas {
-    max-width: 1150px;
-    margin: -35px auto 0;
-    position: relative;
-    z-index: 5;
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-    padding: 0 20px;
-}
-
-
-.estadistica-torneo {
-    background: #ffffff;
-    border: 1px solid #dbe7ed;
-    border-radius: 11px;
-    padding: 18px;
-    display: flex;
-    align-items: center;
-    gap: 13px;
-    box-shadow: 0 5px 20px rgba(0,40,70,.08);
-}
-
-
-.estadistica-icono {
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 10px;
-    background: #e5faf8;
-    font-size: 25px;
-}
-
-
-.estadistica-torneo strong {
-    display: block;
-    color: #173c61;
-    font-size: 22px;
-}
-
-
-.estadistica-torneo div span {
-    display: block;
-    color: #7890a1;
-    font-size: 12px;
-}
-
-
-/* =========================================================
-   PROXIMOS TORNEOS
-   ========================================================= */
-
-.proximos-torneos {
-    max-width: 1250px;
-    margin: auto;
-    padding: 55px 25px 30px;
-}
-
-
-.torneos-titulo {
-    margin-bottom: 25px;
-}
-
-
-    .torneos-titulo > div {
-        display: flex;
-        align-items: center;
-        gap: 10px;
+    .torneos-banner-texto h1 {
+        margin: 0;
+        color: white;
+        font-size: 34px;
+        line-height: 1.05;
+        font-weight: 800;
     }
 
 
-        .torneos-titulo > div span {
-            color: #0bb5a8;
-            font-size: 28px;
+        .torneos-banner-texto h1 span {
+            color: #20e0d0;
         }
 
 
-    .torneos-titulo h2 {
-        margin: 0;
-        color: #173c61;
+    .torneos-banner-texto h2 {
+        margin: 4px 0 12px;
+        color: #20e0d0;
         font-size: 27px;
+        font-weight: 800;
     }
 
 
-    .torneos-titulo p {
-        color: #71899b;
-        margin: 7px 0 0 38px;
+    .torneos-banner-texto p {
+        max-width: 500px;
+        color: #e1edf2;
+        font-size: 14px;
+        line-height: 1.45;
+        margin-bottom: 18px;
+    }
+
+
+.torneos-beneficios {
+    display: flex;
+    gap: 25px;
+}
+
+
+    .torneos-beneficios div {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+
+    .torneos-beneficios i {
+        color: #20e0d0;
+        font-size: 23px;
+    }
+
+
+    .torneos-beneficios span {
+        color: #dcecf2;
+        font-size: 10px;
+        line-height: 1.25;
+    }
+
+
+.torneos-banner-imagen {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 67%;
+    height: 100%;
+}
+
+
+    .torneos-banner-imagen::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background: linear-gradient( 90deg, #062b48 0%, rgba(6,43,72,.85) 12%, rgba(6,43,72,.15) 42%, transparent 70% );
+    }
+
+
+    .torneos-banner-imagen img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
 
 /* =========================================================
-   TARJETAS DE TORNEOS
+   FILTROS
    ========================================================= */
 
-.torneos-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+.torneos-filtros {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 18px;
 }
 
 
-.torneo-card {
-    background: #ffffff;
-    border: 1px solid #d9e6ed;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 5px 18px rgba(0,40,70,.07);
-    transition: .25s;
+.torneo-filtro {
+    min-width: 125px;
+    height: 55px;
+    padding: 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    background: #edf5f9;
+    border: 1px solid #dbe8ee;
+    border-radius: 10px;
+    color: #173c61 !important;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    transition: .2s;
 }
 
 
-    .torneo-card:hover {
-        transform: translateY(-6px);
-        box-shadow: 0 12px 30px rgba(0,40,70,.13);
+    .torneo-filtro:hover {
+        border-color: #20cfc0;
+        color: #079e94 !important;
     }
 
 
-.torneo-card-header {
-    padding: 14px 16px;
+    .torneo-filtro.active {
+        background: #10a99f;
+        border-color: #10a99f;
+        color: white !important;
+    }
+
+
+    .torneo-filtro > i {
+        font-size: 18px;
+    }
+
+
+.filtro-logo {
+    width: 25px;
+    height: 25px;
+    border-radius: 6px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #edf2f5;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 900;
 }
 
 
-.torneo-juego {
-    font-size: 12px;
+    .filtro-logo.yugioh {
+        background: #eadfff;
+        color: #6844a5;
+    }
+
+
+    .filtro-logo.pokemon {
+        background: #fff1cc;
+        color: #a67800;
+    }
+
+
+    .filtro-logo.magic {
+        background: #dceeff;
+        color: #24618c;
+    }
+
+
+.torneo-ordenar {
+    margin-left: auto;
+    min-width: 200px;
+    height: 55px;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: white;
+    border: 1px solid #dbe8ee;
+    border-radius: 9px;
+    color: #597286;
+    font-size: 11px;
+}
+
+
+    .torneo-ordenar > i:first-child {
+        font-size: 17px;
+        color: #0c9d96;
+    }
+
+
+    .torneo-ordenar strong {
+        color: #173c61;
+    }
+
+
+/* =========================================================
+   CUERPO
+   ========================================================= */
+
+.torneos-cuerpo {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 325px;
+    gap: 18px;
+}
+
+
+.torneos-lista {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+}
+
+
+/* =========================================================
+   TARJETAS
+   ========================================================= */
+
+.torneo-item {
+    background: white;
+    border: 1px solid #dce8ee;
+    border-radius: 9px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,40,70,.06);
+    transition: .2s;
+}
+
+
+    .torneo-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0,40,70,.12);
+    }
+
+
+.torneo-imagen {
+    height: 112px;
+    position: relative;
+    overflow: hidden;
+}
+
+
+    .torneo-imagen img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+
+    .torneo-imagen::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient( 180deg, transparent 45%, rgba(0,0,0,.35) );
+    }
+
+
+.torneo-badge {
+    position: absolute;
+    z-index: 2;
+    top: 10px;
+    right: 10px;
+    padding: 5px 9px;
+    border-radius: 12px;
+    background: #338de5;
+    color: white;
+    font-size: 9px;
     font-weight: 800;
 }
 
 
-.torneo-estado {
-    background: #e4f8f4;
-    color: #079c91;
-    border-radius: 15px;
-    padding: 5px 9px;
+    .torneo-badge.local {
+        background: #ee654e;
+    }
+
+
+    .torneo-badge.liga {
+        background: #31b46e;
+    }
+
+
+    .torneo-badge.principiante {
+        background: #7654ce;
+    }
+
+
+.torneo-info {
+    padding: 10px 14px 12px;
+}
+
+
+    .torneo-info h3 {
+        margin: 0 0 7px;
+        color: #173c61;
+        font-size: 14px;
+        font-weight: 800;
+    }
+
+
+    .torneo-info p {
+        margin: 4px 0;
+        color: #5f788a;
+        font-size: 10px;
+    }
+
+
+        .torneo-info p i {
+            width: 17px;
+            color: #0da69c;
+            margin-right: 3px;
+        }
+
+
+.torneo-card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+
+.btn-inscripcion {
+    min-width: 130px;
+    padding: 8px 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    border-radius: 18px;
+    background: #0da99e;
+    color: white !important;
+    text-decoration: none;
+    font-size: 10px;
+    font-weight: 700;
+    transition: .2s;
+}
+
+
+    .btn-inscripcion:hover {
+        background: #078c84;
+    }
+
+
+.cupos {
+    color: #0d9e95;
     font-size: 10px;
     font-weight: 700;
 }
 
 
-.torneo-card-icon {
-    width: 90px;
-    height: 90px;
-    margin: 25px auto 12px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 45px;
-}
-
-
-.torneo-pokemon .torneo-card-icon {
-    background: #fff5d7;
-}
-
-
-.torneo-yugioh .torneo-card-icon {
-    background: #eee9ff;
-}
-
-
-.torneo-magic .torneo-card-icon {
-    background: #e5f2ff;
-}
-
-
-.torneo-pokemon .torneo-juego {
-    color: #b07d00;
-}
-
-
-.torneo-yugioh .torneo-juego {
-    color: #7043ad;
-}
-
-
-.torneo-magic .torneo-juego {
-    color: #23628c;
-}
-
-
-.torneo-card h3 {
-    text-align: center;
-    color: #173c61;
-    font-size: 19px;
-    margin: 0;
-}
-
-
-.torneo-subtitulo {
-    text-align: center;
-    color: #7890a1;
-    font-size: 13px;
-    margin: 5px 0 20px;
-}
-
-
-.torneo-datos {
-    margin: 0 18px;
-    padding: 15px 0;
-    border-top: 1px solid #edf2f5;
-    border-bottom: 1px solid #edf2f5;
-}
-
-
-    .torneo-datos div {
-        display: flex;
-        justify-content: space-between;
-        margin: 8px 0;
-    }
-
-
-    .torneo-datos span {
-        color: #8198a7;
-        font-size: 12px;
-    }
-
-
-    .torneo-datos strong {
-        color: #315d79;
-        font-size: 12px;
-    }
-
-
-.torneo-premio {
-    display: flex;
-    justify-content: space-between;
-    margin: 15px 18px;
-    background: #f0faf9;
-    border-radius: 7px;
-    padding: 10px 12px;
-}
-
-
-    .torneo-premio span {
-        color: #638294;
-        font-size: 12px;
-    }
-
-
-    .torneo-premio strong {
-        color: #079d96;
-    }
-
-
-.btn-inscribirse {
-    width: calc(100% - 36px);
-    margin: 0 18px 20px;
-    padding: 11px;
-    border: none;
-    border-radius: 7px;
-    background: #079d96;
-    color: #ffffff;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-
-    .btn-inscribirse:hover {
-        background: #087f7a;
-    }
-
-
 /* =========================================================
-   COMO PARTICIPAR
+   COLUMNA DERECHA
    ========================================================= */
 
-.como-participar {
-    max-width: 1250px;
-    margin: auto;
-    padding: 40px 25px 60px;
-}
-
-
-.como-participar-titulo {
-    text-align: center;
-}
-
-
-    .como-participar-titulo > span {
-        color: #0bb5a8;
-        font-size: 27px;
-    }
-
-
-    .como-participar-titulo h2 {
-        color: #173c61;
-        font-size: 27px;
-        margin: 5px 0;
-    }
-
-
-    .como-participar-titulo p {
-        color: #7890a1;
-    }
-
-
-.pasos-torneo {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-    margin-top: 30px;
-}
-
-
-.paso-torneo {
-    background: #ffffff;
-    border: 1px solid #dce8ee;
-    border-radius: 10px;
-    padding: 25px 20px;
-    text-align: center;
-    position: relative;
-}
-
-
-.paso-numero {
-    position: absolute;
-    top: 12px;
-    right: 15px;
-    color: #b5c9d4;
-    font-size: 12px;
-    font-weight: 800;
-}
-
-
-.paso-icono {
-    width: 65px;
-    height: 65px;
-    margin: 5px auto 15px;
-    border-radius: 50%;
+.torneos-derecha {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #e7faf8;
-    font-size: 30px;
+    flex-direction: column;
+    gap: 13px;
 }
 
 
-.paso-torneo h3 {
-    color: #173c61;
-    font-size: 17px;
+.proximos-box {
+    background: #062f4c;
+    border-radius: 8px;
+    padding: 16px;
+    color: white;
 }
 
 
-.paso-torneo p {
-    color: #7890a1;
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-
-/* =========================================================
-   BANNER FINAL
-   ========================================================= */
-
-.torneo-final {
-    max-width: 1200px;
-    margin: 0 auto 60px;
-    padding: 35px 45px;
-    border-radius: 14px;
-    background: radial-gradient( circle at 85% 50%, rgba(40,214,196,.18), transparent 30% ), #082b45;
+.proximos-titulo {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid rgba(255,255,255,.13);
+    padding-bottom: 12px;
 }
 
 
-    .torneo-final span {
-        color: #28d6c4;
-        font-size: 11px;
-        font-weight: 800;
-        letter-spacing: 1px;
+    .proximos-titulo i {
+        color: #20e0d0;
+        font-size: 19px;
     }
 
 
-    .torneo-final h2 {
-        color: #ffffff;
-        font-size: 28px;
-        margin: 8px 0;
-    }
-
-
-        .torneo-final h2 strong {
-            color: #28d6c4;
-        }
-
-
-    .torneo-final p {
-        color: #c7dbe4;
+    .proximos-titulo h3 {
         margin: 0;
+        font-size: 15px;
     }
 
 
-    .torneo-final a {
-        border: 2px solid #28d6c4;
-        color: #ffffff;
-        padding: 12px 20px;
-        border-radius: 8px;
+.proximo-item {
+    min-height: 70px;
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr) 15px;
+    align-items: center;
+    gap: 9px;
+    border-bottom: 1px solid rgba(255,255,255,.10);
+    color: white !important;
+    text-decoration: none;
+}
+
+
+    .proximo-item:hover {
+        color: #20e0d0 !important;
+    }
+
+
+.fecha-torneo {
+    width: 42px;
+    height: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #0c6d87;
+    border-radius: 6px;
+}
+
+
+    .fecha-torneo strong {
+        font-size: 18px;
+        line-height: 1;
+    }
+
+
+    .fecha-torneo span {
+        margin-top: 2px;
+        color: #a9d9df;
+        font-size: 9px;
+        text-transform: uppercase;
+    }
+
+
+.proximo-item > div:nth-child(2) {
+    min-width: 0;
+}
+
+
+    .proximo-item > div:nth-child(2) strong {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        font-size: 10px;
+    }
+
+
+.proximo-item small {
+    display: block;
+    margin-top: 4px;
+    color: #82b4c5;
+    font-size: 9px;
+}
+
+
+.proximo-item > i {
+    color: #20e0d0;
+}
+
+
+.calendario-link {
+    display: block;
+    text-align: right;
+    margin-top: 10px;
+    color: #20e0d0 !important;
+    text-decoration: none;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   ORGANIZAR TORNEO
+   ========================================================= */
+
+.organizar-box {
+    padding: 18px;
+    border-radius: 8px;
+    background: linear-gradient( 135deg, #073e55, #078f8b );
+    color: white;
+}
+
+
+    .organizar-box > i {
+        color: #20e0d0;
+        font-size: 32px;
+    }
+
+
+    .organizar-box h3 {
+        margin: 8px 0;
+        font-size: 14px;
+    }
+
+
+    .organizar-box p {
+        color: #d8f0f0;
+        font-size: 10px;
+        line-height: 1.5;
+    }
+
+
+    .organizar-box a {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 16px;
+        background: #20bfb4;
+        border-radius: 18px;
+        color: white !important;
         text-decoration: none;
+        font-size: 10px;
         font-weight: 700;
     }
 
 
-        .torneo-final a:hover {
-            background: #28d6c4;
-            color: #06243d;
+        .organizar-box a:hover {
+            background: #12a39a;
         }
+
+
+/* =========================================================
+   BANNER DERECHO
+   ========================================================= */
+
+.torneo-final-imagen {
+    height: 145px;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    background: #062f4c;
+}
+
+
+    .torneo-final-imagen img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: .65;
+    }
+
+
+    .torneo-final-imagen::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient( 90deg, rgba(4,39,61,.75), rgba(4,39,61,.2) );
+    }
+
+
+    .torneo-final-imagen div {
+        position: absolute;
+        z-index: 2;
+        right: 18px;
+        top: 25px;
+        color: white;
+        text-align: right;
+        font-size: 19px;
+        font-style: italic;
+        font-weight: 700;
+        line-height: 1.15;
+    }
 
 
 /* =========================================================
    RESPONSIVE
    ========================================================= */
 
-@media (max-width: 1000px) {
+@media (max-width: 1200px) {
 
-    .torneos-hero-contenido {
-        width: 65%;
-    }
-
-    .torneos-hero-imagen {
-        width: 35%;
-    }
-
-    .torneos-estadisticas {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .torneos-grid {
+    .torneos-cuerpo {
         grid-template-columns: 1fr;
     }
 
-    .pasos-torneo {
+    .torneos-derecha {
+        display: grid;
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .torneo-final-imagen {
+        display: none;
+    }
+}
+
+
+@media (max-width: 900px) {
+
+    .torneos-sidebar {
+        width: 75px;
+        min-width: 75px;
+    }
+
+    .torneo-side-link {
+        justify-content: center;
+        padding: 0;
+    }
+
+        .torneo-side-link span {
+            display: none;
+        }
+
+    .torneo-sidebar-frase {
+        display: none;
+    }
+
+    .torneos-banner-texto {
+        width: 60%;
+    }
+
+    .torneos-banner-imagen {
+        width: 70%;
+    }
+
+    .torneos-filtros {
+        flex-wrap: wrap;
+    }
+
+    .torneo-ordenar {
+        margin-left: 0;
     }
 }
 
 
 @media (max-width: 700px) {
 
-    .torneos-hero {
-        display: block;
+    .torneos-sidebar {
+        display: none;
     }
 
-    .torneos-hero-contenido {
+    .torneos-content {
+        padding: 10px;
+    }
+
+    .torneos-banner {
+        height: auto;
+        min-height: 350px;
+    }
+
+    .torneos-banner-texto {
         width: 100%;
-        padding: 50px 25px;
+        padding: 25px;
     }
 
-    .torneos-hero-imagen {
+    .torneos-banner-imagen {
         width: 100%;
-        min-height: 250px;
+        opacity: .35;
     }
 
-    .torneos-hero h1 {
-        font-size: 45px;
+    .torneos-banner-texto h1 {
+        font-size: 30px;
     }
 
-    .torneos-estadisticas {
+    .torneos-banner-texto h2 {
+        font-size: 23px;
+    }
+
+    .torneos-beneficios {
+        gap: 10px;
+    }
+
+    .torneos-filtros {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .torneo-filtro {
+        min-width: 0;
+    }
+
+    .torneo-ordenar {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+
+    .torneos-lista {
         grid-template-columns: 1fr;
-        margin-top: 20px;
     }
 
-    .pasos-torneo {
+    .torneos-derecha {
         grid-template-columns: 1fr;
-    }
-
-    .torneo-final {
-        margin: 20px;
-        display: block;
-    }
-
-        .torneo-final a {
-            display: inline-block;
-            margin-top: 20px;
-        }
-}
-
-
-@media (max-width: 480px) {
-
-    .torneos-hero-botones {
-        flex-direction: column;
-    }
-
-    .btn-torneo-principal,
-    .btn-torneo-secundario {
-        text-align: center;
-    }
-
-    .torneos-titulo p {
-        margin-left: 0;
     }
 }

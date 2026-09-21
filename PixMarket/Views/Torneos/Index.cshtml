@@ -2,488 +2,779 @@
     ViewData["Title"] = "Torneos";
 }
 
-<section class="torneos-page">
+<div class="torneos-layout">
 
-    <!-- HERO DE TORNEOS -->
+    <!-- ================= SIDEBAR ================= -->
 
-    <section class="torneos-hero">
+    <aside class="torneos-sidebar">
 
-        <div class="torneos-hero-contenido">
+        <div class="torneos-sidebar-menu">
 
-            <span class="torneos-label">
-                COMPETENCIAS PIXMARKET
-            </span>
+            <a asp-controller="Home"
+               asp-action="Index"
+               class="torneo-side-link">
 
-            <h1>
-                Torneos
-                <span>PixMarket</span>
-            </h1>
+                <i class="bi bi-house-fill"></i>
+                <span>Inicio</span>
+
+            </a>
+
+            <a asp-controller="Categorias"
+               asp-action="Index"
+               class="torneo-side-link">
+
+                <i class="bi bi-cart3"></i>
+                <span>Tienda</span>
+
+            </a>
+
+            <a asp-controller="Categorias"
+               asp-action="Index"
+               class="torneo-side-link">
+
+                <i class="bi bi-grid-fill"></i>
+                <span>Categorías</span>
+
+            </a>
+
+            <a href="#"
+               class="torneo-side-link">
+
+                <i class="bi bi-tag-fill"></i>
+                <span>Ofertas</span>
+
+            </a>
+
+            <div class="torneo-side-separator"></div>
+
+            <a asp-controller="Torneos"
+               asp-action="Index"
+               class="torneo-side-link active">
+
+                <i class="bi bi-trophy-fill"></i>
+                <span>Torneos</span>
+
+            </a>
+
+            <a asp-controller="Usuarios"
+               asp-action="Index"
+               class="torneo-side-link">
+
+                <i class="bi bi-people-fill"></i>
+                <span>Mi cuenta</span>
+
+            </a>
+
+            <a asp-controller="Usuarios"
+               asp-action="Index"
+               class="torneo-side-link">
+
+                <i class="bi bi-person"></i>
+                <span>Perfil</span>
+
+            </a>
+
+        </div>
+
+
+        <div class="torneo-sidebar-frase">
+
+            <i class="bi bi-trophy-fill"></i>
 
             <p>
-                Compite, demuestra tu estrategia y forma parte
-                de nuestra comunidad de jugadores de cartas
-                coleccionables.
+                ¡Demuestra<br />
+                tus habilidades,<br />
+                vive la<br />
+                experiencia!
             </p>
 
-            <div class="torneos-hero-botones">
-
-                <a href="#proximos-torneos"
-                   class="btn-torneo-principal">
-                    🏆 Ver torneos
-                </a>
-
-                <a href="#como-participar"
-                   class="btn-torneo-secundario">
-                    ¿Cómo participar?
-                </a>
-
-            </div>
-
         </div>
 
-        <div class="torneos-hero-imagen">
-
-            <div class="torneo-circulo">
-                🏆
-            </div>
-
-            <div class="torneo-carta carta-1">
-                🃏
-            </div>
-
-            <div class="torneo-carta carta-2">
-                ⚡
-            </div>
-
-            <div class="torneo-carta carta-3">
-                ♦
-            </div>
-
-        </div>
-
-    </section>
+    </aside>
 
 
-    <!-- ESTADISTICAS -->
+    <!-- ================= CONTENIDO ================= -->
 
-    <section class="torneos-estadisticas">
-
-        <div class="estadistica-torneo">
-
-            <span class="estadistica-icono">
-                🏆
-            </span>
-
-            <div>
-                <strong>12+</strong>
-                <span>Torneos realizados</span>
-            </div>
-
-        </div>
-
-        <div class="estadistica-torneo">
-
-            <span class="estadistica-icono">
-                👥
-            </span>
-
-            <div>
-                <strong>250+</strong>
-                <span>Jugadores</span>
-            </div>
-
-        </div>
-
-        <div class="estadistica-torneo">
-
-            <span class="estadistica-icono">
-                🎴
-            </span>
-
-            <div>
-                <strong>3</strong>
-                <span>Juegos disponibles</span>
-            </div>
-
-        </div>
-
-        <div class="estadistica-torneo">
-
-            <span class="estadistica-icono">
-                ⭐
-            </span>
-
-            <div>
-                <strong>100%</strong>
-                <span>Comunidad</span>
-            </div>
-
-        </div>
-
-    </section>
+    <main class="torneos-content">
 
 
-    <!-- PROXIMOS TORNEOS -->
+        <!-- ================= HERO ================= -->
 
-    <section class="proximos-torneos"
-             id="proximos-torneos">
+        <section class="torneos-banner">
 
-        <div class="torneos-titulo">
+            <div class="torneos-banner-texto">
 
-            <div>
-                <span>★</span>
+                <h1>
+                    Torneos de
+                    <span>cartas</span>
+                </h1>
 
                 <h2>
-                    Próximos torneos
+                    ¡Compite, gana y colecciona!
                 </h2>
-            </div>
-
-            <p>
-                Elige tu juego y prepárate para competir.
-            </p>
-
-        </div>
-
-
-        <div class="torneos-grid">
-
-
-            <!-- POKEMON -->
-
-            <article class="torneo-card torneo-pokemon">
-
-                <div class="torneo-card-header">
-
-                    <span class="torneo-juego">
-                        POKÉMON
-                    </span>
-
-                    <span class="torneo-estado">
-                        Próximamente
-                    </span>
-
-                </div>
-
-                <div class="torneo-card-icon">
-                    ⚡
-                </div>
-
-                <h3>
-                    Pokémon TCG
-                </h3>
-
-                <p class="torneo-subtitulo">
-                    Campeonato PixMarket
-                </p>
-
-                <div class="torneo-datos">
-
-                    <div>
-                        <span>📅 Fecha</span>
-                        <strong>25 Octubre 2026</strong>
-                    </div>
-
-                    <div>
-                        <span>🕐 Hora</span>
-                        <strong>15:00</strong>
-                    </div>
-
-                    <div>
-                        <span>👥 Cupos</span>
-                        <strong>32 jugadores</strong>
-                    </div>
-
-                </div>
-
-                <div class="torneo-premio">
-
-                    <span>🏆 Premio</span>
-
-                    <strong>
-                        Bs 1.500
-                    </strong>
-
-                </div>
-
-                <button class="btn-inscribirse">
-                    Inscribirme
-                </button>
-
-            </article>
-
-
-            <!-- YU GI OH -->
-
-            <article class="torneo-card torneo-yugioh">
-
-                <div class="torneo-card-header">
-
-                    <span class="torneo-juego">
-                        YU-GI-OH!
-                    </span>
-
-                    <span class="torneo-estado">
-                        Inscripciones
-                    </span>
-
-                </div>
-
-                <div class="torneo-card-icon">
-                    🎴
-                </div>
-
-                <h3>
-                    Yu-Gi-Oh! TCG
-                </h3>
-
-                <p class="torneo-subtitulo">
-                    Duelistas de Cochabamba
-                </p>
-
-                <div class="torneo-datos">
-
-                    <div>
-                        <span>📅 Fecha</span>
-                        <strong>01 Noviembre 2026</strong>
-                    </div>
-
-                    <div>
-                        <span>🕐 Hora</span>
-                        <strong>14:00</strong>
-                    </div>
-
-                    <div>
-                        <span>👥 Cupos</span>
-                        <strong>40 jugadores</strong>
-                    </div>
-
-                </div>
-
-                <div class="torneo-premio">
-
-                    <span>🏆 Premio</span>
-
-                    <strong>
-                        Bs 2.000
-                    </strong>
-
-                </div>
-
-                <button class="btn-inscribirse">
-                    Inscribirme
-                </button>
-
-            </article>
-
-
-            <!-- MAGIC -->
-
-            <article class="torneo-card torneo-magic">
-
-                <div class="torneo-card-header">
-
-                    <span class="torneo-juego">
-                        MAGIC
-                    </span>
-
-                    <span class="torneo-estado">
-                        Próximamente
-                    </span>
-
-                </div>
-
-                <div class="torneo-card-icon">
-                    ♦
-                </div>
-
-                <h3>
-                    Magic: The Gathering
-                </h3>
-
-                <p class="torneo-subtitulo">
-                    Magic Weekend
-                </p>
-
-                <div class="torneo-datos">
-
-                    <div>
-                        <span>📅 Fecha</span>
-                        <strong>08 Noviembre 2026</strong>
-                    </div>
-
-                    <div>
-                        <span>🕐 Hora</span>
-                        <strong>16:00</strong>
-                    </div>
-
-                    <div>
-                        <span>👥 Cupos</span>
-                        <strong>24 jugadores</strong>
-                    </div>
-
-                </div>
-
-                <div class="torneo-premio">
-
-                    <span>🏆 Premio</span>
-
-                    <strong>
-                        Bs 1.200
-                    </strong>
-
-                </div>
-
-                <button class="btn-inscribirse">
-                    Inscribirme
-                </button>
-
-            </article>
-
-        </div>
-
-    </section>
-
-
-    <!-- COMO PARTICIPAR -->
-
-    <section class="como-participar"
-             id="como-participar">
-
-        <div class="como-participar-titulo">
-
-            <span>★</span>
-
-            <h2>
-                ¿Cómo participar?
-            </h2>
-
-            <p>
-                Participar en nuestros torneos es muy sencillo.
-            </p>
-
-        </div>
-
-
-        <div class="pasos-torneo">
-
-            <div class="paso-torneo">
-
-                <div class="paso-numero">
-                    01
-                </div>
-
-                <div class="paso-icono">
-                    🎮
-                </div>
-
-                <h3>
-                    Elige tu juego
-                </h3>
 
                 <p>
-                    Selecciona el torneo de Pokémon,
-                    Yu-Gi-Oh! o Magic que quieras jugar.
+                    Participa en nuestros torneos oficiales y
+                    demuestra que eres el mejor duelista de
+                    Cochabamba.
                 </p>
+
+                <div class="torneos-beneficios">
+
+                    <div>
+                        <i class="bi bi-trophy"></i>
+
+                        <span>
+                            Premios<br />
+                            exclusivos
+                        </span>
+                    </div>
+
+                    <div>
+                        <i class="bi bi-people-fill"></i>
+
+                        <span>
+                            Comunidad<br />
+                            de duelistas
+                        </span>
+                    </div>
+
+                    <div>
+                        <i class="bi bi-shield-check"></i>
+
+                        <span>
+                            Ambiente seguro<br />
+                            y competitivo
+                        </span>
+                    </div>
+
+                </div>
 
             </div>
 
 
-            <div class="paso-torneo">
+            <div class="torneos-banner-imagen">
 
-                <div class="paso-numero">
-                    02
-                </div>
-
-                <div class="paso-icono">
-                    📝
-                </div>
-
-                <h3>
-                    Inscríbete
-                </h3>
-
-                <p>
-                    Registra tu participación y reserva
-                    tu lugar en el torneo.
-                </p>
+                <img src="~/Imagenes/banner.jpg"
+                     alt="Torneos PixMarket" />
 
             </div>
 
+        </section>
 
-            <div class="paso-torneo">
 
-                <div class="paso-numero">
-                    03
-                </div>
+        <!-- ================= FILTROS ================= -->
 
-                <div class="paso-icono">
-                    🏆
-                </div>
+        <section class="torneos-filtros">
 
-                <h3>
-                    Compite
-                </h3>
+            <a href="#"
+               class="torneo-filtro active">
 
-                <p>
-                    Prepara tu mejor estrategia y
-                    disfruta de la competencia.
-                </p>
+                <i class="bi bi-grid-fill"></i>
+
+                <span>Todos</span>
+
+            </a>
+
+            <a href="#"
+               class="torneo-filtro">
+
+                <span class="filtro-logo yugioh">
+                    YU
+                </span>
+
+                <span>Yu-Gi-Oh!</span>
+
+            </a>
+
+            <a href="#"
+               class="torneo-filtro">
+
+                <span class="filtro-logo pokemon">
+                    P
+                </span>
+
+                <span>Pokémon</span>
+
+            </a>
+
+            <a href="#"
+               class="torneo-filtro">
+
+                <span class="filtro-logo magic">
+                    M
+                </span>
+
+                <span>Magic</span>
+
+            </a>
+
+            <a href="#"
+               class="torneo-filtro">
+
+                <i class="bi bi-stack"></i>
+
+                <span>Otros</span>
+
+            </a>
+
+
+            <div class="torneo-ordenar">
+
+                <i class="bi bi-calendar3"></i>
+
+                <span>
+                    Ordenar por:<br />
+                    <strong>Próximos torneos</strong>
+                </span>
+
+                <i class="bi bi-chevron-down"></i>
 
             </div>
 
+        </section>
 
-            <div class="paso-torneo">
 
-                <div class="paso-numero">
-                    04
+        <!-- ================= CUERPO ================= -->
+
+        <div class="torneos-cuerpo">
+
+
+            <!-- ================= TARJETAS ================= -->
+
+            <section class="torneos-lista">
+
+
+                <!-- TORNEO 1 -->
+
+                <article class="torneo-item">
+
+                    <div class="torneo-imagen">
+
+                        <img src="~/Imagenes/banner.jpg"
+                             alt="Torneo Regional Yu-Gi-Oh!" />
+
+                        <span class="torneo-badge">
+                            Oficial
+                        </span>
+
+                    </div>
+
+                    <div class="torneo-info">
+
+                        <h3>
+                            Torneo Regional Yu-Gi-Oh!
+                        </h3>
+
+                        <p>
+                            <i class="bi bi-calendar3"></i>
+                            28 de septiembre de 2026
+                        </p>
+
+                        <p>
+                            <i class="bi bi-geo-alt"></i>
+                            Block du Booster - Cochabamba
+                        </p>
+
+                        <p>
+                            <i class="bi bi-trophy"></i>
+                            Formato: Advanced (BO3)
+                        </p>
+
+                        <div class="torneo-card-footer">
+
+                            <a asp-controller="Torneos"
+                               asp-action="Inscribirse"
+                               asp-route-id="1"
+                               class="btn-inscripcion">
+
+                                Inscribirse
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                            <span class="cupos">
+                                <i class="bi bi-people-fill"></i>
+                                24/64
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- TORNEO 2 -->
+
+                <article class="torneo-item">
+
+                    <div class="torneo-imagen">
+
+                        <img src="~/Imagenes/imagen2.jpg"
+                             alt="Torneo Pokémon TCG" />
+
+                        <span class="torneo-badge">
+                            Oficial
+                        </span>
+
+                    </div>
+
+                    <div class="torneo-info">
+
+                        <h3>
+                            Torneo Pokémon TCG
+                        </h3>
+
+                        <p>
+                            <i class="bi bi-calendar3"></i>
+                            4 de octubre de 2026
+                        </p>
+
+                        <p>
+                            <i class="bi bi-geo-alt"></i>
+                            Block du Booster - Cochabamba
+                        </p>
+
+                        <p>
+                            <i class="bi bi-trophy"></i>
+                            Formato: Estándar (BO3)
+                        </p>
+
+                        <div class="torneo-card-footer">
+
+                            <a asp-controller="Torneos"
+                               asp-action="Inscribirse"
+                               asp-route-id="2"
+                               class="btn-inscripcion">
+
+                                Inscribirse
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                            <span class="cupos">
+                                <i class="bi bi-people-fill"></i>
+                                32/64
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- TORNEO 3 -->
+
+                <article class="torneo-item">
+
+                    <div class="torneo-imagen">
+
+                        <img src="~/Imagenes/banner.jpg"
+                             alt="Torneo Magic" />
+
+                        <span class="torneo-badge">
+                            Oficial
+                        </span>
+
+                    </div>
+
+                    <div class="torneo-info">
+
+                        <h3>
+                            Torneo Magic: The Gathering
+                        </h3>
+
+                        <p>
+                            <i class="bi bi-calendar3"></i>
+                            11 de octubre de 2026
+                        </p>
+
+                        <p>
+                            <i class="bi bi-geo-alt"></i>
+                            Block du Booster - Cochabamba
+                        </p>
+
+                        <p>
+                            <i class="bi bi-trophy"></i>
+                            Formato: Commander (EDH)
+                        </p>
+
+                        <div class="torneo-card-footer">
+
+                            <a asp-controller="Torneos"
+                               asp-action="Inscribirse"
+                               asp-route-id="3"
+                               class="btn-inscripcion">
+
+                                Inscribirse
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                            <span class="cupos">
+                                <i class="bi bi-people-fill"></i>
+                                18/32
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- TORNEO 4 -->
+
+                <article class="torneo-item">
+
+                    <div class="torneo-imagen">
+
+                        <img src="~/Imagenes/imagen1.jpg"
+                             alt="Torneo Local Yu-Gi-Oh!" />
+
+                        <span class="torneo-badge local">
+                            Local
+                        </span>
+
+                    </div>
+
+                    <div class="torneo-info">
+
+                        <h3>
+                            Torneo Local Yu-Gi-Oh!
+                        </h3>
+
+                        <p>
+                            <i class="bi bi-calendar3"></i>
+                            18 de octubre de 2026
+                        </p>
+
+                        <p>
+                            <i class="bi bi-geo-alt"></i>
+                            Block du Booster - Cochabamba
+                        </p>
+
+                        <p>
+                            <i class="bi bi-trophy"></i>
+                            Formato: Casual (BO1)
+                        </p>
+
+                        <div class="torneo-card-footer">
+
+                            <a asp-controller="Torneos"
+                               asp-action="Inscribirse"
+                               asp-route-id="4"
+                               class="btn-inscripcion">
+
+                                Inscribirse
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                            <span class="cupos">
+                                <i class="bi bi-people-fill"></i>
+                                12/32
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- TORNEO 5 -->
+
+                <article class="torneo-item">
+
+                    <div class="torneo-imagen">
+
+                        <img src="~/Imagenes/imagen2.jpg"
+                             alt="Liga Pokémon" />
+
+                        <span class="torneo-badge liga">
+                            Liga
+                        </span>
+
+                    </div>
+
+                    <div class="torneo-info">
+
+                        <h3>
+                            Liga Pokémon - Octubre
+                        </h3>
+
+                        <p>
+                            <i class="bi bi-calendar3"></i>
+                            25 de octubre de 2026
+                        </p>
+
+                        <p>
+                            <i class="bi bi-geo-alt"></i>
+                            Block du Booster - Cochabamba
+                        </p>
+
+                        <p>
+                            <i class="bi bi-trophy"></i>
+                            Formato: Estándar (BO3)
+                        </p>
+
+                        <div class="torneo-card-footer">
+
+                            <a asp-controller="Torneos"
+                               asp-action="Inscribirse"
+                               asp-route-id="5"
+                               class="btn-inscripcion">
+
+                                Inscribirse
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                            <span class="cupos">
+                                <i class="bi bi-people-fill"></i>
+                                20/32
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+
+                <!-- TORNEO 6 -->
+
+                <article class="torneo-item">
+
+                    <div class="torneo-imagen">
+
+                        <img src="~/Imagenes/banner.jpg"
+                             alt="Torneo Magic" />
+
+                        <span class="torneo-badge principiante">
+                            Principiante
+                        </span>
+
+                    </div>
+
+                    <div class="torneo-info">
+
+                        <h3>
+                            Torneo de iniciación Magic
+                        </h3>
+
+                        <p>
+                            <i class="bi bi-calendar3"></i>
+                            1 de noviembre de 2026
+                        </p>
+
+                        <p>
+                            <i class="bi bi-geo-alt"></i>
+                            Block du Booster - Cochabamba
+                        </p>
+
+                        <p>
+                            <i class="bi bi-trophy"></i>
+                            Formato: Commander (EDH)
+                        </p>
+
+                        <div class="torneo-card-footer">
+
+                            <a asp-controller="Torneos"
+                               asp-action="Inscribirse"
+                               asp-route-id="6"
+                               class="btn-inscripcion">
+
+                                Inscribirse
+
+                                <i class="bi bi-arrow-right"></i>
+
+                            </a>
+
+                            <span class="cupos">
+                                <i class="bi bi-people-fill"></i>
+                                10/16
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+
+            <!-- ================= COLUMNA DERECHA ================= -->
+
+            <aside class="torneos-derecha">
+
+
+                <!-- PRÓXIMOS -->
+
+                <div class="proximos-box">
+
+                    <div class="proximos-titulo">
+
+                        <i class="bi bi-calendar-event"></i>
+
+                        <h3>
+                            Próximos torneos
+                        </h3>
+
+                    </div>
+
+
+                    <a href="#" class="proximo-item">
+
+                        <div class="fecha-torneo">
+                            <strong>28</strong>
+                            <span>Sep</span>
+                        </div>
+
+                        <div>
+                            <strong>
+                                Torneo Regional Yu-Gi-Oh!
+                            </strong>
+
+                            <small>
+                                Formato Advanced (BO3)
+                            </small>
+                        </div>
+
+                        <i class="bi bi-chevron-right"></i>
+
+                    </a>
+
+
+                    <a href="#" class="proximo-item">
+
+                        <div class="fecha-torneo">
+                            <strong>04</strong>
+                            <span>Oct</span>
+                        </div>
+
+                        <div>
+                            <strong>
+                                Torneo Pokémon TCG
+                            </strong>
+
+                            <small>
+                                Formato Estándar (BO3)
+                            </small>
+                        </div>
+
+                        <i class="bi bi-chevron-right"></i>
+
+                    </a>
+
+
+                    <a href="#" class="proximo-item">
+
+                        <div class="fecha-torneo">
+                            <strong>11</strong>
+                            <span>Oct</span>
+                        </div>
+
+                        <div>
+                            <strong>
+                                Torneo Magic: The Gathering
+                            </strong>
+
+                            <small>
+                                Formato Commander (EDH)
+                            </small>
+                        </div>
+
+                        <i class="bi bi-chevron-right"></i>
+
+                    </a>
+
+
+                    <a href="#" class="proximo-item">
+
+                        <div class="fecha-torneo">
+                            <strong>18</strong>
+                            <span>Oct</span>
+                        </div>
+
+                        <div>
+                            <strong>
+                                Torneo Local Yu-Gi-Oh!
+                            </strong>
+
+                            <small>
+                                Formato Casual (BO1)
+                            </small>
+                        </div>
+
+                        <i class="bi bi-chevron-right"></i>
+
+                    </a>
+
+
+                    <a href="#" class="calendario-link">
+
+                        Ver calendario completo
+
+                        <i class="bi bi-arrow-right"></i>
+
+                    </a>
+
                 </div>
 
-                <div class="paso-icono">
-                    ⭐
+
+                <!-- ORGANIZAR -->
+
+                <div class="organizar-box">
+
+                    <i class="bi bi-trophy"></i>
+
+                    <h3>
+                        ¿Quieres organizar un torneo?
+                    </h3>
+
+                    <p>
+                        Contáctanos y te ayudamos a hacerlo
+                        realidad. ¡En Block du Booster hacemos
+                        crecer la comunidad!
+                    </p>
+
+                    <a href="#">
+                        Contactar
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+
                 </div>
 
-                <h3>
-                    Gana premios
-                </h3>
 
-                <p>
-                    Los mejores jugadores podrán
-                    obtener premios y reconocimientos.
-                </p>
+                <!-- BANNER FINAL -->
 
-            </div>
+                <div class="torneo-final-imagen">
+
+                    <img src="~/Imagenes/banner.jpg"
+                         alt="Comunidad PixMarket" />
+
+                    <div>
+                        ¡Nos vemos<br />
+                        en el próximo<br />
+                        torneo!
+                    </div>
+
+                </div>
+
+            </aside>
 
         </div>
 
-    </section>
+    </main>
 
-
-    <!-- BANNER FINAL -->
-
-    <section class="torneo-final">
-
-        <div>
-
-            <span>
-                PIXMARKET COMMUNITY
-            </span>
-
-            <h2>
-                Más que cartas,
-                <strong>una comunidad.</strong>
-            </h2>
-
-            <p>
-                Conoce nuevos jugadores, participa en eventos
-                y disfruta de tu juego favorito.
-            </p>
-
-        </div>
-
-        <a href="#proximos-torneos">
-            Ver próximos torneos →
-        </a>
-
-    </section>
-
-</section>
+</div>
