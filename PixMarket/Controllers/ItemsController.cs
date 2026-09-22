@@ -1,21 +1,18 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PixMarket.Data;
 using PixMarket.Models;
+using PixMarket.Servicios;
 
 namespace PixMarket.Controllers
 {
     [Authorize(Roles = "Administrador")]
     public class ItemsController : Controller
     {
-        private readonly PixContext _context;
-        private readonly IWebHostEnvironment _env;
+        private readonly IPixMarketApiService _api;
 
-        public ItemsController(PixContext context, IWebHostEnvironment env)
+        public ItemsController(IPixMarketApiService api)
         {
-            _context = context;
-            _env = env;
+            _api = api;
         }
 
         // =====================================================
@@ -24,10 +21,20 @@ namespace PixMarket.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var items = await _context.Items
-                .OrderBy(i => i.Juego)
-                .ThenBy(i => i.Nombre)
-                .ToListAsync();
+            List<Item> items;
+
+            try
+            {
+                items = await _api.ObtenerItemsAsync();
+            }
+            catch (HttpRequestException)
+            {
+                ViewBag.Error =
+                    "No se pudo conectar con la API de datos. " +
+                    "Verifica que PixMarketAPI esté en ejecución.";
+
+                items = new List<Item>();
+            }
 
             return View(items);
         }
@@ -44,8 +51,16 @@ namespace PixMarket.Controllers
                 return NotFound();
             }
 
-            var item = await _context.Items
-                .FirstOrDefaultAsync(i => i.Id == id);
+            Item? item;
+
+            try
+            {
+                item = await _api.ObtenerItemAsync(id.Value);
+            }
+            catch (HttpRequestException)
+            {
+                return NotFound();
+            }
 
             if (item == null)
             {
@@ -77,37 +92,26 @@ namespace PixMarket.Controllers
                 return View(item);
             }
 
-            if (await _context.Items.AnyAsync(i => i.Nombre == item.Nombre))
-            {
-                ViewBag.Error = "Ya existe una carta con ese nombre.";
-                return View(item);
-            }
-
-            string? rutaImagen = null;
-
-            if (imagen != null && imagen.Length > 0)
-            {
-                rutaImagen = GuardarImagen(imagen);
-
-                if (rutaImagen == null)
-                {
-                    ViewBag.Error = "La imagen debe ser un archivo JPG, PNG o WebP.";
-                    return View(item);
-                }
-            }
-
-            item.ImagenRuta = rutaImagen;
+            ApiItemResultado resultado;
 
             try
             {
-                _context.Items.Add(item);
-                await _context.SaveChangesAsync();
+                resultado = await _api.CrearItemAsync(item, imagen);
             }
-            catch (DbUpdateException)
+            catch (HttpRequestException)
             {
                 ViewBag.Error =
-                    "No se pudo guardar la carta. " +
-                    "Verifica que la base de datos esté disponible.";
+                    "No se pudo conectar con la API de datos. " +
+                    "Verifica que PixMarketAPI esté en ejecución.";
+                return View(item);
+            }
+
+            if (!resultado.Ok)
+            {
+                ViewBag.Error =
+                    string.IsNullOrWhiteSpace(resultado.Mensaje)
+                        ? "No se pudo guardar la carta. Verifica los datos ingresados."
+                        : resultado.Mensaje;
                 return View(item);
             }
 
@@ -128,7 +132,16 @@ namespace PixMarket.Controllers
                 return NotFound();
             }
 
-            var item = await _context.Items.FindAsync(id);
+            Item? item;
+
+            try
+            {
+                item = await _api.ObtenerItemAsync(id.Value);
+            }
+            catch (HttpRequestException)
+            {
+                return NotFound();
+            }
 
             if (item == null)
             {
@@ -150,58 +163,32 @@ namespace PixMarket.Controllers
                 return NotFound();
             }
 
-            var itemActual = await _context.Items.FindAsync(id);
-
-            if (itemActual == null)
-            {
-                return NotFound();
-            }
-
             if (!ModelState.IsValid)
             {
                 ViewBag.Error = "Verifica los datos ingresados.";
-                item.ImagenRuta = itemActual.ImagenRuta;
                 return View(item);
             }
 
-            if (await _context.Items.AnyAsync(i => i.Nombre == item.Nombre && i.Id != id))
-            {
-                ViewBag.Error = "Ya existe otra carta con ese nombre.";
-                item.ImagenRuta = itemActual.ImagenRuta;
-                return View(item);
-            }
-
-            if (imagen != null && imagen.Length > 0)
-            {
-                string? rutaNueva = GuardarImagen(imagen);
-
-                if (rutaNueva == null)
-                {
-                    ViewBag.Error = "La imagen debe ser un archivo JPG, PNG o WebP.";
-                    item.ImagenRuta = itemActual.ImagenRuta;
-                    return View(item);
-                }
-
-                EliminarImagenAnterior(itemActual.ImagenRuta);
-
-                item.ImagenRuta = rutaNueva;
-            }
-            else
-            {
-                item.ImagenRuta = itemActual.ImagenRuta;
-            }
-
-            _context.Entry(itemActual).CurrentValues.SetValues(item);
+            ApiItemResultado resultado;
 
             try
             {
-                await _context.SaveChangesAsync();
+                resultado = await _api.ActualizarItemAsync(id, item, imagen);
             }
-            catch (DbUpdateException)
+            catch (HttpRequestException)
             {
                 ViewBag.Error =
-                    "No se pudo actualizar la carta. " +
-                    "Verifica que la base de datos esté disponible.";
+                    "No se pudo conectar con la API de datos. " +
+                    "Verifica que PixMarketAPI esté en ejecución.";
+                return View(item);
+            }
+
+            if (!resultado.Ok)
+            {
+                ViewBag.Error =
+                    string.IsNullOrWhiteSpace(resultado.Mensaje)
+                        ? "No se pudo actualizar la carta. Verifica los datos ingresados."
+                        : resultado.Mensaje;
                 return View(item);
             }
 
@@ -222,8 +209,16 @@ namespace PixMarket.Controllers
                 return NotFound();
             }
 
-            var item = await _context.Items
-                .FirstOrDefaultAsync(i => i.Id == id);
+            Item? item;
+
+            try
+            {
+                item = await _api.ObtenerItemAsync(id.Value);
+            }
+            catch (HttpRequestException)
+            {
+                return NotFound();
+            }
 
             if (item == null)
             {
@@ -237,72 +232,31 @@ namespace PixMarket.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var item = await _context.Items.FindAsync(id);
+            ApiItemResultado resultado;
 
-            if (item == null)
+            try
             {
-                return RedirectToAction("Index");
+                resultado = await _api.EliminarItemAsync(id);
+            }
+            catch (HttpRequestException)
+            {
+                resultado = new ApiItemResultado
+                {
+                    Ok = false,
+                    Mensaje = "No se pudo conectar con la API de datos. " +
+                        "Verifica que PixMarketAPI esté en ejecución."
+                };
             }
 
-            EliminarImagenAnterior(item.ImagenRuta);
-
-            _context.Items.Remove(item);
-            await _context.SaveChangesAsync();
+            if (!resultado.Ok)
+            {
+                TempData["Error"] = resultado.Mensaje;
+                return RedirectToAction("Index");
+            }
 
             TempData["Mensaje"] = "Carta eliminada correctamente.";
 
             return RedirectToAction("Index");
-        }
-
-        // =====================================================
-        // IMÁGENES
-        // =====================================================
-
-        private string? GuardarImagen(IFormFile archivo)
-        {
-            string[] extensionesPermitidas = { ".jpg", ".jpeg", ".png", ".webp" };
-
-            string extension = Path.GetExtension(archivo.FileName).ToLowerInvariant();
-
-            if (string.IsNullOrEmpty(extension) ||
-                !extensionesPermitidas.Contains(extension))
-            {
-                return null;
-            }
-
-            string nombreArchivo =
-                $"item-{Guid.NewGuid():N}{extension}";
-
-            string carpeta = Path.Combine(_env.WebRootPath, "Imagenes");
-
-            Directory.CreateDirectory(carpeta);
-
-            string rutaFisica = Path.Combine(carpeta, nombreArchivo);
-
-            using (var stream = new FileStream(rutaFisica, FileMode.Create))
-            {
-                archivo.CopyTo(stream);
-            }
-
-            return $"/Imagenes/{nombreArchivo}";
-        }
-
-        private void EliminarImagenAnterior(string? ruta)
-        {
-            if (string.IsNullOrWhiteSpace(ruta) ||
-                !ruta.StartsWith("/Imagenes/"))
-            {
-                return;
-            }
-
-            string nombreArchivo = Path.GetFileName(ruta);
-
-            string rutaFisica = Path.Combine(_env.WebRootPath, "Imagenes", nombreArchivo);
-
-            if (System.IO.File.Exists(rutaFisica))
-            {
-                System.IO.File.Delete(rutaFisica);
-            }
         }
     }
 }

@@ -1,14 +1,33 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
-using PixMarket.Data;
+using Microsoft.AspNetCore.Localization;
+using PixMarket.Servicios;
+using System.Globalization;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<PixContext>(options => options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+// Consumo de la API de datos
+var apiBaseUrl = builder.Configuration["Api:BaseUrl"] ?? "http://localhost:5050/";
+
+builder.Services.AddSingleton(new ApiSettings { BaseUrl = apiBaseUrl });
+
+builder.Services.AddHttpClient<IPixMarketApiService, PixMarketApiService>(client =>
+{
+    client.BaseAddress = new Uri(apiBaseUrl);
+});
+
 builder.Services.AddSession();
+
+// El binding de formularios usa SIEMPRE la cultura invariante,
+// para que los decimales se envíen con punto ("12.50").
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    options.DefaultRequestCulture = new RequestCulture(CultureInfo.InvariantCulture);
+    options.SupportedCultures = new[] { CultureInfo.InvariantCulture };
+    options.SupportedUICultures = new[] { CultureInfo.InvariantCulture };
+});
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -32,6 +51,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseRequestLocalization();
 
 app.UseSession();
 

@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="PixMarket.Tests/PixMarket.Tests.csproj" />
   <Project Path="PixMarket/PixMarket.csproj" />
+  <Project Path="PixMarketAPI/PixMarketAPI.csproj" />
 </Solution>

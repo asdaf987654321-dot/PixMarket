@@ -31,7 +31,7 @@
             <div class="text-center mb-3">
                 @if (!string.IsNullOrEmpty(Model.ImagenRuta))
                 {
-                    <img src="@Url.Content(Model.ImagenRuta)" alt="@Model.Nombre" style="width: 110px; height: 150px; object-fit: contain; border: 1px solid #dce8ee; border-radius: 8px;" />
+                    <img src="@Api.UrlImagen(Model.ImagenRuta)" alt="@Model.Nombre" style="width: 110px; height: 150px; object-fit: contain; border: 1px solid #dce8ee; border-radius: 8px;" />
                 }
                 else
                 {

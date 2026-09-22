@@ -1,8 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PixMarket.Data;
 using PixMarket.Models;
+using PixMarket.Servicios;
 using System.Text.Json;
 
 namespace PixMarket.Controllers
@@ -11,11 +10,11 @@ namespace PixMarket.Controllers
     {
         private const string SessionKey = "Carrito";
 
-        private readonly PixContext _context;
+        private readonly IPixMarketApiService _api;
 
-        public CarritoController(PixContext context)
+        public CarritoController(IPixMarketApiService api)
         {
-            _context = context;
+            _api = api;
         }
 
         // Lista el carrito
@@ -29,7 +28,21 @@ namespace PixMarket.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Agregar(int id, int cantidad = 1)
         {
-            var item = await _context.Items.FindAsync(id);
+            Item? item;
+
+            try
+            {
+                item = await _api.ObtenerItemAsync(id);
+            }
+            catch (HttpRequestException)
+            {
+                TempData["MensajeCarrito"] =
+                    "No se pudo conectar con la API de datos. " +
+                    "Verifica que PixMarketAPI esté en ejecución.";
+
+                return RedirectToAction("Index", "Categorias");
+            }
+
             if (item == null)
             {
                 return NotFound();
@@ -122,9 +135,8 @@ namespace PixMarket.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // Finaliza la venta: descuenta el stock de los items
-        // y vacía el carrito. Requiere sesión iniciada (cualquier rol);
-        // el stock se descuenta directamente.
+        // Finaliza la venta: la API valida el stock, lo descuenta
+        // y la app vacía el carrito. Requiere sesión iniciada.
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -138,51 +150,37 @@ namespace PixMarket.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            var ids = carrito.Select(c => c.Id).ToList();
-            var items = await _context.Items
-                .Where(i => ids.Contains(i.Id))
-                .ToListAsync();
+            FinalizarVentaDto resultado;
 
-            var problemas = new List<string>();
-
-            foreach (var linea in carrito)
+            try
             {
-                var item = items.FirstOrDefault(i => i.Id == linea.Id);
-
-                if (item == null)
-                {
-                    problemas.Add($"{linea.Nombre} (ya no está disponible)");
-                }
-                else if (item.Stock < linea.Cantidad)
-                {
-                    problemas.Add($"{item.Nombre} (solo hay {item.Stock} en stock)");
-                }
+                resultado = await _api.FinalizarVentaAsync(carrito);
             }
-
-            if (problemas.Any())
+            catch (HttpRequestException)
             {
                 TempData["MensajeCarrito"] =
-                    "No se pudo finalizar la venta. Sin stock suficiente para: " +
-                    string.Join(", ", problemas) + ".";
+                    "No se pudo conectar con la API de datos. " +
+                    "Verifica que PixMarketAPI esté en ejecución.";
 
                 return RedirectToAction(nameof(Index));
             }
 
-            var total = carrito.Sum(l => l.Subtotal);
-
-            foreach (var linea in carrito)
+            if (resultado.Ok)
             {
-                var item = items.First(i => i.Id == linea.Id);
-                item.Stock -= linea.Cantidad;
+                HttpContext.Session.Remove(SessionKey);
+
+                TempData["MensajeCarrito"] =
+                    string.IsNullOrWhiteSpace(resultado.Mensaje)
+                        ? "Venta finalizada correctamente."
+                        : resultado.Mensaje;
             }
-
-            await _context.SaveChangesAsync();
-
-            HttpContext.Session.Remove(SessionKey);
-
-            TempData["MensajeCarrito"] =
-                $"Venta finalizada correctamente. Total: Bs {total.ToString("N2")}. " +
-                "El stock fue actualizado.";
+            else
+            {
+                TempData["MensajeCarrito"] =
+                    string.IsNullOrWhiteSpace(resultado.Mensaje)
+                        ? "No se pudo finalizar la venta."
+                        : resultado.Mensaje;
+            }
 
             return RedirectToAction(nameof(Index));
         }

@@ -65,7 +65,7 @@
                         <tr>
                             <td>
                                 <div style="display: flex; align-items: center; gap: 14px;">
-                                    <img src="@(string.IsNullOrEmpty(item.ImagenRuta) ? Url.Content("~/Imagenes/imagen1.jpg") : Url.Content(item.ImagenRuta))"
+                                    <img src="@Api.UrlImagen(item.ImagenRuta, Url.Content("~/Imagenes/imagen1.jpg"))"
                                          alt="@item.Nombre"
                                          style="width: 64px; height: 64px; object-fit: cover; border-radius: 8px; border: 1px solid #e3ecf3;" />
 

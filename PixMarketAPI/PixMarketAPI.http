@@ -1,0 +1,6 @@
+@PixMarketAPI_HostAddress = http://localhost:5152
+
+GET {{PixMarketAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

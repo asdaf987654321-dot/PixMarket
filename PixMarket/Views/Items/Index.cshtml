@@ -61,7 +61,7 @@
                                 <td>
                                     @if (!string.IsNullOrEmpty(item.ImagenRuta))
                                     {
-                                        <img src="@Url.Content(item.ImagenRuta)" alt="@item.Nombre" style="width: 34px; height: 46px; object-fit: contain;" />
+                                        <img src="@Api.UrlImagen(item.ImagenRuta)" alt="@item.Nombre" style="width: 34px; height: 46px; object-fit: contain;" />
                                     }
                                     else
                                     {

@@ -509,7 +509,7 @@
 
                     <div class="store-product-image">
 
-                        <img src="@(string.IsNullOrEmpty(item.ImagenRuta) ? Url.Content("~/Imagenes/imagen1.jpg") : Url.Content(item.ImagenRuta))"
+                        <img src="@Api.UrlImagen(item.ImagenRuta, Url.Content("~/Imagenes/imagen1.jpg"))"
                              alt="@item.Nombre" />
 
                     </div>

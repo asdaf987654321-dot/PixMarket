@@ -2,20 +2,18 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using PixMarket.Data;
-using PixMarket.Models;
+using PixMarket.Servicios;
 using System.Security.Claims;
 
 namespace PixMarket.Controllers
 {
     public class UsuariosController : Controller
     {
-        private readonly PixContext _context;
+        private readonly IPixMarketApiService _api;
 
-        public UsuariosController(PixContext context)
+        public UsuariosController(IPixMarketApiService api)
         {
-            _context = context;
+            _api = api;
         }
 
 
@@ -50,21 +48,32 @@ namespace PixMarket.Controllers
                 return View();
             }
 
+            ApiLoginResultado resultado;
 
-            var usuario = _context.Usuarios
-                .FirstOrDefault(u =>
-                    u.Correo == correo &&
-                    u.Contrasenia == contrasenia);
-
-
-            if (usuario == null)
+            try
+            {
+                resultado = await _api.LoginAsync(correo.Trim(), contrasenia);
+            }
+            catch (HttpRequestException)
             {
                 ViewBag.Error =
-                    "El correo o la contraseña son incorrectos.";
+                    "No se pudo conectar con la API de datos. " +
+                    "Verifica que PixMarketAPI esté en ejecución.";
 
                 return View();
             }
 
+            if (!resultado.Ok || resultado.Usuario == null)
+            {
+                ViewBag.Error =
+                    string.IsNullOrWhiteSpace(resultado.Mensaje)
+                        ? "El correo o la contraseña son incorrectos."
+                        : resultado.Mensaje;
+
+                return View();
+            }
+
+            var usuario = resultado.Usuario;
 
             var claims = new List<Claim>
             {
@@ -135,7 +144,7 @@ namespace PixMarket.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Registro(
+        public async Task<IActionResult> Registro(
             string nombre,
             string correo,
             string contrasenia,
@@ -143,7 +152,7 @@ namespace PixMarket.Controllers
         {
 
             // ---------------------------------------------
-            // VALIDACIONES
+            // VALIDACIONES LOCALES
             // ---------------------------------------------
 
             if (string.IsNullOrWhiteSpace(nombre))
@@ -182,11 +191,7 @@ namespace PixMarket.Controllers
             }
 
 
-            // ---------------------------------------------
-            // TELÉFONO
-            // ---------------------------------------------
-
-            if (!int.TryParse(telefono, out int telefonoNumero))
+            if (!int.TryParse(telefono, out _))
             {
                 ViewBag.Error =
                     "El teléfono debe contener solamente números.";
@@ -196,54 +201,32 @@ namespace PixMarket.Controllers
 
 
             // ---------------------------------------------
-            // CORREO EXISTENTE
+            // LLAMAR A LA API
             // ---------------------------------------------
 
-            var usuarioExistente =
-                _context.Usuarios
-                    .FirstOrDefault(u =>
-                        u.Correo == correo);
+            (bool Ok, string? Mensaje) resultado;
 
-
-            if (usuarioExistente != null)
+            try
+            {
+                resultado = await _api.RegistrarAsync(
+                    nombre.Trim(), correo.Trim(), contrasenia, telefono);
+            }
+            catch (HttpRequestException)
             {
                 ViewBag.Error =
-                    "El correo ya está registrado.";
+                    "No se pudo conectar con la API de datos. " +
+                    "Verifica que PixMarketAPI esté en ejecución.";
 
                 return View();
             }
 
 
-            // ---------------------------------------------
-            // CREAR USUARIO
-            // ---------------------------------------------
-
-            var nuevoUsuario = new Usuario
-            {
-                Nombre = nombre.Trim(),
-
-                Correo = correo.Trim(),
-
-                Contrasenia = contrasenia,
-
-                Telefono = telefonoNumero,
-
-                Rol = "Usuario"
-            };
-
-
-            try
-            {
-                _context.Usuarios.Add(nuevoUsuario);
-
-                _context.SaveChanges();
-            }
-            catch (DbUpdateException)
+            if (!resultado.Ok)
             {
                 ViewBag.Error =
-                    "No se pudo guardar el usuario. " +
-                    "Verifica que la base de datos esté disponible " +
-                    "y que los datos sean válidos.";
+                    string.IsNullOrWhiteSpace(resultado.Mensaje)
+                        ? "No se pudo guardar el usuario. Verifica los datos ingresados."
+                        : resultado.Mensaje;
 
                 return View();
             }

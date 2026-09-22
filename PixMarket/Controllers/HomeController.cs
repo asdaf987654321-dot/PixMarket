@@ -1,8 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using PixMarket.Models;
 using System.Diagnostics;
-using Microsoft.EntityFrameworkCore;
-using PixMarket.Data;
 
 namespace PixMarket.Controllers
 {
@@ -10,12 +8,10 @@ namespace PixMarket.Controllers
     {
         
         private readonly ILogger<HomeController> _logger;
-        private readonly PixContext _context;
 
-        public HomeController(ILogger<HomeController> logger, PixContext context)
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _context = context;
         }
 
         public IActionResult Index()
