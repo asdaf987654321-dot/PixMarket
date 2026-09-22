@@ -29,7 +29,7 @@
             </a>
 
             <a asp-controller="Categorias"
-               asp-action="Index"
+               asp-action="Categorias"
                class="torneo-side-link">
 
                 <i class="bi bi-grid-fill"></i>
@@ -56,23 +56,66 @@
 
             </a>
 
-            <a asp-controller="Usuarios"
-               asp-action="Index"
-               class="torneo-side-link">
+            @if (User.IsInRole("Administrador"))
+{
+    <a asp-controller="Usuarios"
+       asp-action="Administrador"
+       class="torneo-side-link">
 
-                <i class="bi bi-people-fill"></i>
-                <span>Mi cuenta</span>
+        <i class="bi bi-people-fill"></i>
+        <span>Mi cuenta</span>
 
-            </a>
+    </a>
 
-            <a asp-controller="Usuarios"
-               asp-action="Index"
-               class="torneo-side-link">
+    <a asp-controller="Usuarios"
+       asp-action="Administrador"
+       class="torneo-side-link">
 
-                <i class="bi bi-person"></i>
-                <span>Perfil</span>
+        <i class="bi bi-person"></i>
+        <span>Perfil</span>
 
-            </a>
+    </a>
+}
+else if (User.Identity?.IsAuthenticated == true)
+{
+    <a asp-controller="Usuarios"
+       asp-action="Cliente"
+       class="torneo-side-link">
+
+        <i class="bi bi-people-fill"></i>
+        <span>Mi cuenta</span>
+
+    </a>
+
+    <a asp-controller="Usuarios"
+       asp-action="Cliente"
+       class="torneo-side-link">
+
+        <i class="bi bi-person"></i>
+        <span>Perfil</span>
+
+    </a>
+}
+else
+{
+    <a asp-controller="Usuarios"
+       asp-action="Index"
+       class="torneo-side-link">
+
+        <i class="bi bi-people-fill"></i>
+        <span>Mi cuenta</span>
+
+    </a>
+
+    <a asp-controller="Usuarios"
+       asp-action="Index"
+       class="torneo-side-link">
+
+        <i class="bi bi-person"></i>
+        <span>Perfil</span>
+
+    </a>
+}
 
         </div>
 

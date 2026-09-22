@@ -2,158 +2,228 @@
     ViewData["Title"] = "PixMarket";
 }
 
-<!-- ENCABEZADO DE CLIENTE -->
-<section class="cliente-header">
+<div class="categorias-page">
 
-    <div>
-        <span class="seccion-etiqueta">
-            PIXMARKET
-        </span>
+    <!-- ENCABEZADO DE BIENVENIDA -->
+    <section class="categorias-hero">
 
-        <h1>
-            Bienvenido a <span>PixMarket</span>
-        </h1>
+        <div class="categorias-hero-content">
 
-        <p>
-            Explora nuestro catálogo de cartas coleccionables
-            y encuentra tus productos favoritos.
-        </p>
-    </div>
+            <span class="categorias-label">
+                BIENVENIDO A PIXMARKET
+            </span>
 
-</section>
+            <h1>
+                ¡Hola, <span>@(User.Identity?.Name ?? "cliente")</span>!
+            </h1>
 
+            <p>
+                Explora nuestro catálogo de cartas coleccionables
+                y encuentra tus productos favoritos.
+            </p>
 
-<!-- CATEGORÍAS -->
-<section class="cliente-categorias">
+        </div>
 
-    <div class="cliente-titulo">
-
-        <span class="seccion-etiqueta">
-            CATEGORÍAS
-        </span>
-
-        <h2>
-            Explora nuestros juegos
-        </h2>
-
-    </div>
+    </section>
 
 
-    <div class="cliente-grid">
+    <!-- CATEGORÍAS -->
+    <section class="categorias-contenido">
 
-        <!-- POKÉMON -->
-        <div class="juego-card">
+        <div class="categorias-titulo">
 
-            <div class="juego-imagen">
-                <img src="~/Imagenes/imagen1.jpg"
-                     alt="Pokémon" />
-            </div>
+            <span>
+                CATEGORÍAS
+            </span>
 
-            <div class="juego-contenido">
+            <h2>
+                Explora nuestros juegos
+            </h2>
 
-                <span>TCG</span>
-
-                <h3>Pokémon</h3>
-
-                <p>
-                    Descubre cartas y productos
-                    relacionados con Pokémon.
-                </p>
-
-                <a href="#" class="juego-boton">
-                    Ver colección
-                </a>
-
-            </div>
+            <p>
+                Descubre cartas, productos y colecciones
+                de tus juegos favoritos.
+            </p>
 
         </div>
 
 
-        <!-- YU-GI-OH -->
-        <div class="juego-card">
+        <div class="categorias-grid">
 
-            <div class="juego-imagen">
-                <img src="~/Imagenes/imagen2.jpg"
-                     alt="Yu-Gi-Oh!" />
-            </div>
+            <!-- POKÉMON -->
+            <a asp-controller="Categorias"
+               asp-action="Index"
+               asp-route-juego="Pokémon"
+               class="categoria-principal pokemon">
 
-            <div class="juego-contenido">
+                <div class="categoria-imagen">
+                    <img src="~/Imagenes/imagen1.jpg"
+                         alt="Pokémon" />
+                </div>
 
-                <span>TCG</span>
+                <div class="categoria-info">
 
-                <h3>Yu-Gi-Oh!</h3>
+                    <span class="categoria-tag">
+                        TCG
+                    </span>
 
-                <p>
-                    Encuentra cartas para tus
-                    partidas y colecciones.
-                </p>
+                    <h3>
+                        Pokémon
+                    </h3>
 
-                <a href="#" class="juego-boton">
-                    Ver colección
-                </a>
+                    <p>
+                        Pokémon ex, V, entrenadores
+                        y cartas coleccionables.
+                    </p>
 
-            </div>
+                    <span class="categoria-boton">
+                        Ver colección
+                        <i class="bi bi-arrow-right"></i>
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <!-- YU-GI-OH -->
+            <a asp-controller="Categorias"
+               asp-action="Index"
+               asp-route-juego="Yu-Gi-Oh!"
+               class="categoria-principal yugioh">
+
+                <div class="categoria-imagen">
+                    <img src="~/Imagenes/imagen2.jpg"
+                         alt="Yu-Gi-Oh!" />
+                </div>
+
+                <div class="categoria-info">
+
+                    <span class="categoria-tag">
+                        TCG
+                    </span>
+
+                    <h3>
+                        Yu-Gi-Oh!
+                    </h3>
+
+                    <p>
+                        Monstruos, hechizos y trampas
+                        para tus duelos diarios.
+                    </p>
+
+                    <span class="categoria-boton">
+                        Ver colección
+                        <i class="bi bi-arrow-right"></i>
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <!-- MAGIC -->
+            <a asp-controller="Categorias"
+               asp-action="Index"
+               asp-route-juego="Magic: The Gathering"
+               class="categoria-principal magic">
+
+                <div class="categoria-imagen">
+                    <img src="~/Imagenes/banner.jpg"
+                         alt="Magic The Gathering" />
+                </div>
+
+                <div class="categoria-info">
+
+                    <span class="categoria-tag">
+                        TCG
+                    </span>
+
+                    <h3>
+                        Magic
+                    </h3>
+
+                    <p>
+                        Criaturas, tierras, hechizos
+                        y cartas especiales.
+                    </p>
+
+                    <span class="categoria-boton">
+                        Ver colección
+                        <i class="bi bi-arrow-right"></i>
+                    </span>
+
+                </div>
+
+            </a>
+
+
+            <!-- OTROS -->
+            <a asp-controller="Categorias"
+               asp-action="Index"
+               class="categoria-principal otros">
+
+                <div class="categoria-imagen categoria-icono">
+                    <i class="bi bi-collection"></i>
+                </div>
+
+                <div class="categoria-info">
+
+                    <span class="categoria-tag">
+                        COLECCIONES
+                    </span>
+
+                    <h3>
+                        Otros
+                    </h3>
+
+                    <p>
+                        Encuentra otras cartas y
+                        productos coleccionables.
+                    </p>
+
+                    <span class="categoria-boton">
+                        Ver colección
+                        <i class="bi bi-arrow-right"></i>
+                    </span>
+
+                </div>
+
+            </a>
 
         </div>
 
+    </section>
 
-        <!-- MAGIC -->
-        <div class="juego-card">
 
-            <div class="juego-imagen">
+    <!-- PROMOCIÓN -->
+    <section class="categorias-hero" style="margin-top: -20px;">
 
-                <img src="~/Imagenes/banner.jpg"
-                     alt="Magic" />
+        <div class="categorias-hero-content" style="max-width: none; text-align: center;">
 
-            </div>
+            <span class="categorias-label">
+                PIXMARKET
+            </span>
 
-            <div class="juego-contenido">
+            <h1>
+                Encuentra tu próxima carta <span>favorita</span>.
+            </h1>
 
-                <span>TCG</span>
+            <p>
+                Revisa nuestro catálogo completo y descubre
+                diferentes productos para jugadores y coleccionistas.
+            </p>
 
-                <h3>Magic</h3>
-
-                <p>
-                    Explora cartas y accesorios
-                    para Magic.
-                </p>
-
-                <a href="#" class="juego-boton">
-                    Ver colección
-                </a>
-
-            </div>
+            <a asp-controller="Categorias"
+               asp-action="Index"
+               class="btn btn-success px-4 mt-3"
+               style="background: linear-gradient(90deg, #10afa5, #0a9992); border: none; border-radius: 8px; font-weight: 700;">
+                <i class="bi bi-shop me-2"></i>
+                Ver catálogo completo
+            </a>
 
         </div>
 
-    </div>
+    </section>
 
-</section>
-
-
-<!-- PROMOCIÓN -->
-<section class="cliente-promocion">
-
-    <div>
-
-        <span class="seccion-etiqueta">
-            PIXMARKET
-        </span>
-
-        <h2>
-            Encuentra tu próxima carta favorita.
-        </h2>
-
-        <p>
-            Revisa nuestro catálogo y descubre
-            diferentes productos para jugadores
-            y coleccionistas.
-        </p>
-
-        <a href="#" class="btn-pix">
-            Ver catálogo
-        </a>
-
-    </div>
-
-</section>
+</div>
