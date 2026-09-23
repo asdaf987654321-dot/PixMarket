@@ -26,8 +26,12 @@ namespace PixMarketAPI.Controllers
             return carpeta;
         }
 
-        // Lista ordenada para el panel de administración
+        /// <summary>
+        /// Lista todas las cartas ordenadas por juego y nombre.
+        /// </summary>
+        /// <returns>Un arreglo de cartas (Items).</returns>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<Item>>> Index()
         {
             var items = await _context.Items
@@ -38,7 +42,14 @@ namespace PixMarketAPI.Controllers
             return Ok(items);
         }
 
+        /// <summary>
+        /// Obtiene una carta por su identificador.
+        /// </summary>
+        /// <param name="id">Identificador de la carta.</param>
+        /// <returns>La carta solicitada, con su información de imagen incluida.</returns>
         [HttpGet("{id:int}")]
+        [ProducesResponseType(typeof(Item), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Item>> Details(int id)
         {
             var item = await _context.Items
@@ -56,7 +67,19 @@ namespace PixMarketAPI.Controllers
             return Ok(item);
         }
 
+        /// <summary>
+        /// Crea una carta nueva. Envía los datos como
+        /// <c>multipart/form-data</c>: el campo <c>Id</c> se ignora en el alta.
+        /// </summary>
+        /// <param name="item">Datos de la carta (form-data).</param>
+        /// <param name="imagen">Imagen opcional (archivo).</param>
+        /// <returns>La carta creada.</returns>
         [HttpPost]
+        [Consumes("multipart/form-data")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(Item), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<Item>> Create(
             [FromForm] Item item,
             IFormFile? imagen)
@@ -122,7 +145,22 @@ namespace PixMarketAPI.Controllers
             return CreatedAtAction(nameof(Details), new { id = item.Id }, item);
         }
 
+        /// <summary>
+        /// Actualiza una carta existente. Envía los datos como
+        /// <c>multipart/form-data</c>: el campo <c>Id</c> es obligatorio
+        /// y debe coincidir con el <paramref name="id"/> de la ruta.
+        /// </summary>
+        /// <param name="id">Identificador de la carta a editar.</param>
+        /// <param name="item">Datos de la carta (form-data).</param>
+        /// <param name="imagen">Imagen opcional (archivo).</param>
+        /// <returns>La carta actualizada.</returns>
         [HttpPut("{id:int}")]
+        [Consumes("multipart/form-data")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(Item), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<Item>> Edit(
             int id,
             [FromForm] Item item,
@@ -216,7 +254,13 @@ namespace PixMarketAPI.Controllers
             return Ok(itemActual);
         }
 
+        /// <summary>
+        /// Elimina una carta y su imagen asociada.
+        /// </summary>
+        /// <param name="id">Identificador de la carta a eliminar.</param>
         [HttpDelete("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult> Delete(int id)
         {
             var item = await _context.Items.FindAsync(id);

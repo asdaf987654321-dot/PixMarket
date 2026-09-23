@@ -16,9 +16,20 @@ namespace PixMarketAPI.Controllers
             _context = context;
         }
 
-        // Devuelve los items de la tienda aplicando búsqueda y filtros,
-        // junto con los contadores de las pestañas y el precio máximo.
+        /// <summary>
+        /// Devuelve las cartas de la tienda con búsqueda y filtros opcionales,
+        /// junto con los contadores de las pestañas y el precio máximo real.
+        /// </summary>
+        /// <param name="buscar">Texto a buscar en nombre, juego, categoría o rareza.</param>
+        /// <param name="juego">Juego exacto ("Pokémon", "Yu-Gi-Oh!", "Magic: The Gathering" u "Otros").</param>
+        /// <param name="juegos">Lista de juegos a incluir (alternativa a <paramref name="juego"/>).</param>
+        /// <param name="categorias">Lista de categorías a incluir.</param>
+        /// <param name="rarezas">Lista de rarezas a incluir.</param>
+        /// <param name="precioMin">Precio mínimo (decimal con punto, ej. 5.50).</param>
+        /// <param name="precioMax">Precio máximo (decimal con punto, ej. 50.00).</param>
+        /// <returns>Items filtrados, totales por pestaña y precio máximo.</returns>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<TiendaResultado>> Index(
             [FromQuery] string? buscar,
             [FromQuery] string? juego,

@@ -16,7 +16,16 @@ namespace PixMarketAPI.Controllers
             _context = context;
         }
 
+        /// <summary>
+        /// Inicia sesión con correo y contraseña.
+        /// </summary>
+        /// <param name="login">Cuerpo JSON con Correo y Contrasenia.</param>
+        /// <returns>Datos del usuario (sin contraseña).</returns>
         [HttpPost("login")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(UsuarioDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<ActionResult<UsuarioDto>> Login([FromBody] LoginRequest login)
         {
             if (string.IsNullOrWhiteSpace(login.Correo) ||
@@ -52,7 +61,16 @@ namespace PixMarketAPI.Controllers
             });
         }
 
+        /// <summary>
+        /// Registra un usuario nuevo con rol "Usuario".
+        /// </summary>
+        /// <param name="registro">Cuerpo JSON con Nombre, Correo, Contrasenia (mínimo 6) y Telefono (solo números).</param>
+        /// <returns>Datos del usuario creado (sin contraseña).</returns>
         [HttpPost("registro")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(UsuarioDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<UsuarioDto>> Registro([FromBody] RegistroRequest registro)
         {
             if (string.IsNullOrWhiteSpace(registro.Nombre))
@@ -146,7 +164,14 @@ namespace PixMarketAPI.Controllers
             });
         }
 
+        /// <summary>
+        /// Obtiene un usuario por su identificador.
+        /// </summary>
+        /// <param name="id">Identificador del usuario.</param>
+        /// <returns>Datos del usuario (sin contraseña).</returns>
         [HttpGet("{id:int}")]
+        [ProducesResponseType(typeof(UsuarioDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<UsuarioDto>> Details(int id)
         {
             var usuario = await _context.Usuarios.FindAsync(id);

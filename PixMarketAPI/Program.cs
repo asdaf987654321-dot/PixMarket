@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using PixMarketAPI.Data;
 using System.Globalization;
+using System.Reflection;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +15,35 @@ builder.Services.AddControllers()
     });
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "PixMarket API",
+        Version = "v1",
+        Description = "API REST de Block du Booster: catálogo de cartas, usuarios, ventas e imágenes. " +
+            "Interfaz interactiva (Try it out) para probar cada endpoint.",
+        Contact = new OpenApiContact
+        {
+            Name = "Block du Booster",
+            Url = new Uri("http://localhost:5029")
+        },
+        License = new OpenApiLicense
+        {
+            Name = "Uso interno / académico"
+        }
+    });
+
+    // Incluye los comentarios XML de los controladores como descripciones.
+    var archivoXml = Path.Combine(
+        AppContext.BaseDirectory,
+        $"{Assembly.GetExecutingAssembly().GetName().Name}.xml");
+
+    if (System.IO.File.Exists(archivoXml))
+    {
+        c.IncludeXmlComments(archivoXml);
+    }
+});
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
@@ -45,11 +75,17 @@ var app = builder.Build();
 var carpetaImagenes = Path.Combine(app.Environment.ContentRootPath, "wwwroot", "Imagenes");
 Directory.CreateDirectory(carpetaImagenes);
 
-if (app.Environment.IsDevelopment())
+// Swagger habilitado SIEMPRE (no solo en Development):
+// la API es de uso interno (sin autenticación) y la interfaz
+// "Try it out" se usa para probar los endpoints.
+app.UseSwagger();
+app.UseSwaggerUI(c =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "PixMarket API v1");
+    c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.List);
+    c.DisplayRequestDuration();
+    c.EnableTryItOutByDefault();
+});
 
 app.UseRequestLocalization();
 

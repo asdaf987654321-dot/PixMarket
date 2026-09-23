@@ -16,9 +16,19 @@ namespace PixMarketAPI.Controllers
             _context = context;
         }
 
-        // Finaliza la venta: valida el stock disponible,
-        // descuenta y devuelve el total.
+        /// <summary>
+        /// Finaliza una venta: valida el stock disponible, lo descuenta
+        /// y devuelve el total. El carrito llega como lista de líneas
+        /// (IdItem + Cantidad).
+        /// </summary>
+        /// <param name="request">Cuerpo JSON con las líneas del carrito.</param>
+        /// <returns>Resultado de la operación con el total en bolivianos.</returns>
         [HttpPost("finalizar")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(FinalizarVentaResultado), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(FinalizarVentaResultado), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(FinalizarVentaResultado), StatusCodes.Status409Conflict)]
+        [ProducesResponseType(typeof(FinalizarVentaResultado), StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<FinalizarVentaResultado>> Finalizar(
             [FromBody] FinalizarVentaRequest request)
         {
