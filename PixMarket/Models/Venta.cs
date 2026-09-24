@@ -16,7 +16,12 @@ namespace PixMarket.Models
 
         [StringLength(100)]
         public string? MetodoPago { get; set; }
-
+        public int? UsuarioId { get; set; }
+        [ForeignKey(nameof(UsuarioId))]
+        public Usuario Usuario { get; set; }
+        [Required]
+        [StringLength(30)]
+        public string Estado { get; set; } = "Pendiente";
         public ICollection<DetalleVenta> DetallesVenta { get; set; }
             = new List<DetalleVenta>();
     }
