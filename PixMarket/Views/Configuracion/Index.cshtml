@@ -1,0 +1,104 @@
+@{
+    ViewData["Title"] = "Configuración";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="admin-layout">
+
+    <partial name="_AdminSidebar" />
+
+    <main class="admin-main">
+
+        <partial name="_AdminTopbar" />
+
+        <section class="admin-content">
+
+            <div class="admin-welcome">
+                <div>
+                    <h1>Configuración</h1>
+                    <p>Ajusta los datos generales de tu tienda.</p>
+                </div>
+                <button type="submit" form="form-configuracion" class="btn btn-success" style="background: linear-gradient(90deg, #10afa5, #0a9992); border: none; height: fit-content;">
+                    <i class="bi bi-check2-circle"></i> Guardar cambios
+                </button>
+            </div>
+
+            <form id="form-configuracion" method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="admin-panel">
+                    <div class="admin-panel-header">
+                        <h3><i class="bi bi-shop"></i> Datos de la tienda</h3>
+                    </div>
+
+                    <div class="row g-3 p-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Nombre de la tienda</label>
+                            <input type="text" class="form-control" value="Block du Booster" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Correo de contacto</label>
+                            <input type="email" class="form-control" value="contacto@blockdbooster.com" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" value="(591) 4-447-1234" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Moneda</label>
+                            <select class="form-select">
+                                <option value="Bs" selected>Boliviano (Bs)</option>
+                                <option value="USD">Dólar (USD)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Dirección</label>
+                            <input type="text" class="form-control" value="Calle Heroínas #245, Cochabamba" />
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Horario de atención</label>
+                            <input type="text" class="form-control" value="Lun - Sáb · 10:00 a 20:00" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-panel">
+                    <div class="admin-panel-header">
+                        <h3><i class="bi bi-sliders"></i> Preferencias</h3>
+                    </div>
+
+                    <div class="p-3">
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" id="stockBajo" checked />
+                            <label class="form-check-label" for="stockBajo">
+                                Notificar cuando el stock de una carta esté bajo
+                            </label>
+                        </div>
+                        <div class="form-check form-switch mb-2">
+                            <input class="form-check-input" type="checkbox" id="nuevosPedidos" checked />
+                            <label class="form-check-label" for="nuevosPedidos">
+                                Recibir aviso de nuevos pedidos
+                            </label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="modoTienda" />
+                            <label class="form-check-label" for="modoTienda">
+                                Pausar la tienda temporalmente
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <a asp-controller="Usuarios" asp-action="Administrador" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Volver al panel
+                    </a>
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+</div>

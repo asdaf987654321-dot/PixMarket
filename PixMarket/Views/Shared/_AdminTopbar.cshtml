@@ -1,0 +1,58 @@
+<header class="admin-topbar">
+
+    <div class="admin-search">
+        <i class="bi bi-search"></i>
+        <input type="text" placeholder="Buscar productos, usuarios, pedidos..." />
+    </div>
+
+    <div class="admin-topbar-actions">
+
+        <div class="dropdown">
+            <a href="#"
+               class="admin-user"
+               data-bs-toggle="dropdown"
+               data-bs-auto-close="outside"
+               title="Mi cuenta">
+                <div class="admin-user-avatar">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+                <div class="admin-user-info">
+                    <strong>@(User.Identity?.Name ?? "Admin")</strong>
+                    <small>Administrador</small>
+                </div>
+                <i class="bi bi-chevron-down"></i>
+            </a>
+
+            <ul class="dropdown-menu dropdown-menu-end shadow">
+                <li class="dropdown-header text-muted small">
+                    Hola, @(User.Identity?.Name ?? "Admin")
+                </li>
+
+                <li>
+                    <a class="dropdown-item"
+                       asp-controller="Categorias"
+                       asp-action="Index">
+                        <i class="bi bi-shop"></i>
+                        Ver tienda
+                    </a>
+                </li>
+
+                <li><hr class="dropdown-divider" /></li>
+
+                <li>
+                    <form method="post"
+                          asp-controller="Usuarios"
+                          asp-action="Logout">
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="dropdown-item">
+                            <i class="bi bi-box-arrow-right"></i>
+                            Cerrar sesión
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+    </div>
+
+</header>

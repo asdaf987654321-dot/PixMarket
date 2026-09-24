@@ -3387,6 +3387,11 @@ body {
     color: #7c3aed;
 }
 
+.admin-stat-card.red .admin-stat-icon {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
 .admin-stat-info span {
     font-size: 0.85rem;
     color: #64748b;
@@ -3552,6 +3557,11 @@ body {
     .estado.completado {
         background: #d1fae5;
         color: #047857;
+    }
+
+    .estado.cancelado {
+        background: #fee2e2;
+        color: #dc2626;
     }
 
 /* RECORDATORIO */

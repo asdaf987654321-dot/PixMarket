@@ -8,5 +8,15 @@ namespace PixMarket.Controllers
         {
             return View();
         }
+
+        public IActionResult Inscribirse()
+        {
+            return View();
+        }
+
+        public IActionResult Calendario()
+        {
+            return View();
+        }
     }
 }

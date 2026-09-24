@@ -1,0 +1,168 @@
+@{
+    ViewData["Title"] = "Contacto";
+}
+
+<div class="categorias-page">
+
+    <section class="categorias-hero">
+
+        <div class="categorias-hero-content">
+
+            <span class="categorias-label">
+                ¿HABLAMOS?
+            </span>
+
+            <h1>
+                Estamos <span>para ayudarte</span>
+            </h1>
+
+            <p>
+                Escríbenos para consultas, organizar torneos
+                o cualquier duda sobre tus cartas.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="categorias-contenido">
+
+        <div class="categorias-titulo">
+
+            <span>
+                CONTACTO
+            </span>
+
+            <h2>
+                Cuéntanos en qué te ayudamos
+            </h2>
+
+            <p>
+                Te respondemos en horario de atención lo antes posible.
+            </p>
+
+        </div>
+
+
+        <div class="row g-4">
+
+            <!-- FORMULARIO -->
+            <div class="col-lg-7">
+
+                <form method="post"
+                      asp-controller="Contacto"
+                      asp-action="Enviar"
+                      class="admin-panel p-4">
+
+                    @Html.AntiForgeryToken()
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Nombre</label>
+                            <input type="text"
+                                   name="Nombre"
+                                   class="form-control"
+                                   placeholder="Tu nombre"
+                                   required />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Correo electrónico</label>
+                            <input type="email"
+                                   name="Correo"
+                                   class="form-control"
+                                   placeholder="tucorreo@ejemplo.com"
+                                   required />
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Asunto</label>
+                            <input type="text"
+                                   name="Asunto"
+                                   class="form-control"
+                                   placeholder="¿Sobre qué nos escribes?"
+                                   required />
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Mensaje</label>
+                            <textarea name="Mensaje"
+                                      class="form-control"
+                                      rows="6"
+                                      placeholder="Cuéntanos con detalle..."
+                                      required></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit"
+                            class="btn btn-success mt-4"
+                            style="background: linear-gradient(90deg, #10afa5, #0a9992); border: none;">
+                        <i class="bi bi-send"></i> Enviar mensaje
+                    </button>
+
+                </form>
+
+            </div>
+
+
+            <!-- INFORMACIÓN -->
+            <div class="col-lg-5">
+
+                <div class="admin-panel">
+                    <div class="admin-panel-header">
+                        <h3><i class="bi bi-geo-alt"></i> Visítanos</h3>
+                    </div>
+                    <div class="p-3">
+                        <p class="mb-1">
+                            <i class="bi bi-shop me-2" style="color: #10afa5;"></i>
+                            Block du Booster - Tienda de cartas
+                        </p>
+                        <p class="mb-0">
+                            <i class="bi bi-geo me-2" style="color: #10afa5;"></i>
+                            Calle Heroínas #245, Cochabamba, Bolivia
+                        </p>
+                    </div>
+                </div>
+
+                <div class="admin-panel mt-3">
+                    <div class="admin-panel-header">
+                        <h3><i class="bi bi-clock"></i> Horario de atención</h3>
+                    </div>
+                    <div class="p-3">
+                        <p class="mb-1">
+                            <strong>Lunes a Sábado</strong> · 10:00 a 20:00
+                        </p>
+                        <p class="mb-0">
+                            <strong>Domingo</strong> · Torneos y eventos especiales
+                        </p>
+                    </div>
+                </div>
+
+                <div class="admin-panel mt-3">
+                    <div class="admin-panel-header">
+                        <h3><i class="bi bi-chat-dots"></i> Medios de contacto</h3>
+                    </div>
+                    <div class="p-3">
+                        <p class="mb-1">
+                            <i class="bi bi-whatsapp me-2" style="color: #10afa5;"></i>
+                            (591) 4-447-1234
+                        </p>
+                        <p class="mb-1">
+                            <i class="bi bi-envelope me-2" style="color: #10afa5;"></i>
+                            contacto@blockdbooster.com
+                        </p>
+                        <p class="mb-0">
+                            <i class="bi bi-instagram me-2" style="color: #10afa5;"></i>
+                            @@blockdu_booster
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>

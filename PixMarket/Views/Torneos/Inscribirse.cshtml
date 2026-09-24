@@ -1,0 +1,214 @@
+@{
+    ViewData["Title"] = "Inscripción a Torneo";
+
+    int idTorneo = 0;
+    int.TryParse(Context.Request.Query["id"], out idTorneo);
+    var juego = (string?)Context.Request.Query["juego"];
+    var fecha = (string?)Context.Request.Query["fecha"] ?? "Fecha por confirmar";
+    var formato = (string?)Context.Request.Query["formato"] ?? "Formato por confirmar";
+}
+
+<div class="categorias-page">
+
+    <section class="categorias-hero">
+
+        <div class="categorias-hero-content">
+
+            <span class="categorias-label">
+                ¡ÚNETE A LA COMPETENCIA!
+            </span>
+
+            <h1>
+                Inscríbete al <span>torneo</span>
+            </h1>
+
+            <p>
+                Completa el formulario y asegura tu cupo
+                en el próximo torneo de Block du Booster.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="categorias-contenido">
+
+        <div class="categorias-titulo">
+
+            <span>
+                INSCRIPCIÓN
+            </span>
+
+            <h2>
+                @(string.IsNullOrWhiteSpace(juego)
+                    ? (idTorneo > 0 ? $"Torneo #{idTorneo}" : "Próximo torneo")
+                    : $"Torneo {juego}")
+            </h2>
+
+            <p>
+                @fecha · @formato · Cupos limitados
+            </p>
+
+        </div>
+
+
+        <div class="row g-4">
+
+            <!-- DETALLE DEL TORNEO -->
+            <div class="col-lg-5">
+
+                <div class="proximos-box">
+                    <div class="proximos-titulo">
+                        <i class="bi bi-calendar-event"></i>
+                        <h3>Detalle del torneo</h3>
+                    </div>
+
+                    <div class="proximo-item">
+                        <div class="fecha-torneo">
+                            <strong>@(fecha.Split(' ')[0])</strong>
+                            <span>@(fecha.Contains("Sep") ? "Sep" : fecha.Contains("Oct") ? "Oct" : fecha.Contains("Nov") ? "Nov" : "2026")</span>
+                        </div>
+                        <div>
+                            <strong>Torneo @juego</strong>
+                            <small>@formato</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-panel mt-3">
+                    <div class="admin-panel-header">
+                        <h3><i class="bi bi-info-circle"></i> Información</h3>
+                    </div>
+                    <div class="p-3">
+                        <p class="mb-2">
+                            <i class="bi bi-people me-2" style="color: #10afa5;"></i>
+                            8 participantes por torneo
+                        </p>
+                        <p class="mb-2">
+                            <i class="bi bi-cash-coin me-2" style="color: #10afa5;"></i>
+                            Inscripción: Bs 30,00
+                        </p>
+                        <p class="mb-2">
+                            <i class="bi bi-trophy me-2" style="color: #10afa5;"></i>
+                            Premio: sobres y cartas exclusivas
+                        </p>
+                        <p class="mb-0">
+                            <i class="bi bi-geo me-2" style="color: #10afa5;"></i>
+                            Block du Booster, Cochabamba
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- FORMULARIO DE INSCRIPCIÓN -->
+            <div class="col-lg-7">
+
+                <form method="post"
+                      asp-controller="Torneos"
+                      asp-action="Inscribirse"
+                      class="admin-panel p-4">
+
+                    @Html.AntiForgeryToken()
+
+                    <input type="hidden" name="IdTorneo" value="@idTorneo" />
+                    <input type="hidden" name="Juego" value="@juego" />
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Nombre completo</label>
+                            <input type="text"
+                                   name="Nombre"
+                                   class="form-control"
+                                   placeholder="Tu nombre"
+                                   required />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Correo electrónico</label>
+                            <input type="email"
+                                   name="Correo"
+                                   class="form-control"
+                                   placeholder="tucorreo@ejemplo.com"
+                                   required />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Teléfono / WhatsApp</label>
+                            <input type="text"
+                                   name="Telefono"
+                                   class="form-control"
+                                   placeholder="Ej. 71234567"
+                                   required />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Juego</label>
+                            <select name="Juego" class="form-select">
+                                @if (juego == "Yu-Gi-Oh!")
+                                {
+                                    <option value="Yu-Gi-Oh!" selected>Yu-Gi-Oh!</option>
+                                }
+                                else
+                                {
+                                    <option value="Yu-Gi-Oh!">Yu-Gi-Oh!</option>
+                                }
+                                @if (juego == "Pokémon")
+                                {
+                                    <option value="Pokémon" selected>Pokémon</option>
+                                }
+                                else
+                                {
+                                    <option value="Pokémon">Pokémon</option>
+                                }
+                                @if (juego == "Magic: The Gathering")
+                                {
+                                    <option value="Magic: The Gathering" selected>Magic: The Gathering</option>
+                                }
+                                else
+                                {
+                                    <option value="Magic: The Gathering">Magic: The Gathering</option>
+                                }
+                                @if (juego == "Otros")
+                                {
+                                    <option value="Otros" selected>Otros</option>
+                                }
+                                else
+                                {
+                                    <option value="Otros">Otros</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label">Comentarios</label>
+                            <textarea name="Comentario"
+                                      class="form-control"
+                                      rows="4"
+                                      placeholder="Deck que usarás, dudas, etc. (opcional)"></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit"
+                            class="btn btn-success mt-4 w-100"
+                            style="background: linear-gradient(90deg, #10afa5, #0a9992); border: none;">
+                        <i class="bi bi-trophy"></i> Confirmar inscripción
+                    </button>
+
+                    <a asp-controller="Torneos"
+                       asp-action="Index"
+                       class="btn btn-outline-secondary mt-2 w-100">
+                        <i class="bi bi-arrow-left"></i> Volver a torneos
+                    </a>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>

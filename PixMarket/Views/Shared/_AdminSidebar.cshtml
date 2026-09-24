@@ -1,0 +1,89 @@
+@{
+    var controlador = (string?)ViewContext.RouteData.Values["controller"];
+    var accion = (string?)ViewContext.RouteData.Values["action"];
+
+    string Activa(string controller, string? action = null) =>
+        string.Equals(controlador, controller, StringComparison.OrdinalIgnoreCase) &&
+        (action == null || string.Equals(accion, action, StringComparison.OrdinalIgnoreCase))
+            ? "active"
+            : "";
+}
+
+<aside class="admin-sidebar">
+
+    <div class="admin-sidebar-brand">
+        <div class="admin-brand-icon">
+            <i class="bi bi-layers"></i>
+        </div>
+        <div class="admin-brand-text">
+            <strong>Block du <span>Booster</span></strong>
+            <small>Cartas · Coleccionables · Comunidad</small>
+        </div>
+    </div>
+
+    <nav class="admin-menu">
+
+        <a asp-controller="Usuarios"
+           asp-action="Administrador"
+           class="admin-menu-link @Activa("Usuarios", "Administrador")">
+            <i class="bi bi-house-door"></i>
+            <span>Inicio</span>
+        </a>
+
+        <a asp-controller="Items"
+           asp-action="Index"
+           class="admin-menu-link @Activa("Items")">
+            <i class="bi bi-box-seam"></i>
+            <span>Productos</span>
+        </a>
+
+        <a asp-controller="Inventario"
+           asp-action="Index"
+           class="admin-menu-link @Activa("Inventario")">
+            <i class="bi bi-boxes"></i>
+            <span>Inventario</span>
+        </a>
+
+        <a asp-controller="Ventas"
+           asp-action="Index"
+           class="admin-menu-link @Activa("Ventas")">
+            <i class="bi bi-cart-check"></i>
+            <span>Ventas</span>
+        </a>
+
+        <a asp-controller="Pedidos"
+           asp-action="Index"
+           class="admin-menu-link @Activa("Pedidos")">
+            <i class="bi bi-clipboard-check"></i>
+            <span>Pedidos</span>
+        </a>
+
+        <a asp-controller="Usuarios"
+           asp-action="Gestion"
+           class="admin-menu-link @Activa("Usuarios", "Gestion")">
+            <i class="bi bi-people"></i>
+            <span>Usuarios</span>
+        </a>
+
+        <a asp-controller="Reportes"
+           asp-action="Index"
+           class="admin-menu-link @Activa("Reportes")">
+            <i class="bi bi-bar-chart"></i>
+            <span>Reportes</span>
+        </a>
+
+        <a asp-controller="Configuracion"
+           asp-action="Index"
+           class="admin-menu-link @Activa("Configuracion")">
+            <i class="bi bi-gear"></i>
+            <span>Configuración</span>
+        </a>
+
+    </nav>
+
+    <div class="admin-sidebar-footer">
+        <img src="~/Imagenes/banner.jpg" alt="Block du Booster" />
+        <p>¡Más que cartas,<br />una pasión!</p>
+    </div>
+
+</aside>
