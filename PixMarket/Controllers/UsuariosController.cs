@@ -256,6 +256,18 @@ namespace PixMarket.Controllers
 
 
         // =====================================================
+        // GESTIÓN DE USUARIOS (PANEL ADMIN)
+        // =====================================================
+
+        [HttpGet]
+        [Authorize(Roles = "Administrador")]
+        public IActionResult Gestion()
+        {
+            return View();
+        }
+
+
+        // =====================================================
         // CLIENTE
         // =====================================================
 

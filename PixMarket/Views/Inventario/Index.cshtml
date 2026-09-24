@@ -1,0 +1,149 @@
+@{
+    ViewData["Title"] = "Inventario";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="admin-layout">
+
+    <partial name="_AdminSidebar" />
+
+    <main class="admin-main">
+
+        <partial name="_AdminTopbar" />
+
+        <section class="admin-content">
+
+            <div class="admin-welcome">
+                <div>
+                    <h1>Inventario</h1>
+                    <p>Controla el stock de tus cartas y productos.</p>
+                </div>
+                <div class="admin-fecha">
+                    <i class="bi bi-boxes"></i>
+                    <div>
+                        <strong>Movimientos del almacén</strong>
+                        <small>Actualizado hoy</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-stats">
+
+                <div class="admin-stat-card blue">
+                    <div class="admin-stat-icon">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+                    <div class="admin-stat-info">
+                        <span>Productos activos</span>
+                        <strong>24</strong>
+                    </div>
+                </div>
+
+                <div class="admin-stat-card orange">
+                    <div class="admin-stat-icon">
+                        <i class="bi bi-exclamation-triangle"></i>
+                    </div>
+                    <div class="admin-stat-info">
+                        <span>Stock bajo</span>
+                        <strong>7</strong>
+                    </div>
+                </div>
+
+                <div class="admin-stat-card red">
+                    <div class="admin-stat-icon">
+                        <i class="bi bi-x-circle"></i>
+                    </div>
+                    <div class="admin-stat-info">
+                        <span>Agotados</span>
+                        <strong>3</strong>
+                    </div>
+                </div>
+
+                <div class="admin-stat-card green">
+                    <div class="admin-stat-icon">
+                        <i class="bi bi-cash-coin"></i>
+                    </div>
+                    <div class="admin-stat-info">
+                        <span>Valor del inventario</span>
+                        <strong>Bs 4.580</strong>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="admin-panel">
+                <div class="admin-panel-header">
+                    <h3><i class="bi bi-boxes"></i> Stock por producto</h3>
+                    <span>24 producto(s)</span>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Carta</th>
+                                <th>Juego</th>
+                                <th>Categoría</th>
+                                <th>Stock</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Pikachu V</td>
+                                <td>Pokémon</td>
+                                <td>Pokémon ex</td>
+                                <td>34</td>
+                                <td><span class="stock-badge">Disponible</span></td>
+                            </tr>
+                            <tr>
+                                <td>Charizard VMAX</td>
+                                <td>Pokémon</td>
+                                <td>Pokémon V</td>
+                                <td>8</td>
+                                <td><span class="stock-badge orange">Pasando</span></td>
+                            </tr>
+                            <tr>
+                                <td>Dark Magician</td>
+                                <td>Yu-Gi-Oh!</td>
+                                <td>Monstruos</td>
+                                <td>2</td>
+                                <td><span class="stock-badge red">Crítico</span></td>
+                            </tr>
+                            <tr>
+                                <td>Blue-Eyes White Dragon</td>
+                                <td>Yu-Gi-Oh!</td>
+                                <td>Monstruos</td>
+                                <td>0</td>
+                                <td><span class="stock-badge red">Agotado</span></td>
+                            </tr>
+                            <tr>
+                                <td>Black Lotus</td>
+                                <td>Magic: The Gathering</td>
+                                <td>Artefactos</td>
+                                <td>0</td>
+                                <td><span class="stock-badge red">Agotado</span></td>
+                            </tr>
+                            <tr>
+                                <td>Sol Ring</td>
+                                <td>Magic: The Gathering</td>
+                                <td>Artefactos</td>
+                                <td>15</td>
+                                <td><span class="stock-badge">Disponible</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <a asp-controller="Usuarios" asp-action="Administrador" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Volver al panel
+                </a>
+            </div>
+
+        </section>
+
+    </main>
+
+</div>

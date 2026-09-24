@@ -1,0 +1,202 @@
+@{
+    ViewData["Title"] = "Calendario de Torneos";
+}
+
+<div class="categorias-page">
+
+    <section class="categorias-hero">
+
+        <div class="categorias-hero-content">
+
+            <span class="categorias-label">
+                CALENDARIO 2026
+            </span>
+
+            <h1>
+                Todos los <span>torneos</span>
+            </h1>
+
+            <p>
+                Consulta las fechas de todos los torneos
+                de Block du Booster y asegura tu cupo.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <section class="torneos-contenido">
+
+        <div class="categorias-titulo">
+
+            <span>
+                PRÓXIMOS EVENTOS
+            </span>
+
+            <h2>
+                Calendario completo
+            </h2>
+
+            <p>
+                Toca un evento para ir a la inscripción.
+            </p>
+
+        </div>
+
+
+        <div class="proximos-box">
+
+            <div class="proximos-titulo">
+                <i class="bi bi-calendar-month"></i>
+                <h3>Septiembre 2026</h3>
+            </div>
+
+            <a asp-controller="Torneos"
+               asp-action="Inscribirse"
+               asp-route-id="1"
+               asp-route-juego="Yu-Gi-Oh!"
+               asp-route-fecha="28 de Septiembre"
+               asp-route-formato="Formato Advanced (BO3)"
+               class="proximo-item">
+                <div class="fecha-torneo">
+                    <strong>28</strong>
+                    <span>Sep</span>
+                </div>
+                <div>
+                    <strong>Torneo Regional Yu-Gi-Oh!</strong>
+                    <small>Formato Advanced (BO3) · 18:00</small>
+                </div>
+                <span class="torneo-badge liga">Liga</span>
+                <i class="bi bi-chevron-right"></i>
+            </a>
+
+        </div>
+
+
+        <div class="proximos-box mt-4">
+
+            <div class="proximos-titulo">
+                <i class="bi bi-calendar-month"></i>
+                <h3>Octubre 2026</h3>
+            </div>
+
+            <a asp-controller="Torneos"
+               asp-action="Inscribirse"
+               asp-route-id="2"
+               asp-route-juego="Pokémon"
+               asp-route-fecha="04 de Octubre"
+               asp-route-formato="Formato Estándar (BO3)"
+               class="proximo-item">
+                <div class="fecha-torneo">
+                    <strong>04</strong>
+                    <span>Oct</span>
+                </div>
+                <div>
+                    <strong>Torneo Pokémon TCG</strong>
+                    <small>Formato Estándar (BO3) · 15:00</small>
+                </div>
+                <span class="torneo-badge local">Local</span>
+                <i class="bi bi-chevron-right"></i>
+            </a>
+
+            <a asp-controller="Torneos"
+               asp-action="Inscribirse"
+               asp-route-id="3"
+               asp-route-juego="Magic: The Gathering"
+               asp-route-fecha="11 de Octubre"
+               asp-route-formato="Formato Commander (EDH)"
+               class="proximo-item">
+                <div class="fecha-torneo">
+                    <strong>11</strong>
+                    <span>Oct</span>
+                </div>
+                <div>
+                    <strong>Torneo Magic: The Gathering</strong>
+                    <small>Formato Commander (EDH) · 16:00</small>
+                </div>
+                <span class="torneo-badge principiante">Principiantes</span>
+                <i class="bi bi-chevron-right"></i>
+            </a>
+
+            <a asp-controller="Torneos"
+               asp-action="Inscribirse"
+               asp-route-id="4"
+               asp-route-juego="Yu-Gi-Oh!"
+               asp-route-fecha="18 de Octubre"
+               asp-route-formato="Formato Casual (BO1)"
+               class="proximo-item">
+                <div class="fecha-torneo">
+                    <strong>18</strong>
+                    <span>Oct</span>
+                </div>
+                <div>
+                    <strong>Torneo Local Yu-Gi-Oh!</strong>
+                    <small>Formato Casual (BO1) · 14:00</small>
+                </div>
+                <span class="torneo-badge local">Local</span>
+                <i class="bi bi-chevron-right"></i>
+            </a>
+
+            <a asp-controller="Torneos"
+               asp-action="Inscribirse"
+               asp-route-id="5"
+               asp-route-juego="Otros"
+               asp-route-fecha="25 de Octubre"
+               asp-route-formato="Draft (OWS)"
+               class="proximo-item">
+                <div class="fecha-torneo">
+                    <strong>25</strong>
+                    <span>Oct</span>
+                </div>
+                <div>
+                    <strong>Torneo Draft y Novatos</strong>
+                    <small>Draft (OWS) · 10:00</small>
+                </div>
+                <span class="torneo-badge principiante">Principiantes</span>
+                <i class="bi bi-chevron-right"></i>
+            </a>
+
+        </div>
+
+
+        <div class="proximos-box mt-4">
+
+            <div class="proximos-titulo">
+                <i class="bi bi-calendar-month"></i>
+                <h3>Noviembre 2026</h3>
+            </div>
+
+            <a asp-controller="Torneos"
+               asp-action="Inscribirse"
+               asp-route-id="6"
+               asp-route-juego="Yu-Gi-Oh!"
+               asp-route-fecha="08 de Noviembre"
+               asp-route-formato="Formato Advanced (BO3)"
+               class="proximo-item">
+                <div class="fecha-torneo">
+                    <strong>08</strong>
+                    <span>Nov</span>
+                </div>
+                <div>
+                    <strong>Campeonato Regional Yu-Gi-Oh!</strong>
+                    <small>Formato Advanced (BO3) · 17:00</small>
+                </div>
+                <span class="torneo-badge liga">Liga</span>
+                <i class="bi bi-chevron-right"></i>
+            </a>
+
+        </div>
+
+
+        <div class="mt-4 text-center">
+            <a asp-controller="Torneos"
+               asp-action="Index"
+               class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Volver a torneos
+            </a>
+        </div>
+
+    </section>
+
+</div>

@@ -1,0 +1,156 @@
+@{
+    ViewData["Title"] = "Pedidos";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="admin-layout">
+
+    <partial name="_AdminSidebar" />
+
+    <main class="admin-main">
+
+        <partial name="_AdminTopbar" />
+
+        <section class="admin-content">
+
+            <div class="admin-welcome">
+                <div>
+                    <h1>Pedidos</h1>
+                    <p>Revisa y gestiona los pedidos de tus clientes.</p>
+                </div>
+                <div class="admin-fecha">
+                    <i class="bi bi-clipboard-check"></i>
+                    <div>
+                        <strong>Estado del flujo de pedidos</strong>
+                        <small>Actualizado hoy</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-stats">
+
+                <div class="admin-stat-card orange">
+                    <div class="admin-stat-icon">
+                        <i class="bi bi-hourglass-split"></i>
+                    </div>
+                    <div class="admin-stat-info">
+                        <span>Pendientes</span>
+                        <strong>5</strong>
+                    </div>
+                </div>
+
+                <div class="admin-stat-card blue">
+                    <div class="admin-stat-icon">
+                        <i class="bi bi-box"></i>
+                    </div>
+                    <div class="admin-stat-info">
+                        <span>En preparación</span>
+                        <strong>3</strong>
+                    </div>
+                </div>
+
+                <div class="admin-stat-card purple">
+                    <div class="admin-stat-icon">
+                        <i class="bi bi-truck"></i>
+                    </div>
+                    <div class="admin-stat-info">
+                        <span>En camino</span>
+                        <strong>2</strong>
+                    </div>
+                </div>
+
+                <div class="admin-stat-card green">
+                    <div class="admin-stat-icon">
+                        <i class="bi bi-check-circle"></i>
+                    </div>
+                    <div class="admin-stat-info">
+                        <span>Entregados</span>
+                        <strong>37</strong>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="admin-panel">
+                <div class="admin-panel-header">
+                    <h3><i class="bi bi-clipboard-list"></i> Lista de pedidos</h3>
+                    <span>47 pedido(s) este mes</span>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th># Pedido</th>
+                                <th>Cliente</th>
+                                <th>Productos</th>
+                                <th>Total</th>
+                                <th>Estado</th>
+                                <th>Fecha</th>
+                                <th style="text-align: right;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#0103</td>
+                                <td>Diego Fuentes</td>
+                                <td>Sol Ring, Dark Magician</td>
+                                <td>Bs 76,00</td>
+                                <td><span class="estado pendiente">Pendiente</span></td>
+                                <td>21/09/2026</td>
+                                <td style="text-align: right; white-space: nowrap;">
+                                    <a href="#" class="btn btn-sm btn-outline-info" title="Ver"><i class="bi bi-eye"></i></a>
+                                    <a href="#" class="btn btn-sm btn-outline-success" title="Confirmar"><i class="bi bi-check-lg"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#0102</td>
+                                <td>Camila Méndez</td>
+                                <td>Charizard VMAX</td>
+                                <td>Bs 18,00</td>
+                                <td><span class="estado pendiente">Pendiente</span></td>
+                                <td>20/09/2026</td>
+                                <td style="text-align: right; white-space: nowrap;">
+                                    <a href="#" class="btn btn-sm btn-outline-info" title="Ver"><i class="bi bi-eye"></i></a>
+                                    <a href="#" class="btn btn-sm btn-outline-success" title="Confirmar"><i class="bi bi-check-lg"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#0101</td>
+                                <td>Ana Rojas</td>
+                                <td>Pikachu V</td>
+                                <td>Bs 12,50</td>
+                                <td><span class="estado pendiente">Pendiente</span></td>
+                                <td>19/09/2026</td>
+                                <td style="text-align: right; white-space: nowrap;">
+                                    <a href="#" class="btn btn-sm btn-outline-info" title="Ver"><i class="bi bi-eye"></i></a>
+                                    <a href="#" class="btn btn-sm btn-outline-success" title="Confirmar"><i class="bi bi-check-lg"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#0099</td>
+                                <td>Marcelo López</td>
+                                <td>Blue-Eyes White Dragon</td>
+                                <td>Bs 45,00</td>
+                                <td><span class="estado completado">Entregado</span></td>
+                                <td>17/09/2026</td>
+                                <td style="text-align: right; white-space: nowrap;">
+                                    <a href="#" class="btn btn-sm btn-outline-info" title="Ver"><i class="bi bi-eye"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <a asp-controller="Usuarios" asp-action="Administrador" class="btn btn-outline-secondary">
+                    <i class="bi bi-arrow-left"></i> Volver al panel
+                </a>
+            </div>
+
+        </section>
+
+    </main>
+
+</div>

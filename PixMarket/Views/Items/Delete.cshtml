@@ -5,7 +5,15 @@
 
 @model Item
 
-<section class="admin-content" style="max-width: 720px;">
+<div class="admin-layout">
+
+    <partial name="_AdminSidebar" />
+
+    <main class="admin-main">
+
+        <partial name="_AdminTopbar" />
+
+        <section class="admin-content" style="max-width: 720px;">
 
     <div class="admin-welcome">
         <div>
@@ -46,4 +54,6 @@
 
     </div>
 
-</section>
+    </main>
+
+</div>
