@@ -108,13 +108,24 @@ namespace PixMarketAPI.Controllers
                     Mensaje = "La contraseña debe tener mínimo 6 caracteres."
                 });
             }
+            /*cambiar a string telefono*/
 
-            if (!int.TryParse(registro.Telefono, out int telefonoNumero))
+           /* if (!int.TryParse(registro.Telefono, out int telefonoNumero))
             {
                 return BadRequest(new MensajeResultado
                 {
                     Ok = false,
                     Mensaje = "El teléfono debe contener solamente números."
+                });
+            }*/
+
+            if (string.IsNullOrWhiteSpace(registro.Telefono))
+            
+            {
+                return BadRequest(new MensajeResultado
+                {
+                    Ok = false,
+                    Mensaje = "El telefono es obligatorio"
                 });
             }
 
@@ -135,7 +146,7 @@ namespace PixMarketAPI.Controllers
                 Nombre = registro.Nombre.Trim(),
                 Correo = registro.Correo.Trim(),
                 Contrasenia = registro.Contrasenia,
-                Telefono = telefonoNumero,
+                Telefono = registro.Telefono.Trim(),
                 Rol = "Usuario"
             };
 
