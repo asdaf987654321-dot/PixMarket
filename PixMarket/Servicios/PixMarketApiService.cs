@@ -222,6 +222,70 @@ namespace PixMarket.Servicios
             };
         }
 
+        public async Task<List<UsuarioDto>> ObtenerUsuariosAsync()
+        {
+            return await _http.GetFromJsonAsync<List<UsuarioDto>>("api/usuarios")
+                ?? new List<UsuarioDto>();
+        }
+
+        public async Task<UsuarioDto?> ObtenerUsuarioAsync(int id)
+        {
+            var respuesta = await _http.GetAsync($"api/usuarios/{id}");
+
+            if (!respuesta.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            return await respuesta.Content.ReadFromJsonAsync<UsuarioDto>();
+        }
+
+        public async Task<(bool Ok, string? Mensaje)> ActualizarUsuarioAsync(int id, UsuarioDto usuario)
+        {
+            var respuesta = await _http.PutAsJsonAsync($"api/usuarios/{id}", usuario);
+
+            if (respuesta.IsSuccessStatusCode)
+            {
+                return (true, null);
+            }
+
+            return (false, await LeerMensaje(respuesta));
+        }
+
+        public async Task<(bool Ok, string? Mensaje)> CambiarEstadoUsuarioAsync(int id, string estado)
+        {
+            var respuesta = await _http.PatchAsJsonAsync(
+                $"api/usuarios/{id}/estado",
+                new { estado });
+
+            if (respuesta.IsSuccessStatusCode)
+            {
+                return (true, null);
+            }
+
+            return (false, await LeerMensaje(respuesta));
+        }
+
+        public async Task<Configuracion> ObtenerConfiguracionAsync()
+        {
+            return await _http.GetFromJsonAsync<Configuracion>("api/configuracion")
+                ?? new Configuracion();
+        }
+
+        public async Task<(bool Ok, string? Mensaje)> GuardarConfiguracionAsync(
+            Configuracion configuracion)
+        {
+            var respuesta = await _http.PutAsJsonAsync("api/configuracion", configuracion);
+
+            if (respuesta.IsSuccessStatusCode)
+            {
+                return (true, null);
+            }
+
+            return (false, await LeerMensaje(respuesta));
+        }
+
+
         private static MultipartFormDataContent ContenidoItem(Item item, IFormFile? imagen)
         {
             var contenido = new MultipartFormDataContent();

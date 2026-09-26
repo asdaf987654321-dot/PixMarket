@@ -255,16 +255,210 @@ namespace PixMarket.Controllers
         }
 
 
-        // =====================================================
-        // GESTIÓN DE USUARIOS (PANEL ADMIN)
-        // =====================================================
+        
 
+       
+        // GESTIÓN DE USUARIOS (PANEL ADMIN)
+        // Lista de usuarios
         [HttpGet]
         [Authorize(Roles = "Administrador")]
-        public IActionResult Gestion()
+        public async Task<IActionResult> Gestion()
+        {
+            List<UsuarioDto> usuarios;
+
+            try
+            {
+                usuarios = await _api.ObtenerUsuariosAsync();
+            }
+            catch (HttpRequestException)
+            {
+                ViewBag.Error =
+                    "No se pudo conectar con la API de datos. " +
+                    "Verifica que PixMarketAPI esté en ejecución.";
+
+                usuarios = new List<UsuarioDto>();
+            }
+
+            return View(usuarios);
+        }
+
+        // Crear nuevo usuario (desde el panel admin)
+        [HttpGet]
+        [Authorize(Roles = "Administrador")]
+        public IActionResult Crear()
         {
             return View();
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> Crear(
+            string nombre,
+            string correo,
+            string contrasenia,
+            string telefono,
+            string rol)
+        {
+            if (string.IsNullOrWhiteSpace(nombre) ||
+                string.IsNullOrWhiteSpace(correo) ||
+                string.IsNullOrWhiteSpace(contrasenia) ||
+                string.IsNullOrWhiteSpace(telefono) ||
+                string.IsNullOrWhiteSpace(rol))
+            {
+                ViewBag.Error = "Todos los campos son obligatorios.";
+                return View();
+            }
+
+            (bool Ok, string? Mensaje) resultado;
+
+            try
+            {
+                resultado = await _api.RegistrarAsync(
+                    nombre.Trim(),
+                    correo.Trim(),
+                    contrasenia,
+                    telefono.Trim());
+            }
+            catch (HttpRequestException)
+            {
+                ViewBag.Error = "No se pudo conectar con la API de datos.";
+                return View();
+            }
+
+            if (!resultado.Ok)
+            {
+                ViewBag.Error = resultado.Mensaje ?? "No se pudo crear el usuario.";
+                return View();
+            }
+
+            TempData["Mensaje"] = "Usuario creado correctamente.";
+            return RedirectToAction("Gestion");
+        }
+
+        // Ver detalle de un usuario
+        [HttpGet]
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            UsuarioDto? usuario;
+
+            try
+            {
+                usuario = await _api.ObtenerUsuarioAsync(id.Value);
+            }
+            catch (HttpRequestException)
+            {
+                return NotFound();
+            }
+
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            return View(usuario);
+        }
+
+        // Editar usuario
+        [HttpGet]
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            UsuarioDto? usuario;
+
+            try
+            {
+                usuario = await _api.ObtenerUsuarioAsync(id.Value);
+            }
+            catch (HttpRequestException)
+            {
+                return NotFound();
+            }
+
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+
+            return View(usuario);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> Edit(int id, UsuarioDto usuario)
+        {
+            if (id != usuario.Id)
+            {
+                return NotFound();
+            }
+
+            (bool Ok, string? Mensaje) resultado;
+
+            try
+            {
+                resultado = await _api.ActualizarUsuarioAsync(id, usuario);
+            }
+            catch (HttpRequestException)
+            {
+                ViewBag.Error = "No se pudo conectar con la API de datos.";
+                return View(usuario);
+            }
+
+            if (!resultado.Ok)
+            {
+                ViewBag.Error = resultado.Mensaje ?? "No se pudo actualizar el usuario.";
+                return View(usuario);
+            }
+
+            TempData["Mensaje"] = "Usuario actualizado correctamente.";
+            return RedirectToAction("Gestion");
+        }
+
+        // Suspender / Activar usuario
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> CambiarEstado(int id, string estado)
+        {
+            (bool Ok, string? Mensaje) resultado;
+
+            try
+            {
+                resultado = await _api.CambiarEstadoUsuarioAsync(id, estado);
+            }
+            catch (HttpRequestException)
+            {
+                TempData["Error"] = "No se pudo conectar con la API de datos.";
+                return RedirectToAction("Gestion");
+            }
+
+            if (!resultado.Ok)
+            {
+                TempData["Error"] = resultado.Mensaje ?? "No se pudo cambiar el estado.";
+                return RedirectToAction("Gestion");
+            }
+
+            TempData["Mensaje"] = $"Usuario {(estado == "Activo" ? "activado" : "suspendido")} correctamente.";
+            return RedirectToAction("Gestion");
+        }
+
+
+
+
+
+
 
 
         // =====================================================

@@ -12,6 +12,8 @@ namespace PixMarketAPI.Data
 
         public DbSet<Item> Items { get; set; }
 
+        public DbSet<Configuracion> Configuraciones { get; set; }
+
         public DbSet<Venta> Ventas { get; set; }
 
         public DbSet<DetalleVenta> DetallesVenta { get; set; }

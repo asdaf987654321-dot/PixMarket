@@ -1,3 +1,5 @@
+@model List<PixMarket.Servicios.UsuarioDto>
+
 @{
     ViewData["Title"] = "Usuarios";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -18,10 +20,34 @@
                     <h1>Usuarios</h1>
                     <p>Administra las cuentas de clientes y del sistema.</p>
                 </div>
-                <a class="btn btn-success" style="background: linear-gradient(90deg, #10afa5, #0a9992); border: none; height: fit-content;">
+                <a asp-controller="Usuarios" asp-action="Crear" class="btn btn-success" style="background: linear-gradient(90deg, #10afa5, #0a9992); border: none; height: fit-content;">
                     <i class="bi bi-person-plus"></i> Nuevo usuario
                 </a>
             </div>
+
+            @if (TempData["Mensaje"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    @TempData["Mensaje"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    @ViewBag.Error
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
 
             <div class="admin-stats">
 
@@ -31,7 +57,7 @@
                     </div>
                     <div class="admin-stat-info">
                         <span>Usuarios totales</span>
-                        <strong>128</strong>
+                        <strong>@Model.Count</strong>
                     </div>
                 </div>
 
@@ -41,7 +67,7 @@
                     </div>
                     <div class="admin-stat-info">
                         <span>Clientes activos</span>
-                        <strong>114</strong>
+                        <strong>@Model.Count(u => u.Estado == "Activo")</strong>
                     </div>
                 </div>
 
@@ -51,7 +77,7 @@
                     </div>
                     <div class="admin-stat-info">
                         <span>Administradores</span>
-                        <strong>2</strong>
+                        <strong>@Model.Count(u => u.Rol == "Administrador")</strong>
                     </div>
                 </div>
 
@@ -61,7 +87,7 @@
                     </div>
                     <div class="admin-stat-info">
                         <span>Suspendidos</span>
-                        <strong>2</strong>
+                        <strong>@Model.Count(u => u.Estado == "Suspendido")</strong>
                     </div>
                 </div>
 
@@ -70,7 +96,7 @@
             <div class="admin-panel">
                 <div class="admin-panel-header">
                     <h3><i class="bi bi-people"></i> Cuentas registradas</h3>
-                    <span>128 usuario(s)</span>
+                    <span>@Model.Count usuario(s)</span>
                 </div>
 
                 <div class="table-responsive">
@@ -86,53 +112,50 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Marcelo López</td>
-                                <td>mtest@test.com</td>
-                                <td>Usuario</td>
-                                <td>71234567</td>
-                                <td><span class="estado completado">Activo</span></td>
-                                <td style="text-align: right; white-space: nowrap;">
-                                    <a href="#" class="btn btn-sm btn-outline-info" title="Ver"><i class="bi bi-eye"></i></a>
-                                    <a href="#" class="btn btn-sm btn-outline-warning" title="Editar"><i class="bi bi-pencil"></i></a>
-                                    <a href="#" class="btn btn-sm btn-outline-danger" title="Suspender"><i class="bi bi-person-dash"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Ana Rojas</td>
-                                <td>ana@correo.com</td>
-                                <td>Usuario</td>
-                                <td>79820134</td>
-                                <td><span class="estado completado">Activo</span></td>
-                                <td style="text-align: right; white-space: nowrap;">
-                                    <a href="#" class="btn btn-sm btn-outline-info" title="Ver"><i class="bi bi-eye"></i></a>
-                                    <a href="#" class="btn btn-sm btn-outline-warning" title="Editar"><i class="bi bi-pencil"></i></a>
-                                    <a href="#" class="btn btn-sm btn-outline-danger" title="Suspender"><i class="bi bi-person-dash"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Diego Fuentes</td>
-                                <td>diego@correo.com</td>
-                                <td>Usuario</td>
-                                <td>73456789</td>
-                                <td><span class="estado pendiente">Pendiente</span></td>
-                                <td style="text-align: right; white-space: nowrap;">
-                                    <a href="#" class="btn btn-sm btn-outline-info" title="Ver"><i class="bi bi-eye"></i></a>
-                                    <a href="#" class="btn btn-sm btn-outline-warning" title="Editar"><i class="bi bi-pencil"></i></a>
-                                    <a href="#" class="btn btn-sm btn-outline-danger" title="Suspender"><i class="bi bi-person-dash"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Admin</td>
-                                <td>Admin@gmail</td>
-                                <td>Administrador</td>
-                                <td>71112233</td>
-                                <td><span class="estado completado">Activo</span></td>
-                                <td style="text-align: right; white-space: nowrap;">
-                                    <a href="#" class="btn btn-sm btn-outline-info" title="Ver"><i class="bi bi-eye"></i></a>
-                                    <a href="#" class="btn btn-sm btn-outline-warning" title="Editar"><i class="bi bi-pencil"></i></a>
-                                </td>
-                            </tr>
+                            @if (!Model.Any())
+                            {
+                                <tr>
+                                    <td colspan="6" style="text-align: center; color: #94a3b8; padding: 24px;">
+                                        No hay usuarios registrados por ahora.
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var usuario in Model)
+                                {
+                                    <tr>
+                                        <td>@usuario.Nombre</td>
+                                        <td>@usuario.Correo</td>
+                                        <td>@usuario.Rol</td>
+                                        <td>@usuario.Telefono</td>
+                                        <td>
+                                            <span class="estado @(usuario.Estado == "Activo" ? "completado" : "pendiente")">
+                                                @usuario.Estado
+                                            </span>
+                                        </td>
+
+                                        <td style="text-align: right; white-space: nowrap;">
+                                            <a asp-action="Details" asp-route-id="@usuario.Id" class="btn btn-sm btn-outline-info" title="Ver">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            <a asp-action="Edit" asp-route-id="@usuario.Id" class="btn btn-sm btn-outline-warning" title="Editar">
+                                                <i class="bi bi-pencil"></i>
+                                            </a>
+                                            <form method="post" asp-action="CambiarEstado" style="display:inline;">
+                                                @Html.AntiForgeryToken()
+                                                <input type="hidden" name="id" value="@usuario.Id" />
+                                                <input type="hidden" name="estado"
+                                                       value="@(usuario.Estado == "Activo" ? "Suspendido" : "Activo")" />
+                                                <button type="submit" class="btn btn-sm btn-outline-danger"
+                                                        title="@(usuario.Estado == "Activo" ? "Suspender" : "Activar")">
+                                                    <i class="bi bi-person-dash"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                }
+                            }
                         </tbody>
                     </table>
                 </div>

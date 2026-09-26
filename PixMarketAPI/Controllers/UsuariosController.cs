@@ -204,5 +204,99 @@ namespace PixMarketAPI.Controllers
                 Rol = usuario.Rol
             });
         }
+
+        //metodos
+
+        // GET: api/usuarios
+        [HttpGet]
+        [ProducesResponseType(typeof(List<UsuarioDto>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<UsuarioDto>>> Index()
+        {
+            var usuarios = await _context.Usuarios
+                .OrderBy(u => u.Nombre)
+                .Select(u => new UsuarioDto
+                {
+                    Id = u.Id,
+                    Nombre = u.Nombre,
+                    Correo = u.Correo,
+                    Rol = u.Rol,
+                    Telefono = u.Telefono,
+                    Estado = u.Estado
+                })
+                .ToListAsync();
+
+            return Ok(usuarios);
+        }
+
+        // PUT: api/usuarios/{id}
+        [HttpPut("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult> Edit(int id, [FromBody] UsuarioDto usuarioDto)
+        {
+            if (id != usuarioDto.Id)
+            {
+                return BadRequest(new MensajeResultado
+                {
+                    Ok = false,
+                    Mensaje = "El ID no coincide."
+                });
+            }
+
+            var usuario = await _context.Usuarios.FindAsync(id);
+
+            if (usuario == null)
+            {
+                return NotFound(new MensajeResultado
+                {
+                    Ok = false,
+                    Mensaje = "El usuario no existe."
+                });
+            }
+
+            usuario.Nombre = usuarioDto.Nombre;
+            usuario.Correo = usuarioDto.Correo;
+            usuario.Telefono = usuarioDto.Telefono;
+            usuario.Rol = usuarioDto.Rol;
+            usuario.Estado = usuarioDto.Estado ?? usuario.Estado;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new MensajeResultado
+            {
+                Ok = true,
+                Mensaje = "Usuario actualizado correctamente."
+            });
+        }
+
+        // PATCH: api/usuarios/{id}/estado
+        [HttpPatch("{id:int}/estado")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult> CambiarEstado(int id, [FromBody] CambiarEstadoRequest request)
+        {
+            var usuario = await _context.Usuarios.FindAsync(id);
+
+            if (usuario == null)
+            {
+                return NotFound(new MensajeResultado
+                {
+                    Ok = false,
+                    Mensaje = "El usuario no existe."
+                });
+            }
+
+            usuario.Estado = request.Estado;
+            await _context.SaveChangesAsync();
+
+            return Ok(new MensajeResultado
+            {
+                Ok = true,
+                Mensaje = "Estado actualizado correctamente."
+            });
+        }
+
+
+
+
     }
 }

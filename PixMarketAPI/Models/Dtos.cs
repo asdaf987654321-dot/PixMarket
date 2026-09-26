@@ -6,6 +6,8 @@ namespace PixMarketAPI.Models
         public string? Nombre { get; set; }
         public string? Correo { get; set; }
         public string? Rol { get; set; }
+        public string? Telefono { get; set; }
+        public string? Estado { get; set; }
     }
 
     public class LoginRequest
@@ -55,5 +57,10 @@ namespace PixMarketAPI.Models
         public bool Ok { get; set; }
         public string? Mensaje { get; set; }
         public decimal Total { get; set; }
+    }
+
+    public class CambiarEstadoRequest
+    {
+        public string? Estado { get; set; }
     }
 }

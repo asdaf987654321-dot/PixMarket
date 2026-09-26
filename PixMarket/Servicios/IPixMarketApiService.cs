@@ -29,5 +29,21 @@ namespace PixMarket.Servicios
             string nombre, string correo, string contrasenia, string telefono);
 
         Task<FinalizarVentaDto> FinalizarVentaAsync(List<ItemCarrito> lineas);
+
+        // USUARIOS (gestión)
+       
+        Task<List<UsuarioDto>> ObtenerUsuariosAsync();
+        Task<UsuarioDto?> ObtenerUsuarioAsync(int id);
+        Task<(bool Ok, string? Mensaje)> ActualizarUsuarioAsync(int id, UsuarioDto usuario);
+        Task<(bool Ok, string? Mensaje)> CambiarEstadoUsuarioAsync(int id, string estado);
+
+        // CONFIGURACIÓN
+        
+        Task<Configuracion> ObtenerConfiguracionAsync();
+
+        Task<(bool Ok, string? Mensaje)> GuardarConfiguracionAsync(
+            Configuracion configuracion);
+
+
     }
 }
