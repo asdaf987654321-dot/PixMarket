@@ -188,39 +188,6 @@ namespace PixMarket.Servicios
             return (false, await LeerMensaje(respuesta));
         }
 
-        public async Task<FinalizarVentaDto> FinalizarVentaAsync(List<ItemCarrito> lineas)
-        {
-            var request = new
-            {
-                lineas = lineas.Select(l => new
-                {
-                    idItem = l.Id,
-                    cantidad = l.Cantidad
-                }).ToList()
-            };
-
-            var respuesta = await _http.PostAsJsonAsync("api/ventas/finalizar", request);
-
-            if (respuesta.StatusCode == HttpStatusCode.OK)
-            {
-                return await respuesta.Content.ReadFromJsonAsync<FinalizarVentaDto>()
-                    ?? new FinalizarVentaDto { Ok = true };
-            }
-
-            if (respuesta.StatusCode == HttpStatusCode.Conflict ||
-                respuesta.StatusCode == HttpStatusCode.BadRequest)
-            {
-                var resultado = await respuesta.Content.ReadFromJsonAsync<FinalizarVentaDto>();
-
-                return resultado ?? new FinalizarVentaDto { Ok = false };
-            }
-
-            return new FinalizarVentaDto
-            {
-                Ok = false,
-                Mensaje = await LeerMensaje(respuesta)
-            };
-        }
 
         public async Task<List<UsuarioDto>> ObtenerUsuariosAsync()
         {
@@ -328,6 +295,93 @@ namespace PixMarket.Servicios
             {
                 return null;
             }
+        }
+
+        public async Task<ApiInventarioStats?> ObtenerEstadisticasInventarioAsync()
+        {
+            return await _http.GetFromJsonAsync<ApiInventarioStats>("api/inventory/stats");
+
+        }
+        public async Task<List<Item>?> ObtenerItemsInventarioAsync()
+        {
+            return await _http.GetFromJsonAsync<List<Item>>("api/inventory/items");
+        }
+
+        public async Task<List<ResultadoBusquedaDto>?> BuscarGlobalAsync(string query)
+        {
+            if (string.IsNullOrWhiteSpace(query))
+                return new List<ResultadoBusquedaDto>();
+
+            return await _http.GetFromJsonAsync<List<ResultadoBusquedaDto>>($"api/reportes/buscar?q={Uri.EscapeDataString(query)}");
+        }
+
+        public async Task<ReporteGeneralDto?> GetReporteGeneralAsync()
+        {
+            return await _http.GetFromJsonAsync<ReporteGeneralDto>("api/reportes/general");
+        }
+
+        public async Task<List<VentaPorDiaDto>?> GetVentasPorDiaAsync()
+        {
+            return await _http.GetFromJsonAsync<List<VentaPorDiaDto>>("api/reportes/ventas-por-dia");
+        }
+
+        public async Task<List<VentaPorJuegoDto>?> GetVentasPorJuegoAsync()
+        {
+            return await _http.GetFromJsonAsync<List<VentaPorJuegoDto>>("api/reportes/ventas-por-juego");
+
+        }
+
+        public async Task<List<VentaDto>?> ObtenerPedidosAdminAsync()
+        {
+            return await _http.GetFromJsonAsync<List<VentaDto>>("api/ventas/admin");
+        }
+
+        public async Task<VentaDetalleDto?> ObtenerDetallePedidoAsync(int id)
+        {
+            return await _http.GetFromJsonAsync<VentaDetalleDto>($"api/ventas/{id}");
+        }
+
+        public async Task<bool> ActualizarEstadoPedidoAsync(int id, string estado)
+        {
+            var response = await _http.PutAsJsonAsync($"api/ventas/{id}/estado", new { estado });
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<FinalizarVentaResultado?> FinalizarVentaAsync(FinalizarVentaRequest request)
+        {
+            var response = await _http.PostAsJsonAsync("api/ventas/finalizar", request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadFromJsonAsync<FinalizarVentaResultado>();
+            }
+
+            try
+            {
+                // Captura el mensaje de error que mande la API (por ejemplo, falta de stock)
+                return await response.Content.ReadFromJsonAsync<FinalizarVentaResultado>();
+            }
+            catch
+            {
+                return new FinalizarVentaResultado
+                {
+                    Ok = false,
+                    Mensaje = "Error al procesar la venta con la API."
+                };
+            }
+
+
+        }
+
+        public async Task<List<VentaDto>> GetVentasRecientesAsync()
+        {
+            var response = await _http.GetFromJsonAsync<List<VentaDto>>("api/ventas/ventas-recientes");
+            return response ?? new List<VentaDto>();
+        }
+
+        public async Task<VentasStatsDto?> ObtenerEstadisticasVentasAsync()
+        {
+            return await _http.GetFromJsonAsync<VentasStatsDto>("api/ventas/stats");
         }
     }
 }

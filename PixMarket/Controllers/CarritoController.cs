@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PixMarket.Models;
 using PixMarket.Servicios;
+using System.Security.Claims;
 using System.Text.Json;
 
 namespace PixMarket.Controllers
@@ -17,13 +18,13 @@ namespace PixMarket.Controllers
             _api = api;
         }
 
-        // Lista el carrito
+       
         public IActionResult Index()
         {
             return View(ObtenerCarrito());
         }
 
-        // Agrega un item (o suma cantidad)
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Agregar(int id, int cantidad = 1)
@@ -84,7 +85,7 @@ namespace PixMarket.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // Actualiza la cantidad de un item
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult ActualizarCantidad(int id, int cantidad)
@@ -109,7 +110,7 @@ namespace PixMarket.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // Elimina un item del carrito
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Eliminar(int id)
@@ -126,7 +127,7 @@ namespace PixMarket.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // Vacía el carrito
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Vaciar()
@@ -135,8 +136,7 @@ namespace PixMarket.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // Finaliza la venta: la API valida el stock, lo descuenta
-        // y la app vacía el carrito. Requiere sesión iniciada.
+        
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -150,11 +150,31 @@ namespace PixMarket.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            FinalizarVentaDto resultado;
+            
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int idUsuario))
+            {
+                TempData["MensajeCarrito"] = "Debes iniciar sesión correctamente para finalizar la compra.";
+                return RedirectToAction("Login", "Usuarios");
+            }
+
+            
+            var request = new FinalizarVentaRequest
+            {
+                IdUsuario = idUsuario, 
+                Lineas = carrito.Select(c => new LineaVentaRequest
+                {
+                    IdItem = c.Id,
+                    Cantidad = c.Cantidad
+                }).ToList()
+            };
+
+            FinalizarVentaResultado? resultado;
 
             try
             {
-                resultado = await _api.FinalizarVentaAsync(carrito);
+                resultado = await _api.FinalizarVentaAsync(request);
             }
             catch (HttpRequestException)
             {
@@ -165,7 +185,7 @@ namespace PixMarket.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            if (resultado.Ok)
+            if (resultado != null && resultado.Ok)
             {
                 HttpContext.Session.Remove(SessionKey);
 
@@ -177,14 +197,15 @@ namespace PixMarket.Controllers
             else
             {
                 TempData["MensajeCarrito"] =
-                    string.IsNullOrWhiteSpace(resultado.Mensaje)
+                    string.IsNullOrWhiteSpace(resultado?.Mensaje)
                         ? "No se pudo finalizar la venta."
-                        : resultado.Mensaje;
+                        : resultado?.Mensaje;
             }
 
             return RedirectToAction(nameof(Index));
         }
 
+        
         private List<ItemCarrito> ObtenerCarrito()
         {
             var json = HttpContext.Session.GetString(SessionKey);

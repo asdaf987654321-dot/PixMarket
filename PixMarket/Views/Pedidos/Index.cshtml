@@ -1,3 +1,4 @@
+@model IEnumerable<PixMarket.Servicios.VentaDto>
 @{
     ViewData["Title"] = "Pedidos";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -13,6 +14,22 @@
 
         <section class="admin-content">
 
+            
+            @if (TempData["Mensaje"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show mb-3" role="alert">
+                    @TempData["Mensaje"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+                    @TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
             <div class="admin-welcome">
                 <div>
                     <h1>Pedidos</h1>
@@ -27,54 +44,45 @@
                 </div>
             </div>
 
+            
             <div class="admin-stats">
-
                 <div class="admin-stat-card orange">
-                    <div class="admin-stat-icon">
-                        <i class="bi bi-hourglass-split"></i>
-                    </div>
+                    <div class="admin-stat-icon"><i class="bi bi-hourglass-split"></i></div>
                     <div class="admin-stat-info">
                         <span>Pendientes</span>
-                        <strong>5</strong>
+                        <strong>@(Model?.Count(p => p.Estado == "Pendiente") ?? 0)</strong>
                     </div>
                 </div>
 
                 <div class="admin-stat-card blue">
-                    <div class="admin-stat-icon">
-                        <i class="bi bi-box"></i>
-                    </div>
+                    <div class="admin-stat-icon"><i class="bi bi-box"></i></div>
                     <div class="admin-stat-info">
                         <span>En preparación</span>
-                        <strong>3</strong>
+                        <strong>@(Model?.Count(p => p.Estado == "En Preparacion") ?? 0)</strong>
                     </div>
                 </div>
 
                 <div class="admin-stat-card purple">
-                    <div class="admin-stat-icon">
-                        <i class="bi bi-truck"></i>
-                    </div>
+                    <div class="admin-stat-icon"><i class="bi bi-truck"></i></div>
                     <div class="admin-stat-info">
                         <span>En camino</span>
-                        <strong>2</strong>
+                        <strong>@(Model?.Count(p => p.Estado == "En Camino") ?? 0)</strong>
                     </div>
                 </div>
 
                 <div class="admin-stat-card green">
-                    <div class="admin-stat-icon">
-                        <i class="bi bi-check-circle"></i>
-                    </div>
+                    <div class="admin-stat-icon"><i class="bi bi-check-circle"></i></div>
                     <div class="admin-stat-info">
                         <span>Entregados</span>
-                        <strong>37</strong>
+                        <strong>@(Model?.Count(p => p.Estado == "Entregado") ?? 0)</strong>
                     </div>
                 </div>
-
             </div>
 
             <div class="admin-panel">
                 <div class="admin-panel-header">
                     <h3><i class="bi bi-clipboard-list"></i> Lista de pedidos</h3>
-                    <span>47 pedido(s) este mes</span>
+                    <span>@(Model?.Count() ?? 0) pedido(s) registrado(s)</span>
                 </div>
 
                 <div class="table-responsive">
@@ -83,7 +91,6 @@
                             <tr>
                                 <th># Pedido</th>
                                 <th>Cliente</th>
-                                <th>Productos</th>
                                 <th>Total</th>
                                 <th>Estado</th>
                                 <th>Fecha</th>
@@ -91,53 +98,77 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @if (Model != null && Model.Any())
+                            
+                        {
+                                @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>#@item.Id.ToString("D4")</td>
+                                    <td>@item.NombreUsuario</td>
+                                    <td>Bs @item.Total.ToString("N2")</td>
+                                    <td>
+                                        <span class="estado @(item.Estado?.ToLower().Replace(" ", ""))">
+                                            @item.Estado
+                                        </span>
+                                    </td>
+                                    <td>@item.FechaVenta.ToString("dd/MM/yyyy HH:mm")</td>
+                                    <td style="text-align: right; white-space: nowrap;">
+                                        
+                                        <a asp-action="Detalle" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info" title="Ver Detalle">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+
+                                        
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" title="Cambiar Estado">
+                                                <i class="bi bi-sliders"></i>
+                                            </button>
+                                            <ul class="dropdown-menu shadow">
+                                                <li>
+                                                    <form asp-action="CambiarEstado" method="post">
+                                                        <input type="hidden" name="id" value="@item.Id" />
+                                                        <input type="hidden" name="estado" value="Pendiente" />
+                                                        <button type="submit" class="dropdown-item">Pendiente</button>
+                                                    </form>
+                                                </li>
+                                                <li>
+                                                    <form asp-action="CambiarEstado" method="post">
+                                                        <input type="hidden" name="id" value="@item.Id" />
+                                                        <input type="hidden" name="estado" value="En Preparacion" />
+                                                        <button type="submit" class="dropdown-item">En Preparación</button>
+                                                    </form>
+                                                </li>
+                                                <li>
+                                                    <form asp-action="CambiarEstado" method="post">
+                                                        <input type="hidden" name="id" value="@item.Id" />
+                                                        <input type="hidden" name="estado" value="En Camino" />
+                                                        <button type="submit" class="dropdown-item">En Camino</button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        
+                                        <form asp-action="CambiarEstado" method="post" class="d-inline">
+                                            <input type="hidden" name="id" value="@item.Id" />
+                                            <input type="hidden" name="estado" value="Entregado" />
+                                            <button type="submit" class="btn btn-sm btn-outline-success" title="Marcar como Entregado">
+                                                <i class="bi bi-check-lg"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                            }
+                            else
+                            {
                             <tr>
-                                <td>#0103</td>
-                                <td>Diego Fuentes</td>
-                                <td>Sol Ring, Dark Magician</td>
-                                <td>Bs 76,00</td>
-                                <td><span class="estado pendiente">Pendiente</span></td>
-                                <td>21/09/2026</td>
-                                <td style="text-align: right; white-space: nowrap;">
-                                    <a href="#" class="btn btn-sm btn-outline-info" title="Ver"><i class="bi bi-eye"></i></a>
-                                    <a href="#" class="btn btn-sm btn-outline-success" title="Confirmar"><i class="bi bi-check-lg"></i></a>
+                                <td colspan="6" style="text-align: center; padding: 2rem; color: #6c757d;">
+                                    No hay pedidos registrados en el sistema.
                                 </td>
                             </tr>
-                            <tr>
-                                <td>#0102</td>
-                                <td>Camila Méndez</td>
-                                <td>Charizard VMAX</td>
-                                <td>Bs 18,00</td>
-                                <td><span class="estado pendiente">Pendiente</span></td>
-                                <td>20/09/2026</td>
-                                <td style="text-align: right; white-space: nowrap;">
-                                    <a href="#" class="btn btn-sm btn-outline-info" title="Ver"><i class="bi bi-eye"></i></a>
-                                    <a href="#" class="btn btn-sm btn-outline-success" title="Confirmar"><i class="bi bi-check-lg"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#0101</td>
-                                <td>Ana Rojas</td>
-                                <td>Pikachu V</td>
-                                <td>Bs 12,50</td>
-                                <td><span class="estado pendiente">Pendiente</span></td>
-                                <td>19/09/2026</td>
-                                <td style="text-align: right; white-space: nowrap;">
-                                    <a href="#" class="btn btn-sm btn-outline-info" title="Ver"><i class="bi bi-eye"></i></a>
-                                    <a href="#" class="btn btn-sm btn-outline-success" title="Confirmar"><i class="bi bi-check-lg"></i></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>#0099</td>
-                                <td>Marcelo López</td>
-                                <td>Blue-Eyes White Dragon</td>
-                                <td>Bs 45,00</td>
-                                <td><span class="estado completado">Entregado</span></td>
-                                <td>17/09/2026</td>
-                                <td style="text-align: right; white-space: nowrap;">
-                                    <a href="#" class="btn btn-sm btn-outline-info" title="Ver"><i class="bi bi-eye"></i></a>
-                                </td>
-                            </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -152,5 +183,4 @@
         </section>
 
     </main>
-
 </div>

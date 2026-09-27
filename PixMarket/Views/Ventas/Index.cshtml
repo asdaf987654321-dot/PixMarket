@@ -1,8 +1,9 @@
+@model IEnumerable<PixMarket.Servicios.VentaDto>
 @{
     ViewData["Title"] = "Ventas";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var stats = ViewBag.Stats as PixMarket.Servicios.VentasStatsDto ?? new PixMarket.Servicios.VentasStatsDto();
 }
-
 <div class="admin-layout">
 
     <partial name="_AdminSidebar" />
@@ -16,11 +17,8 @@
             <div class="admin-welcome">
                 <div>
                     <h1>Ventas</h1>
-                    <p>Consulta el historial de ventas de tu tienda.</p>
+                    <p>Consulta el historial de ventas entregadas de tu tienda.</p>
                 </div>
-                <a class="btn btn-success" style="background: linear-gradient(90deg, #10afa5, #0a9992); border: none; height: fit-content;">
-                    <i class="bi bi-plus-circle"></i> Nueva venta
-                </a>
             </div>
 
             <div class="admin-stats">
@@ -31,7 +29,7 @@
                     </div>
                     <div class="admin-stat-info">
                         <span>Ventas del día</span>
-                        <strong>Bs 156</strong>
+                        <strong>Bs @stats.VentasDelDia.ToString("N2")</strong>
                     </div>
                 </div>
 
@@ -41,7 +39,7 @@
                     </div>
                     <div class="admin-stat-info">
                         <span>Ventas de la semana</span>
-                        <strong>Bs 980</strong>
+                        <strong>Bs @stats.VentasDeLaSemana.ToString("N2")</strong>
                     </div>
                 </div>
 
@@ -51,7 +49,7 @@
                     </div>
                     <div class="admin-stat-info">
                         <span>Pedidos en el mes</span>
-                        <strong>47</strong>
+                        <strong>@stats.PedidosEnElMes</strong>
                     </div>
                 </div>
 
@@ -61,7 +59,7 @@
                     </div>
                     <div class="admin-stat-info">
                         <span>Ticket promedio</span>
-                        <strong>Bs 38</strong>
+                        <strong>Bs @stats.TicketPromedio.ToString("N2")</strong>
                     </div>
                 </div>
 
@@ -69,7 +67,7 @@
 
             <div class="admin-panel">
                 <div class="admin-panel-header">
-                    <h3><i class="bi bi-cart-check"></i> Ventas recientes</h3>
+                    <h3><i class="bi bi-cart-check"></i> Ventas recientes (Entregadas)</h3>
                     <span>Últimos 30 días</span>
                 </div>
 
@@ -80,52 +78,34 @@
                                 <th># Venta</th>
                                 <th>Fecha</th>
                                 <th>Cliente</th>
-                                <th>Productos</th>
                                 <th>Total</th>
                                 <th>Estado</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>#0012</td>
-                                <td>22/09/2026</td>
-                                <td>Marcelo López</td>
-                                <td>3</td>
-                                <td>Bs 45,50</td>
-                                <td><span class="estado completado">Completada</span></td>
-                            </tr>
-                            <tr>
-                                <td>#0011</td>
-                                <td>22/09/2026</td>
-                                <td>Ana Rojas</td>
-                                <td>1</td>
-                                <td>Bs 12,50</td>
-                                <td><span class="estado completado">Completada</span></td>
-                            </tr>
-                            <tr>
-                                <td>#0010</td>
-                                <td>21/09/2026</td>
-                                <td>Diego Fuentes</td>
-                                <td>2</td>
-                                <td>Bs 76,00</td>
-                                <td><span class="estado pendiente">Pendiente</span></td>
-                            </tr>
-                            <tr>
-                                <td>#0009</td>
-                                <td>20/09/2026</td>
-                                <td>Camila Méndez</td>
-                                <td>1</td>
-                                <td>Bs 18,00</td>
-                                <td><span class="estado completado">Completada</span></td>
-                            </tr>
-                            <tr>
-                                <td>#0008</td>
-                                <td>19/09/2026</td>
-                                <td>Luis Torrico</td>
-                                <td>4</td>
-                                <td>Bs 132,00</td>
-                                <td><span class="estado cancelado">Cancelada</span></td>
-                            </tr>
+                            @if (Model != null && Model.Any())
+                            {
+                                foreach (var venta in Model)
+                                {
+                                    <tr>
+                                        <td>#@venta.Id.ToString("D4")</td>
+                                        <td>@venta.FechaVenta.ToString("dd/MM/yyyy")</td>
+                                        <td>@(venta.NombreUsuario ?? "Cliente")</td>
+                                        <td>Bs @venta.Total.ToString("N2")</td>
+                                        <td>
+                                            <span class="estado completado">@venta.Estado</span>
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted py-4">
+                                        No hay ventas registradas con el estado entregado.
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -140,5 +120,4 @@
         </section>
 
     </main>
-
 </div>

@@ -5,7 +5,6 @@
 
 <div class="admin-layout">
 
-    <!--SIDEBAR -->
     <aside class="admin-sidebar">
 
         <div class="admin-sidebar-brand">
@@ -72,15 +71,21 @@
     </aside>
 
 
-    <!--  CONTENIDO PRINCIPAL  -->
     <main class="admin-main">
 
-        <!-- TOPBAR  -->
+        
         <header class="admin-topbar">
 
-            <div class="admin-search">
-                <i class="bi bi-search"></i>
-                <input type="text" placeholder="Buscar productos, usuarios, pedidos..." />
+            <div class="admin-search-container" style="position: relative; width: 350px;">
+                <form class="admin-search" onsubmit="return false;" style="width: 100%; margin: 0;">
+                    <i class="bi bi-search"></i>
+                    <input type="text" id="inputBusquedaAdmin" placeholder="Buscar productos, usuarios, pedidos..." autocomplete="off" style="width: 100%;" />
+                </form>
+
+                
+                <div id="resultadosBusquedaDropdown" class="dropdown-menu shadow w-100" style="display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 1050; max-height: 350px; overflow-y: auto;">
+                    
+                </div>
             </div>
 
             <div class="admin-topbar-actions">
@@ -136,10 +141,10 @@
         </header>
 
 
-        <!--  CONTENIDO  -->
+       
         <section class="admin-content">
 
-            <!-- BIENVENIDA -->
+            
             <div class="admin-welcome">
                 <div>
                     <h1>¡Hola, @(User.Identity?.Name ?? "Admin")!</h1>
@@ -155,7 +160,7 @@
             </div>
 
 
-            <!-- TARJETAS DE MÉTRICAS -->
+            
             <div class="admin-stats">
 
                 <div class="admin-stat-card blue">
@@ -205,10 +210,10 @@
             </div>
 
 
-            <!-- GRID PRINCIPAL -->
+            
             <div class="admin-grid">
 
-                <!-- GRÁFICO DE VENTAS -->
+                
                 <div class="admin-panel">
                     <div class="admin-panel-header">
                         <h3><i class="bi bi-bar-chart-line"></i> Ventas de los últimos 7 días</h3>
@@ -223,7 +228,7 @@
                 </div>
 
 
-                <!-- STOCK BAJO -->
+                
                 <div class="admin-panel">
                     <div class="admin-panel-header">
                         <h3><i class="bi bi-exclamation-triangle"></i> Stock bajo</h3>
@@ -246,7 +251,7 @@
             </div>
 
 
-            <!-- PEDIDOS RECIENTES -->
+            
             <div class="admin-panel full-width">
 
                 <div class="admin-panel-header">
@@ -272,7 +277,7 @@
             </div>
 
 
-            <!-- RECORDATORIO -->
+            
             <div class="admin-recordatorio">
                 <div class="admin-recordatorio-icon">
                     <i class="bi bi-check-circle"></i>
@@ -291,3 +296,71 @@
     </main>
 
 </div>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const input = document.getElementById("inputBusquedaAdmin");
+        const dropdown = document.getElementById("resultadosBusquedaDropdown");
+
+        let timeout = null;
+
+        input.addEventListener("input", function () {
+            clearTimeout(timeout);
+            const query = input.value.trim();
+
+            if (query.length < 2) {
+                dropdown.style.display = "none";
+                dropdown.innerHTML = "";
+                return;
+            }
+
+            
+            timeout = setTimeout(() => {
+                fetch(`/Reportes/BuscarJson?q=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        dropdown.innerHTML = "";
+
+                        if (data && data.length > 0) {
+                            data.forEach(item => {
+                                const a = document.createElement("a");
+                                a.className = "dropdown-item d-flex justify-content-between align-items-center py-2";
+                                a.href = item.url;
+                                a.innerHTML = `
+                                    <div>
+                                        <strong class="text-dark">${item.nombre}</strong>
+                                        <span class="badge bg-secondary ms-2" style="font-size: 0.75rem;">${item.tipo}</span>
+                                    </div>
+                                    <i class="bi bi-chevron-right text-muted small"></i>
+                                `;
+                                dropdown.appendChild(a);
+                            });
+                            dropdown.style.display = "block";
+                        } else {
+                            dropdown.innerHTML = `<span class="dropdown-item text-muted text-center py-2">No se encontraron resultados</span>`;
+                            dropdown.style.display = "block";
+                        }
+                    })
+                    .catch(err => {
+                        console.error("Error en la búsqueda:", err);
+                        dropdown.style.display = "none";
+                    });
+            }, 300);
+        });
+
+        
+        document.addEventListener("click", function (e) {
+            if (!input.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.style.display = "none";
+            }
+        });
+
+        
+        input.addEventListener("focus", function () {
+            if (input.value.trim().length >= 2 && dropdown.children.length > 0) {
+                dropdown.style.display = "block";
+            }
+        });
+    });
+</script>

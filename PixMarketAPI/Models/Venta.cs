@@ -26,6 +26,8 @@ namespace PixMarketAPI.Models
         [StringLength(30)]
         public string Estado { get; set; } = "Pendiente";
 
+        public DateTime? FechaActualizacion { get; set; }
+
         public ICollection<DetalleVenta> DetallesVenta { get; set; }
             = new List<DetalleVenta>();
     }

@@ -3598,3 +3598,37 @@ body {
     font-size: 1.1rem;
     text-align: right;
 }
+
+/* Estilo base tipo píldora para todos los estados */
+.estado {
+    display: inline-block;
+    padding: 0.45em 1.1em;
+    border-radius: 50rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+    /* 1. Pendiente (Tono Naranja/Ámbar igual a la tarjeta superior) */
+    .estado.pendiente {
+        background-color: #fef3c7;
+        color: #d97706;
+    }
+
+    /* 2. En Preparación (Tono Azul igual a la tarjeta superior) */
+    .estado.enpreparacion {
+        background-color: #e0e7ff;
+        color: #4338ca;
+    }
+
+    /* 3. En Camino (Tono Morado/Lila igual a la tarjeta superior) */
+    .estado.encamino {
+        background-color: #f3e8ff;
+        color: #7e22ce;
+    }
+
+    /* 4. Entregado (Tono Verde igual a la tarjeta superior) */
+    .estado.entregado {
+        background-color: #d1fae5;
+        color: #065f46;
+    }

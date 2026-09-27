@@ -1,8 +1,8 @@
+@model PixMarket.Servicios.ReporteGeneralDto
 @{
     ViewData["Title"] = "Reportes";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
-
 <div class="admin-layout">
 
     <partial name="_AdminSidebar" />
@@ -18,7 +18,7 @@
                     <h1>Reportes</h1>
                     <p>Analiza el rendimiento de tu tienda con los datos clave.</p>
                 </div>
-                <a class="btn btn-success" style="background: linear-gradient(90deg, #10afa5, #0a9992); border: none; height: fit-content;">
+                <a asp-controller="Reportes" asp-action="DescargarPdfReporte" class="btn btn-success" style="background: linear-gradient(90deg, #10afa5, #0a9992); border: none; height: fit-content;">
                     <i class="bi bi-download"></i> Exportar
                 </a>
             </div>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="admin-stat-info">
                         <span>Ingresos totales</span>
-                        <strong>Bs 4.250</strong>
+                        <h3>Bs @(Model?.IngresosTotales.ToString("N2") ?? "0.00")</h3>
                     </div>
                 </div>
 
@@ -41,7 +41,7 @@
                     </div>
                     <div class="admin-stat-info">
                         <span>Pedidos completados</span>
-                        <strong>112</strong>
+                        <h3>@(Model?.PedidosCompletados ?? 0)</h3>
                     </div>
                 </div>
 
@@ -51,7 +51,7 @@
                     </div>
                     <div class="admin-stat-info">
                         <span>Clientes nuevos</span>
-                        <strong>23</strong>
+                        <h3>@(Model?.ClientesNew ?? 0)</h3>
                     </div>
                 </div>
 
@@ -61,12 +61,13 @@
                     </div>
                     <div class="admin-stat-info">
                         <span>Producto top</span>
-                        <strong>Pikachu V</strong>
+                        <h3>@(Model?.ProductoTop ?? "N/A")</h3>
                     </div>
                 </div>
 
             </div>
 
+            
             <div class="admin-grid">
 
                 <div class="admin-panel">
@@ -77,7 +78,9 @@
                             <option>Últimos 7 días</option>
                         </select>
                     </div>
-                    <div class="admin-chart-placeholder"></div>
+                    <div style="position: relative; height: 250px; width: 100%;">
+                        <canvas id="graficoVentasDia"></canvas>
+                    </div>
                 </div>
 
                 <div class="admin-panel">
@@ -88,11 +91,14 @@
                             <option>Este año</option>
                         </select>
                     </div>
-                    <div class="admin-chart-placeholder"></div>
+                    <div style="position: relative; height: 250px; width: 100%;">
+                        <canvas id="graficoVentasJuego"></canvas>
+                    </div>
                 </div>
 
             </div>
 
+            
             <div class="admin-panel full-width">
                 <div class="admin-panel-header">
                     <h3><i class="bi bi-trophy"></i> Productos más vendidos</h3>
@@ -112,38 +118,30 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Pikachu V</td>
-                                <td>Pokémon</td>
-                                <td>Bs 12,50</td>
-                                <td>24</td>
-                                <td>Bs 300,00</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Dark Magician</td>
-                                <td>Yu-Gi-Oh!</td>
-                                <td>Bs 18,00</td>
-                                <td>18</td>
-                                <td>Bs 324,00</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Sol Ring</td>
-                                <td>Magic: The Gathering</td>
-                                <td>Bs 9,50</td>
-                                <td>15</td>
-                                <td>Bs 142,50</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Charizard VMAX</td>
-                                <td>Pokémon</td>
-                                <td>Bs 45,00</td>
-                                <td>9</td>
-                                <td>Bs 405,00</td>
-                            </tr>
+                            @if (Model?.ProductosTopList != null && Model.ProductosTopList.Any())
+                            {
+                                int contador = 1;
+                                foreach (var prod in Model.ProductosTopList)
+                                {
+                                    <tr>
+                                        <td>@contador</td>
+                                        <td>@prod.NombreCarta</td>
+                                        <td>@prod.Juego</td>
+                                        <td>Bs @prod.PrecioUnitario.ToString("N2")</td>
+                                        <td>@prod.UnidadesVendidas</td>
+                                        <td>Bs @prod.IngresosTotales.ToString("N2")</td>
+                                    </tr>
+                                    contador++;
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="6" style="text-align: center; padding: 2rem; color: #6c757d;">
+                                        No hay registros de ventas para este periodo.
+                                    </td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -158,5 +156,49 @@
         </section>
 
     </main>
-
 </div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const datosDia = @Html.Raw(Json.Serialize(ViewBag.VentasDia ?? new List<object>()));
+        const datosJuego = @Html.Raw(Json.Serialize(ViewBag.VentasJuego ?? new List<object>()));
+
+        const ctxDia = document.getElementById('graficoVentasDia').getContext('2d');
+        new Chart(ctxDia, {
+        type: 'line',
+        data: {
+        labels: datosDia.map(x => x.fecha || x.Fecha),
+        datasets: [{
+        label: 'Ventas Totales (Bs)',
+        data: datosDia.map(x => x.total || x.Total),
+        borderColor: '#10afa5',
+        backgroundColor: 'rgba(16, 175, 165, 0.1)',
+        borderWidth: 2,
+        fill: true,
+        tension: 0.3
+        }]
+        },
+        options: {
+        responsive: true,
+        maintainAspectRatio: false
+        }
+        });
+
+        const ctxJuego = document.getElementById('graficoVentasJuego').getContext('2d');
+        new Chart(ctxJuego, {
+        type: 'doughnut',
+        data: {
+        labels: datosJuego.map(x => x.juego || x.Juego),
+        datasets: [{
+        data: datosJuego.map(x => x.total || x.Total),
+        backgroundColor: ['#10afa5', '#36A2EB', '#FFCE56', '#FF6384', '#9966FF']
+        }]
+        },
+        options: {
+        responsive: true,
+        maintainAspectRatio: false
+        }
+        });
+    </script>
+}

@@ -1,0 +1,170 @@
+﻿@model PixMarket.Servicios.ReporteGeneralDto
+@{
+    Layout = null; 
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Reporte General - PixMarket</title>
+    <style>
+            body {
+                font-family: Arial, sans-serif;
+                color: #333;
+                font-size: 14px;
+                margin: 0;
+                padding: 20px;
+            }
+
+            .header-table, .content-table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+                .header-table td {
+                    vertical-align: top;
+                }
+
+            .logo-area {
+                font-size: 22px;
+                font-weight: bold;
+                color: #111;
+            }
+
+            .company-info {
+                text-align: right;
+                font-size: 12px;
+                color: #555;
+            }
+
+            .title {
+                font-size: 20px;
+                font-weight: bold;
+                margin-top: 30px;
+                margin-bottom: 5px;
+                color: #222;
+            }
+
+            .subtitle {
+                font-size: 12px;
+                color: #666;
+                margin-bottom: 20px;
+            }
+
+            .content-table th {
+                background-color: #f4f4f4;
+                border-bottom: 2px solid #ddd;
+                text-align: left;
+                padding: 10px;
+                font-size: 12px;
+            }
+
+            .content-table td {
+                padding: 10px;
+                border-bottom: 1px solid #eee;
+                font-size: 13px;
+            }
+
+            .summary-box {
+                margin-top: 20px;
+                padding: 15px;
+                background-color: #f9f9f9;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+    </style>
+</head>
+<body>
+
+    <!-- Cabecera -->
+    <table class="header-table">
+        <tr>
+            <td>
+                <div class="logo-area">PixMarket</div>
+                <div style="font-size: 11px; color: #777;">Panel de Administración y Reportes</div>
+            </td>
+            <td class="company-info">
+                <strong>Comercio de Cartas Coleccionables</strong><br />
+                Fecha de emisión: @Model.FechaGeneracion.ToString("dd/MM/yyyy HH:mm")<br />
+                Estado: Oficial / Sistema
+            </td>
+        </tr>
+    </table>
+
+    <div class="title">Reporte General del Sistema</div>
+    <div class="subtitle">Resumen general de operaciones de la tienda.</div>
+
+    <!-- Tabla con tus propiedades reales -->
+    <table class="content-table">
+        <thead>
+            <tr>
+                <th>MÉTRICA / INDICADOR</th>
+                <th>VALOR / DETALLE</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Ingresos Totales</strong></td>
+                <td>$ @Model.IngresosTotales.ToString("N2")</td>
+            </tr>
+            <tr>
+                <td><strong>Pedidos Completados</strong></td>
+                <td>@Model.PedidosCompletados</td>
+            </tr>
+            <tr>
+                <td><strong>Nuevos Clientes</strong></td>
+                <td>@Model.ClientesNew</td>
+            </tr>
+            <tr>
+                <td><strong>Producto Top (Destacado)</strong></td>
+                <td>@Model.ProductoTop</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Opcional: Mostrar la lista de productos más vendidos si la usas -->
+    @if (Model.ProductosTopList != null && Model.ProductosTopList.Any())
+    {
+        <div class="title" style="font-size: 16px; margin-top: 25px;">Top de Productos Vendidos</div>
+        <table class="content-table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.ProductosTopList != null && Model.ProductosTopList.Any())
+                {
+                    <div class="title" style="font-size: 16px; margin-top: 25px;">Top de Cartas / Productos Más Vendidos</div>
+                    <table class="content-table">
+                        <thead>
+                            <tr>
+                                <th>Carta / Producto</th>
+                                <th>Juego</th>
+                                <th>Precio U.</th>
+                                <th>Unidades</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var prod in Model.ProductosTopList)
+                            {
+                                <tr>
+                                    <td>@prod.NombreCarta</td>
+                                    <td>@prod.Juego</td>
+                                    <td>$ @prod.PrecioUnitario.ToString("N2")</td>
+                                    <td>@prod.UnidadesVendidas</td>
+                                    <td>$ @prod.IngresosTotales.ToString("N2")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </tbody>
+        </table>
+    }
+
+</body>
+</html>

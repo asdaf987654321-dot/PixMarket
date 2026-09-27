@@ -1,3 +1,4 @@
+@model PixMarket.Servicios.ApiInventarioStats
 @{
     ViewData["Title"] = "Inventario";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
@@ -35,7 +36,7 @@
                     </div>
                     <div class="admin-stat-info">
                         <span>Productos activos</span>
-                        <strong>24</strong>
+                        <strong>@Model.ProductosActivos</strong>
                     </div>
                 </div>
 
@@ -45,7 +46,7 @@
                     </div>
                     <div class="admin-stat-info">
                         <span>Stock bajo</span>
-                        <strong>7</strong>
+                        <strong>@Model.StockBajo</strong>
                     </div>
                 </div>
 
@@ -55,7 +56,7 @@
                     </div>
                     <div class="admin-stat-info">
                         <span>Agotados</span>
-                        <strong>3</strong>
+                        <strong>@Model.Agotados</strong>
                     </div>
                 </div>
 
@@ -65,7 +66,7 @@
                     </div>
                     <div class="admin-stat-info">
                         <span>Valor del inventario</span>
-                        <strong>Bs 4.580</strong>
+                        <strong>Bs @Model.ValorInventario.ToString("N2")</strong>
                     </div>
                 </div>
 
@@ -74,7 +75,8 @@
             <div class="admin-panel">
                 <div class="admin-panel-header">
                     <h3><i class="bi bi-boxes"></i> Stock por producto</h3>
-                    <span>24 producto(s)</span>
+                    
+                    <span>@(Model.Items != null ? Model.Items.Count : 0) producto(s)</span>
                 </div>
 
                 <div class="table-responsive">
@@ -89,48 +91,39 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Pikachu V</td>
-                                <td>Pokémon</td>
-                                <td>Pokémon ex</td>
-                                <td>34</td>
-                                <td><span class="stock-badge">Disponible</span></td>
-                            </tr>
-                            <tr>
-                                <td>Charizard VMAX</td>
-                                <td>Pokémon</td>
-                                <td>Pokémon V</td>
-                                <td>8</td>
-                                <td><span class="stock-badge orange">Pasando</span></td>
-                            </tr>
-                            <tr>
-                                <td>Dark Magician</td>
-                                <td>Yu-Gi-Oh!</td>
-                                <td>Monstruos</td>
-                                <td>2</td>
-                                <td><span class="stock-badge red">Crítico</span></td>
-                            </tr>
-                            <tr>
-                                <td>Blue-Eyes White Dragon</td>
-                                <td>Yu-Gi-Oh!</td>
-                                <td>Monstruos</td>
-                                <td>0</td>
-                                <td><span class="stock-badge red">Agotado</span></td>
-                            </tr>
-                            <tr>
-                                <td>Black Lotus</td>
-                                <td>Magic: The Gathering</td>
-                                <td>Artefactos</td>
-                                <td>0</td>
-                                <td><span class="stock-badge red">Agotado</span></td>
-                            </tr>
-                            <tr>
-                                <td>Sol Ring</td>
-                                <td>Magic: The Gathering</td>
-                                <td>Artefactos</td>
-                                <td>15</td>
-                                <td><span class="stock-badge">Disponible</span></td>
-                            </tr>
+                            
+                            @if (Model.Items != null && Model.Items.Any())
+                            {
+                                @foreach (var item in Model.Items)
+                                {
+                                    <tr>
+                                        <td>@item.Nombre</td>
+                                        <td>@item.Juego</td>
+                                        <td>@item.Categoria</td>
+                                        <td>@item.Stock</td>
+                                        <td>
+                                            @if (item.Stock == 0)
+                                            {
+                                                <span class="stock-badge red">Agotado</span>
+                                            }
+                                            else if (item.Stock <= 5)
+                                            {
+                                                <span class="stock-badge red">Crítico</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="stock-badge">Disponible</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5" class="text-center">No hay productos registrados en el inventario.</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </div>

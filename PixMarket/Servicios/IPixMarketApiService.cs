@@ -28,7 +28,8 @@ namespace PixMarket.Servicios
         Task<(bool Ok, string? Mensaje)> RegistrarAsync(
             string nombre, string correo, string contrasenia, string telefono);
 
-        Task<FinalizarVentaDto> FinalizarVentaAsync(List<ItemCarrito> lineas);
+
+       
 
         // USUARIOS (gestión)
        
@@ -43,6 +44,31 @@ namespace PixMarket.Servicios
 
         Task<(bool Ok, string? Mensaje)> GuardarConfiguracionAsync(
             Configuracion configuracion);
+
+
+        Task<ApiInventarioStats?> ObtenerEstadisticasInventarioAsync();
+
+        Task<List<Item>?> ObtenerItemsInventarioAsync();
+
+        Task<List<ResultadoBusquedaDto>?> BuscarGlobalAsync(string query);
+
+        Task<ReporteGeneralDto?> GetReporteGeneralAsync();
+
+        Task<List<VentaPorDiaDto>?> GetVentasPorDiaAsync();
+
+        Task<List<VentaPorJuegoDto>?> GetVentasPorJuegoAsync();
+
+        Task<List<VentaDto>?> ObtenerPedidosAdminAsync();
+
+        Task<VentaDetalleDto?> ObtenerDetallePedidoAsync(int id);
+
+        Task<bool> ActualizarEstadoPedidoAsync(int id, string estado);
+
+        Task<FinalizarVentaResultado?> FinalizarVentaAsync(FinalizarVentaRequest request);
+
+        Task<List<VentaDto>> GetVentasRecientesAsync();
+
+        Task<VentasStatsDto?> ObtenerEstadisticasVentasAsync();
 
 
     }
