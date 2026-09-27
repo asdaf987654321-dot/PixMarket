@@ -16,6 +16,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PixMarket\PixMarket.csproj" />
+    <!-- Para probar el cifrado de contraseñas y usar el mismo en FakeApiService. -->
+    <ProjectReference Include="..\PixMarketAPI\PixMarketAPI.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -14,6 +14,21 @@
 
         <section class="admin-content">
 
+            @if (TempData["Mensaje"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show mb-3" role="alert">
+                    @TempData["Mensaje"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+                    @TempData["Error"]
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
             <div class="admin-welcome">
                 <div>
                     <h1>Ventas</h1>
@@ -53,17 +68,33 @@
                     </div>
                 </div>
 
-                <div class="admin-stat-card purple">
+                <div class="admin-stat-card purple"
+                     title="Muestra cuánto gastó en promedio cada cliente en un pedido durante este mes. Se calcula dividiendo el total vendido del mes entre la cantidad de pedidos entregados del mes.">
                     <div class="admin-stat-icon">
-                        <i class="bi bi-ticket-perforated"></i>
+                        <i class="bi bi-calculator"></i>
                     </div>
                     <div class="admin-stat-info">
-                        <span>Ticket promedio</span>
+                        <span>
+                            Gasto promedio por pedido (mes)
+                            <i class="bi bi-info-circle text-muted"
+                               title="Total vendido este mes ÷ pedidos entregados este mes."></i>
+                        </span>
                         <strong>Bs @stats.TicketPromedio.ToString("N2")</strong>
                     </div>
                 </div>
 
             </div>
+
+            <p class="text-muted" style="font-size: 0.82rem; margin: -8px 0 16px 0;">
+                <i class="bi bi-info-circle"></i>
+                Las cuatro cifras cuentan solo pedidos <strong>entregados</strong>.
+                El <em>gasto promedio por pedido</em> es el total vendido del mes dividido
+                entre cuántos pedidos entregados hubo en el mes.
+                @if (stats.PedidosEnElMes == 0)
+                {
+                    <span>Este mes todavía no hay pedidos entregados, por eso muestra Bs 0.00.</span>
+                }
+            </p>
 
             <div class="admin-panel">
                 <div class="admin-panel-header">
@@ -80,6 +111,7 @@
                                 <th>Cliente</th>
                                 <th>Total</th>
                                 <th>Estado</th>
+                                <th style="text-align: right;">Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -93,7 +125,14 @@
                                         <td>@(venta.NombreUsuario ?? "Cliente")</td>
                                         <td>Bs @venta.Total.ToString("N2")</td>
                                         <td>
-                                            <span class="estado completado">@venta.Estado</span>
+                                            <span class="estado @(venta.Estado?.ToLower().Replace(" ", ""))">
+                                                @venta.Estado
+                                            </span>
+                                        </td>
+                                        <td style="text-align: right; white-space: nowrap;">
+                                            <a asp-action="Detalle" asp-route-id="@venta.Id" class="btn btn-sm btn-outline-info" title="Ver Detalle">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 }
@@ -101,7 +140,7 @@
                             else
                             {
                                 <tr>
-                                    <td colspan="5" class="text-center text-muted py-4">
+                                    <td colspan="6" class="text-center text-muted py-4">
                                         No hay ventas registradas con el estado entregado.
                                     </td>
                                 </tr>

@@ -167,7 +167,11 @@ namespace PixMarket.Controllers
                 {
                     IdItem = c.Id,
                     Cantidad = c.Cantidad
-                }).ToList()
+                }).ToList(),
+
+                // Si compra un administrador, el pedido nace ya entregado:
+                // no hace falta ir despues a Pedidos a marcarlo.
+                Estado = User.IsInRole("Administrador") ? "Entregado" : null
             };
 
             FinalizarVentaResultado? resultado;

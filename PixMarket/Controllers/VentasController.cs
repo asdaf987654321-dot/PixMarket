@@ -8,6 +8,11 @@ namespace PixMarket.Controllers
     [Authorize(Roles = "Administrador")]
     public class VentasController : Controller
     {
+        private const string MessageApiCaida =
+            "No se pudo obtener la información de ventas. " +
+            "Verifica que PixMarketAPI esté en ejecución y que la base de datos " +
+            "tenga el esquema actualizado.";
+
         private readonly IPixMarketApiService _apiService;
 
         public VentasController(IPixMarketApiService apiService)
@@ -18,20 +23,40 @@ namespace PixMarket.Controllers
         [HttpGet]
         public async Task<IActionResult> Index() 
         {
-            var ventas = await _apiService.GetVentasRecientesAsync();
+            try
+            {
+                var ventas = await _apiService.GetVentasRecientesAsync();
 
-            var stats = await _apiService.ObtenerEstadisticasVentasAsync();
+                var stats = await _apiService.ObtenerEstadisticasVentasAsync();
 
-            ViewBag.Stats = stats ?? new VentasStatsDto();
+                ViewBag.Stats = stats ?? new VentasStatsDto();
 
+                return View(ventas);
+            }
+            catch (HttpRequestException)
+            {
+                ViewBag.Stats = new VentasStatsDto();
+                ViewBag.Error = MessageApiCaida;
 
-            return View(ventas);
+                return View(new List<VentaDto>());
+            }
         }
 
 
         public async Task<IActionResult> Detalle(int id)
         {
-            var pedido = await _apiService.ObtenerDetallePedidoAsync(id);
+            VentaDetalleDto? pedido;
+
+            try
+            {
+                pedido = await _apiService.ObtenerDetallePedidoAsync(id);
+            }
+            catch (HttpRequestException)
+            {
+                TempData["Error"] = MessageApiCaida;
+                return RedirectToAction(nameof(Index));
+            }
+
             if (pedido == null)
             {
                 return NotFound();
@@ -43,7 +68,17 @@ namespace PixMarket.Controllers
         [HttpPost]
         public async Task<IActionResult> CambiarEstado(int id, string estado)
         {
-            var resultado = await _apiService.ActualizarEstadoPedidoAsync(id, estado);
+            bool resultado;
+
+            try
+            {
+                resultado = await _apiService.ActualizarEstadoPedidoAsync(id, estado);
+            }
+            catch (HttpRequestException)
+            {
+                resultado = false;
+            }
+
             if (resultado)
             {
                 TempData["Mensaje"] = "El estado del pedido se actualizó correctamente.";

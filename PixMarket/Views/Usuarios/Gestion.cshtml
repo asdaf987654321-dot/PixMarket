@@ -124,14 +124,16 @@
                             {
                                 @foreach (var usuario in Model)
                                 {
+                                    var estaActivo = string.Equals(usuario.Estado, "Activo", StringComparison.OrdinalIgnoreCase);
+
                                     <tr>
                                         <td>@usuario.Nombre</td>
                                         <td>@usuario.Correo</td>
                                         <td>@usuario.Rol</td>
                                         <td>@usuario.Telefono</td>
                                         <td>
-                                            <span class="estado @(usuario.Estado == "Activo" ? "completado" : "pendiente")">
-                                                @usuario.Estado
+                                            <span class="estado @(estaActivo ? "completado" : "pendiente")">
+                                                @(string.IsNullOrWhiteSpace(usuario.Estado) ? "Activo" : usuario.Estado)
                                             </span>
                                         </td>
 
@@ -146,10 +148,17 @@
                                                 @Html.AntiForgeryToken()
                                                 <input type="hidden" name="id" value="@usuario.Id" />
                                                 <input type="hidden" name="estado"
-                                                       value="@(usuario.Estado == "Activo" ? "Suspendido" : "Activo")" />
-                                                <button type="submit" class="btn btn-sm btn-outline-danger"
-                                                        title="@(usuario.Estado == "Activo" ? "Suspender" : "Activar")">
-                                                    <i class="bi bi-person-dash"></i>
+                                                       value="@(estaActivo ? "Suspendido" : "Activo")" />
+                                                @* Si el usuario está suspendido, el botón para activarlo se muestra en verde. *@
+                                                <button type="submit"
+                                                        class="btn btn-sm @(estaActivo ? "btn-outline-danger" : "btn-success")"
+                                                        style="@(estaActivo ? "" : "background: #10afa5; border-color: #10afa5; color: #fff;")"
+                                                        title="@(estaActivo ? "Suspender" : "Activar")">
+                                                    <i class="bi @(estaActivo ? "bi-person-dash" : "bi-person-check")"></i>
+                                                    @if (!estaActivo)
+                                                    {
+                                                        <span>Activar</span>
+                                                    }
                                                 </button>
                                             </form>
                                         </td>

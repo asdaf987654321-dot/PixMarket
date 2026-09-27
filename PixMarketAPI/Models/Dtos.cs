@@ -22,6 +22,12 @@ namespace PixMarketAPI.Models
         public string? Correo { get; set; }
         public string? Contrasenia { get; set; }
         public string? Telefono { get; set; }
+
+        /// <summary>
+        /// Opcional: solo lo envía el panel de administración para crear
+        /// administradores. El registro público lo deja vacío y usa "Usuario".
+        /// </summary>
+        public string? Rol { get; set; }
     }
 
     public class MensajeResultado
@@ -51,6 +57,13 @@ namespace PixMarketAPI.Models
     {
         public int IdUsuario { get; set; }
         public List<LineaVentaRequest> Lineas { get; set; } = new List<LineaVentaRequest>();
+
+        /// <summary>
+        /// Estado inicial del pedido. Si se omite queda "Pendiente".
+        /// Solo se admite "Entregado" como valor especial, para las compras
+        /// que el administrador realiza en mostrador.
+        /// </summary>
+        public string? Estado { get; set; }
     }
 
     public class FinalizarVentaResultado

@@ -1,0 +1,88 @@
+@{
+    ViewData["Title"] = "Nuevo usuario";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="admin-layout">
+
+    <partial name="_AdminSidebar" />
+
+    <main class="admin-main">
+
+        <partial name="_AdminTopbar" />
+
+        <section class="admin-content">
+
+            <div class="admin-welcome">
+                <div>
+                    <h1>Nuevo usuario</h1>
+                    <p>Crea una cuenta para un cliente o para otro administrador.</p>
+                </div>
+                <button type="submit" form="form-crear" class="btn btn-success"
+                        style="background: linear-gradient(90deg, #10afa5, #0a9992); border: none; height: fit-content;">
+                    <i class="bi bi-check2-circle"></i> Crear usuario
+                </button>
+            </div>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+                    @ViewBag.Error
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            <form id="form-crear" method="post" asp-action="Crear">
+
+                @Html.AntiForgeryToken()
+
+                <div class="admin-panel">
+                    <div class="admin-panel-header">
+                        <h3><i class="bi bi-person-plus"></i> Datos de la cuenta</h3>
+                    </div>
+
+                    <div class="row g-3 p-3">
+                        <div class="col-md-6">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" id="nombre" name="nombre" class="form-control" required />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="correo" class="form-label">Correo</label>
+                            <input type="email" id="correo" name="correo" class="form-control" required />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="contrasenia" class="form-label">Contraseña</label>
+                            <input type="password" id="contrasenia" name="contrasenia"
+                                   class="form-control" minlength="6" required />
+                            <small class="text-muted">Mínimo 6 caracteres.</small>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="telefono" class="form-label">Teléfono</label>
+                            <input type="tel" id="telefono" name="telefono" class="form-control" required />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="rol" class="form-label">Rol</label>
+                            <select id="rol" name="rol" class="form-select" required>
+                                <option value="Usuario" selected>Usuario</option>
+                                <option value="Administrador">Administrador</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <a asp-action="Gestion" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Volver a Usuarios
+                    </a>
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+</div>

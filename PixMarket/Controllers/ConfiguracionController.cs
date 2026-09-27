@@ -8,6 +8,11 @@ namespace PixMarket.Controllers
     [Authorize(Roles = "Administrador")]
     public class ConfiguracionController : Controller
     {
+        private const string MessageApiCaida =
+            "No se pudo obtener la configuración. " +
+            "Verifica que PixMarketAPI esté en ejecución y que la base de datos " +
+            "tenga creada la tabla 'configuraciones'.";
+
         private readonly IPixMarketApiService _api;
 
         public ConfiguracionController(IPixMarketApiService api)
@@ -25,10 +30,7 @@ namespace PixMarket.Controllers
             }
             catch (HttpRequestException)
             {
-                ViewBag.Error =
-                    "No se pudo conectar con la API de datos. " +
-                    "Verifica que PixMarketAPI esté en ejecución.";
-
+                ViewBag.Error = MessageApiCaida;
                 return View(new Configuracion());
             }
         }
@@ -56,7 +58,7 @@ namespace PixMarket.Controllers
             }
             catch (HttpRequestException)
             {
-                ViewBag.Error = "No se pudo conectar con la API de datos.";
+                ViewBag.Error = MessageApiCaida;
                 return View("Index", configuracion);
             }
 

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PixMarketAPI.Data;
 using PixMarketAPI.Models;
+using PixMarketAPI.Seguridad;
 
 namespace PixMarketAPI.Controllers
 {
@@ -38,18 +39,29 @@ namespace PixMarketAPI.Controllers
                 });
             }
 
+            // Se busca solo por correo. La contraseña se compara después con
+            // Contrasena.Verificar, porque en la base está cifrada y no se
+            // puede filtrar con un "WHERE Contrasenia = ...".
             var usuario = await _context.Usuarios
-                .FirstOrDefaultAsync(u =>
-                    u.Correo == login.Correo &&
-                    u.Contrasenia == login.Contrasenia);
+                .FirstOrDefaultAsync(u => u.Correo == login.Correo);
 
-            if (usuario == null)
+            if (usuario == null ||
+                !Contrasena.Verificar(login.Contrasenia, usuario.Contrasenia))
             {
                 return Unauthorized(new MensajeResultado
                 {
                     Ok = false,
                     Mensaje = "El correo o la contraseña son incorrectos."
                 });
+            }
+
+            // Las cuentas anteriores a esto tenían la contraseña en texto
+            // plano. Aprovechamos este inicio de sesión para cifrarla, sin
+            // obligar al usuario a cambiar nada.
+            if (!Contrasena.EstaCifrada(usuario.Contrasenia))
+            {
+                usuario.Contrasenia = Contrasena.Hashear(login.Contrasenia);
+                await _context.SaveChangesAsync();
             }
 
             return Ok(new UsuarioDto
@@ -145,9 +157,12 @@ namespace PixMarketAPI.Controllers
             {
                 Nombre = registro.Nombre.Trim(),
                 Correo = registro.Correo.Trim(),
-                Contrasenia = registro.Contrasenia,
+
+                // En la base solo se guarda el hash, nunca la contraseña.
+                Contrasenia = Contrasena.Hashear(registro.Contrasenia),
+
                 Telefono = registro.Telefono.Trim(),
-                Rol = "Usuario"
+                Rol = registro.Rol == "Administrador" ? "Administrador" : "Usuario"
             };
 
             try
@@ -171,7 +186,9 @@ namespace PixMarketAPI.Controllers
                 Id = nuevoUsuario.Id,
                 Nombre = nuevoUsuario.Nombre,
                 Correo = nuevoUsuario.Correo,
-                Rol = nuevoUsuario.Rol
+                Rol = nuevoUsuario.Rol,
+                Telefono = nuevoUsuario.Telefono,
+                Estado = nuevoUsuario.Estado
             });
         }
 
@@ -201,7 +218,9 @@ namespace PixMarketAPI.Controllers
                 Id = usuario.Id,
                 Nombre = usuario.Nombre,
                 Correo = usuario.Correo,
-                Rol = usuario.Rol
+                Rol = usuario.Rol,
+                Telefono = usuario.Telefono,
+                Estado = usuario.Estado
             });
         }
 
@@ -243,6 +262,24 @@ namespace PixMarketAPI.Controllers
                 });
             }
 
+            if (string.IsNullOrWhiteSpace(usuarioDto.Nombre))
+            {
+                return BadRequest(new MensajeResultado
+                {
+                    Ok = false,
+                    Mensaje = "El nombre es obligatorio."
+                });
+            }
+
+            if (string.IsNullOrWhiteSpace(usuarioDto.Correo))
+            {
+                return BadRequest(new MensajeResultado
+                {
+                    Ok = false,
+                    Mensaje = "El correo es obligatorio."
+                });
+            }
+
             var usuario = await _context.Usuarios.FindAsync(id);
 
             if (usuario == null)
@@ -254,10 +291,23 @@ namespace PixMarketAPI.Controllers
                 });
             }
 
-            usuario.Nombre = usuarioDto.Nombre;
-            usuario.Correo = usuarioDto.Correo;
+            // El login busca por correo, así que no puede haber dos cuentas iguales.
+            var correoRepetido = await _context.Usuarios
+                .AnyAsync(u => u.Correo == usuarioDto.Correo.Trim() && u.Id != id);
+
+            if (correoRepetido)
+            {
+                return BadRequest(new MensajeResultado
+                {
+                    Ok = false,
+                    Mensaje = "El correo ya está registrado."
+                });
+            }
+
+            usuario.Nombre = usuarioDto.Nombre.Trim();
+            usuario.Correo = usuarioDto.Correo.Trim();
             usuario.Telefono = usuarioDto.Telefono;
-            usuario.Rol = usuarioDto.Rol;
+            usuario.Rol = usuarioDto.Rol ?? usuario.Rol;
             usuario.Estado = usuarioDto.Estado ?? usuario.Estado;
 
             await _context.SaveChangesAsync();
@@ -285,7 +335,20 @@ namespace PixMarketAPI.Controllers
                 });
             }
 
-            usuario.Estado = request.Estado;
+            // Solo se aceptan los estados definidos por el panel, para no
+            // guardar valores arbitrarios en la base de datos.
+            var estado = request.Estado?.Trim();
+
+            if (estado != "Activo" && estado != "Suspendido")
+            {
+                return BadRequest(new MensajeResultado
+                {
+                    Ok = false,
+                    Mensaje = "El estado debe ser 'Activo' o 'Suspendido'."
+                });
+            }
+
+            usuario.Estado = estado;
             await _context.SaveChangesAsync();
 
             return Ok(new MensajeResultado

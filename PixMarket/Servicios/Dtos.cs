@@ -129,6 +129,12 @@ namespace PixMarket.Servicios
     {
         public int IdUsuario { get; set; }
         public List<LineaVentaRequest> Lineas { get; set; } = new List<LineaVentaRequest>();
+
+        /// <summary>
+        /// "Entregado" cuando compra un administrador, para no tener que pasar
+        /// luego por Pedidos a marcar la entrega. Vacio = "Pendiente".
+        /// </summary>
+        public string? Estado { get; set; }
     }
 
     public class FinalizarVentaResultado

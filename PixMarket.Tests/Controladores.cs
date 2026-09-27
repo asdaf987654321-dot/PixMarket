@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using PixMarket.Controllers;
 using PixMarket.Models;
+using System.Security.Claims;
 
 namespace PixMarket.Tests;
 
@@ -35,9 +36,26 @@ public static class Controladores
     public static CategoriasController CrearTienda(FakeApiService api)
         => new(api);
 
-    public static CarritoController CrearCarrito(FakeApiService api, FakeSession? session = null)
+    public static CarritoController CrearCarrito(
+        FakeApiService api,
+        FakeSession? session = null,
+        int? idUsuario = null,
+        string rol = "Usuario")
     {
         var http = new DefaultHttpContext { Session = session ?? new FakeSession() };
+
+        // CarritoController.Finalizar exige un usuario autenticado con NameIdentifier.
+        if (idUsuario.HasValue)
+        {
+            http.User = new ClaimsPrincipal(new ClaimsIdentity(
+                new[]
+                {
+                    new Claim(ClaimTypes.NameIdentifier, idUsuario.Value.ToString()),
+                    new Claim(ClaimTypes.Name, $"Usuario{idUsuario.Value}"),
+                    new Claim(ClaimTypes.Role, rol)
+                },
+                "Pruebas"));
+        }
 
         var controller = new CarritoController(api);
         controller.ControllerContext = new ControllerContext
@@ -69,6 +87,7 @@ public static class Controladores
             RouteData = new RouteData(),
             ActionDescriptor = new ControllerActionDescriptor()
         };
+        controller.TempData = new TempDataDictionary(http, new FakeTempDataProvider());
 
         return (controller, auth);
     }

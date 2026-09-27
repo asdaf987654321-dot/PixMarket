@@ -9,6 +9,11 @@ namespace PixMarket.Controllers
 {
     public class UsuariosController : Controller
     {
+        private const string MessageApiCaida =
+            "No se pudo obtener el usuario. " +
+            "Verifica que PixMarketAPI esté en ejecución y que la base de datos " +
+            "tenga el esquema actualizado.";
+
         private readonly IPixMarketApiService _api;
 
         public UsuariosController(IPixMarketApiService api)
@@ -318,7 +323,8 @@ namespace PixMarket.Controllers
                     nombre.Trim(),
                     correo.Trim(),
                     contrasenia,
-                    telefono.Trim());
+                    telefono.Trim(),
+                    rol);
             }
             catch (HttpRequestException)
             {
@@ -354,12 +360,14 @@ namespace PixMarket.Controllers
             }
             catch (HttpRequestException)
             {
-                return NotFound();
+                TempData["Error"] = MessageApiCaida;
+                return RedirectToAction("Gestion");
             }
 
             if (usuario == null)
             {
-                return NotFound();
+                TempData["Error"] = "El usuario no existe.";
+                return RedirectToAction("Gestion");
             }
 
             return View(usuario);
@@ -383,12 +391,14 @@ namespace PixMarket.Controllers
             }
             catch (HttpRequestException)
             {
-                return NotFound();
+                TempData["Error"] = MessageApiCaida;
+                return RedirectToAction("Gestion");
             }
 
             if (usuario == null)
             {
-                return NotFound();
+                TempData["Error"] = "El usuario no existe.";
+                return RedirectToAction("Gestion");
             }
 
             return View(usuario);
@@ -403,6 +413,26 @@ namespace PixMarket.Controllers
             {
                 return NotFound();
             }
+
+            if (string.IsNullOrWhiteSpace(usuario.Nombre))
+            {
+                ViewBag.Error = "El nombre es obligatorio.";
+                return View(usuario);
+            }
+
+            if (string.IsNullOrWhiteSpace(usuario.Correo))
+            {
+                ViewBag.Error = "El correo es obligatorio.";
+                return View(usuario);
+            }
+
+            if (string.IsNullOrWhiteSpace(usuario.Rol))
+            {
+                usuario.Rol = "Usuario";
+            }
+
+            // El estado solo cambia con la acción "Suspender / Activar".
+            usuario.Estado = null;
 
             (bool Ok, string? Mensaje) resultado;
 

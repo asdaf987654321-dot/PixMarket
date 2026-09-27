@@ -77,13 +77,31 @@ namespace PixMarketAPI.Controllers
 
             var total = 0m;
 
+            // Por defecto el pedido queda "Pendiente". El panel de administración
+            // puede pedir que nazca ya "Entregado" (compra en mostrador), así el
+            // administrador no tiene que ir despues a Pedidos a marcarlo.
+            var estadoPedido = string.IsNullOrWhiteSpace(request.Estado)
+                ? "Pendiente"
+                : request.Estado.Trim();
+
+            if (estadoPedido != "Pendiente" && estadoPedido != "Entregado")
+            {
+                return BadRequest(new FinalizarVentaResultado
+                {
+                    Ok = false,
+                    Mensaje = "El estado inicial debe ser 'Pendiente' o 'Entregado'.",
+                    Total = 0
+                });
+            }
+
             var nuevaVenta = new Venta
             {
                 IdUsuario = request.IdUsuario,
                 FechaVenta = DateTime.Now,
                 Total = 0m,
                 MetodoPago = "General",
-                Estado = "Pendiente"
+                Estado = estadoPedido,
+                FechaActualizacion = estadoPedido == "Entregado" ? DateTime.Now : null
             };
 
             _context.Ventas.Add(nuevaVenta);
@@ -133,7 +151,8 @@ namespace PixMarketAPI.Controllers
             {
                 Ok = true,
                 Mensaje = "Venta finalizada correctamente. " +
-                    $"Total: Bs {total.ToString("N2")}. El stock fue actualizado.",
+                    $"Total: Bs {total.ToString("N2")}. El stock fue actualizado." +
+                    (estadoPedido == "Entregado" ? " El pedido quedo como Entregado." : ""),
                 Total = total
             });
         }

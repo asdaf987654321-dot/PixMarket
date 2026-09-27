@@ -26,7 +26,11 @@ namespace PixMarket.Servicios
         Task<ApiLoginResultado> LoginAsync(string correo, string contrasenia);
 
         Task<(bool Ok, string? Mensaje)> RegistrarAsync(
-            string nombre, string correo, string contrasenia, string telefono);
+            string nombre,
+            string correo,
+            string contrasenia,
+            string telefono,
+            string? rol = null);
 
 
        

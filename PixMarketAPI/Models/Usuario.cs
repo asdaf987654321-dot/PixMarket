@@ -16,8 +16,13 @@ namespace PixMarketAPI.Models
         [StringLength(100)]
         public string? Correo { get; set; }
 
+        /// <summary>
+        /// Hash de la contraseña (PBKDF2-SHA256), nunca la contraseña en sí.
+        /// Mide unos 83 caracteres, de ahí los 200: si algún día se suben las
+        /// iteraciones el hash crece y la columna sigue alcanzado.
+        /// </summary>
         [Required]
-        [StringLength(100, MinimumLength = 6)]
+        [StringLength(200)]
         public string? Contrasenia { get; set; }
 
         [Required]

@@ -163,7 +163,7 @@ public class CarritoControllerTests
         var item3 = api.Items.Single(i => i.Id == 3);
         var stock1 = item1.Stock;
         var stock3 = item3.Stock;
-        var controller = Controladores.CrearCarrito(api);
+        var controller = Controladores.CrearCarrito(api, idUsuario: 2);
 
         await controller.Agregar(1, 2);
         await controller.Agregar(3, 1);
@@ -196,7 +196,7 @@ public class CarritoControllerTests
     {
         var api = Controladores.CrearApi();
         var session = new FakeSession();
-        var controller = Controladores.CrearCarrito(api, session);
+        var controller = Controladores.CrearCarrito(api, session, idUsuario: 2);
 
         // línea con cantidad mayor al stock real (caso inconsistente)
         var carrito = new List<ItemCarrito>
@@ -224,13 +224,42 @@ public class CarritoControllerTests
         };
         session.SetString("Carrito", JsonSerializer.Serialize(carrito));
 
-        var controller = Controladores.CrearCarrito(api, session);
+        var controller = Controladores.CrearCarrito(api, session, idUsuario: 2);
 
         api.ApiIndisponible = true;
         await controller.Finalizar();
 
         Assert.Single(Controladores.ModeloCarrito(controller.Index()));
         Assert.NotNull(controller.TempData["MensajeCarrito"]);
+    }
+
+    [Fact]
+    public async Task Finalizar_ComoAdministrador_CreaElPedidoYaEntregado()
+    {
+        var api = Controladores.CrearApi();
+        var controller = Controladores.CrearCarrito(api, idUsuario: 1, rol: "Administrador");
+
+        await controller.Agregar(1, 1);
+        await controller.Finalizar();
+
+        var venta = Assert.Single(api.Ventas);
+        Assert.Equal("Entregado", venta.Estado);
+        Assert.NotNull(venta.FechaActualizacion);
+        Assert.Contains("Entregado", controller.TempData["MensajeCarrito"]!.ToString());
+    }
+
+    [Fact]
+    public async Task Finalizar_ComoCliente_CreaElPedidoPendiente()
+    {
+        var api = Controladores.CrearApi();
+        var controller = Controladores.CrearCarrito(api, idUsuario: 2);
+
+        await controller.Agregar(1, 1);
+        await controller.Finalizar();
+
+        var venta = Assert.Single(api.Ventas);
+        Assert.Equal("Pendiente", venta.Estado);
+        Assert.Null(venta.FechaActualizacion);
     }
 
     [Fact]

@@ -1,0 +1,104 @@
+@model PixMarket.Servicios.UsuarioDto
+
+@{
+    ViewData["Title"] = "Editar usuario";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+    var estaActivo = string.Equals(Model.Estado, "Activo", StringComparison.OrdinalIgnoreCase);
+}
+
+<div class="admin-layout">
+
+    <partial name="_AdminSidebar" />
+
+    <main class="admin-main">
+
+        <partial name="_AdminTopbar" />
+
+        <section class="admin-content">
+
+            <div class="admin-welcome">
+                <div>
+                    <h1>Editar usuario</h1>
+                    <p>Actualiza los datos de la cuenta #@Model.Id</p>
+                </div>
+                <button type="submit" form="form-usuario" class="btn btn-success"
+                        style="background: linear-gradient(90deg, #10afa5, #0a9992); border: none; height: fit-content;">
+                    <i class="bi bi-check2-circle"></i> Guardar cambios
+                </button>
+            </div>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger alert-dismissible fade show mb-3" role="alert">
+                    @ViewBag.Error
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            <form id="form-usuario" method="post" asp-action="Edit">
+
+                @Html.AntiForgeryToken()
+
+                <input type="hidden" asp-for="Id" />
+
+                <div class="admin-panel">
+                    <div class="admin-panel-header">
+                        <h3><i class="bi bi-person"></i> Datos de la cuenta</h3>
+                    </div>
+
+                    <div class="row g-3 p-3">
+                        <div class="col-md-6">
+                            <label asp-for="Nombre" class="form-label">Nombre</label>
+                            <input asp-for="Nombre" class="form-control" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Correo" class="form-label">Correo</label>
+                            <input asp-for="Correo" type="email" class="form-control" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Telefono" class="form-label">Teléfono</label>
+                            <input asp-for="Telefono" class="form-control" />
+                        </div>
+
+                        <div class="col-md-6">
+                            <label asp-for="Rol" class="form-label">Rol</label>
+                            <select asp-for="Rol" class="form-select">
+                                <option value="Usuario">Usuario</option>
+                                <option value="Administrador">Administrador</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-panel mt-3">
+                    <div class="admin-panel-header">
+                        <h3><i class="bi bi-toggle-on"></i> Estado</h3>
+                    </div>
+                    <div class="p-3">
+                        <p class="mb-0">
+                            Estado actual:
+                            <span class="estado @(estaActivo ? "completado" : "pendiente")">
+                                @(string.IsNullOrWhiteSpace(Model.Estado) ? "Activo" : Model.Estado)
+                            </span>
+                        </p>
+                        <small class="text-muted">
+                            El estado no se modifica aquí: usa el botón
+                            @(estaActivo ? "Suspender" : "Activar") en la lista de usuarios.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="mt-3">
+                    <a asp-action="Gestion" class="btn btn-outline-secondary">
+                        <i class="bi bi-arrow-left"></i> Volver a Usuarios
+                    </a>
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+</div>

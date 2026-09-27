@@ -175,10 +175,14 @@ namespace PixMarket.Servicios
         }
 
         public async Task<(bool Ok, string? Mensaje)> RegistrarAsync(
-            string nombre, string correo, string contrasenia, string telefono)
+            string nombre,
+            string correo,
+            string contrasenia,
+            string telefono,
+            string? rol = null)
         {
             var respuesta = await _http.PostAsJsonAsync("api/usuarios/registro",
-                new { nombre, correo, contrasenia, telefono });
+                new { nombre, correo, contrasenia, telefono, rol });
 
             if (respuesta.StatusCode == HttpStatusCode.OK)
             {
