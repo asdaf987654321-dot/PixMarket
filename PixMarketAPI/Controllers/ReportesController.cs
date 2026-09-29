@@ -52,7 +52,7 @@ namespace PixMarketAPI.Controllers
                     u.Id,
                     Nombre = u.Nombre ?? string.Empty,
                     Tipo = "Usuario",
-                    Url = "/Usuarios/Administrador"
+                    Url = $"/Usuarios/Details/{u.Id}"
                 })
                 .ToListAsync();
 
