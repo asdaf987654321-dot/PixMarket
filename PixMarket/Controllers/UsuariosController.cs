@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PixMarket.Servicios;
 using System.Security.Claims;
+using PixMarket.Models;
 
 namespace PixMarket.Controllers
 {
@@ -246,23 +247,87 @@ namespace PixMarket.Controllers
 
             return RedirectToAction("Index");
         }
-
-
-        // =====================================================
         // ADMINISTRADOR
-        // =====================================================
-
         [HttpGet]
         [Authorize(Roles = "Administrador")]
-        public IActionResult Administrador()
+        public async Task<IActionResult> Administrador()
         {
+            // Obtenemos los datos de la API en paralelo para que sea más rápido
+            ApiInventarioStats? inventario = null;
+            VentasStatsDto? ventas = null;
+            List<VentaDto>? pedidos = null;
+            List<UsuarioDto>? usuarios = null;
+
+            try
+            {
+                // Ejecutamos todas las llamadas en paralelo
+                var tareaInventario = _api.ObtenerEstadisticasInventarioAsync();
+                var tareaVentas = _api.ObtenerEstadisticasVentasAsync();
+                var tareaPedidos = _api.ObtenerPedidosAdminAsync();
+                var tareaUsuarios = _api.ObtenerUsuariosAsync();
+
+                await Task.WhenAll(tareaInventario, tareaVentas, tareaPedidos, tareaUsuarios);
+
+                inventario = tareaInventario.Result;
+                ventas = tareaVentas.Result;
+                pedidos = tareaPedidos.Result;
+                usuarios = tareaUsuarios.Result;
+            }
+            catch (HttpRequestException)
+            {
+                ViewBag.Error =
+                    "No se pudo conectar con la API de datos. " +
+                    "Verifica que PixMarketAPI esté en ejecución.";
+            }
+
+            // Pasamos los datos a la vista usando ViewBag
+            ViewBag.TotalProductos = inventario?.ProductosActivos ?? 0;
+            ViewBag.VentasDelDia = ventas?.VentasDelDia ?? 0m;
+            ViewBag.PedidosPendientes = pedidos?.Count(p => p.Estado == "Pendiente") ?? 0;
+            ViewBag.UsuariosRegistrados = usuarios?.Count ?? 0;
+
+            // Datos para el gráfico de ventas (últimos 7 días)
+            // Por ahora usamos datos de la API de ventas por día
+            ViewBag.VentasPorDia = new List<VentaPorDiaDto>();
+
+            try
+            {
+                var ventasPorDia = await _api.GetVentasPorDiaAsync();
+                if (ventasPorDia != null)
+                {
+                    ViewBag.VentasPorDia = ventasPorDia;
+                }
+            }
+            catch (HttpRequestException) { /* Silencioso: no es crítico */ }
+
+            // Stock bajo: productos con stock <= 5
+            List<Item> stockBajo = new();
+            try
+            {
+                var items = await _api.ObtenerItemsAsync();
+                stockBajo = items
+                    .Where(i => i.Stock > 0 && i.Stock <= 5)
+                    .OrderBy(i => i.Stock)
+                    .Take(5)
+                    .ToList();
+            }
+            catch (HttpRequestException) { /* Silencioso */ }
+
+            ViewBag.StockBajo = stockBajo;
+
+            // Pedidos recientes: los últimos 5
+            ViewBag.PedidosRecientes = (pedidos ?? new List<VentaDto>())
+                .OrderByDescending(p => p.FechaVenta)
+                .Take(5)
+                .ToList();
+
             return View();
         }
 
 
-        
 
-       
+
+
         // GESTIÓN DE USUARIOS (PANEL ADMIN)
         // Lista de usuarios
         [HttpGet]

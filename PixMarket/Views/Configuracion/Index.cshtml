@@ -42,13 +42,10 @@
                 </div>
             }
 
-            <form id="form-configuracion"
-                  method="post"
-                  asp-controller="Configuracion"
-                  asp-action="Guardar">
-
+            <form id="form-configuracion" method="post" asp-controller="Configuracion" asp-action="Guardar">
                 @Html.AntiForgeryToken()
 
+                <!-- ============ DATOS DE LA TIENDA ============ -->
                 <div class="admin-panel">
                     <div class="admin-panel-header">
                         <h3><i class="bi bi-shop"></i> Datos de la tienda</h3>
@@ -88,6 +85,54 @@
                         </div>
                     </div>
                 </div>
+
+
+               <!--Preferencias-->
+                <div class="admin-panel mt-3">
+                    <div class="admin-panel-header">
+                        <h3><i class="bi bi-sliders"></i> Preferencias</h3>
+                    </div>
+                    <div class="p-3">
+
+                        <!-- Switch 1: Notificar stock bajo -->
+                        <div class="form-check form-switch mb-3">
+                            
+                            <input type="checkbox"
+
+                                name="NotificarStockBajo"
+                                value="true"
+                                class="form-check-input"
+                                role="switch"
+                                id="switchStockBajo"
+                                @(Model.NotificarStockBajo ? "checked" : "") />
+                            <input type="hidden" name="NotificarStockBajo" value="false" />
+                            <label class="form-check-label" for="switchStockBajo">
+                                Notificar cuando el stock de una carta esté bajo
+                            </label>
+                        </div>
+
+                        <!-- Switch 2: Avisos de nuevos pedidos -->
+                        <div class="form-check form-switch mb-2">
+                            
+                            <input type="checkbox"
+                                name="AvisosNuevosPedidos"
+                                value="true"
+                                class="form-check-input"
+                                role="switch"
+                                id="switchNuevosPedidos"
+                                @(Model.AvisosNuevosPedidos ? "checked" : "") />
+                            <input type="hidden" name="AvisosNuevosPedidos" value="false" />
+                            <label class="form-check-label" for="switchNuevosPedidos">
+                                Recibir aviso de nuevos pedidos
+                            </label>
+                        </div>
+        
+
+
+
+                    </div>
+                </div>
+
 
                 <div class="mt-3">
                     <a asp-controller="Usuarios" asp-action="Administrador" class="btn btn-outline-secondary">

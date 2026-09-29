@@ -1,19 +1,117 @@
+@using PixMarket.Servicios
+@inject IPixMarketApiService Api
+
+@{
+    // Notificaciones activas
+    var notificaciones = new List<(string Icono, string Color, string Mensaje)>();
+
+    try
+    {
+        var config = await Api.ObtenerConfiguracionAsync();
+
+        // Notificación 1: Stock bajo
+        if (config.NotificarStockBajo)
+        {
+            var inventario = await Api.ObtenerEstadisticasInventarioAsync();
+            if (inventario != null && inventario.StockBajo > 0)
+            {
+                notificaciones.Add((
+                    "bi-exclamation-triangle-fill",
+                    "text-warning",
+                    $"{inventario.StockBajo} carta(s) con stock bajo"
+                ));
+            }
+        }
+
+        // Notificación 2: Pedidos pendientes
+        if (config.AvisosNuevosPedidos)
+        {
+            var pedidos = await Api.ObtenerPedidosAdminAsync();
+            if (pedidos != null)
+            {
+                var pendientes = pedidos.Count(p => p.Estado == "Pendiente");
+                if (pendientes > 0)
+                {
+                    notificaciones.Add((
+                        "bi-clipboard-check-fill",
+                        "text-info",
+                        $"{pendientes} pedido(s) pendiente(s)"
+                    ));
+                }
+            }
+        }
+
+        
+    }
+    catch (HttpRequestException)
+    {
+        // Sin notificaciones si la API falla
+    }
+}
+
 <header class="admin-topbar">
 
-    
+    <!-- ============ BUSCADOR ============ -->
     <div class="admin-search-container" style="position: relative; width: 350px;">
         <form class="admin-search" onsubmit="return false;" style="width: 100%; margin: 0;">
             <i class="bi bi-search"></i>
             <input type="text" id="inputBusquedaAdmin" placeholder="Buscar productos, usuarios, pedidos..." autocomplete="off" style="width: 100%;" />
         </form>
 
-       
+
         <div id="resultadosBusquedaDropdown" class="dropdown-menu shadow w-100" style="display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 1050; max-height: 350px; overflow-y: auto;">
-            
         </div>
+
     </div>
 
+
+
+    <!-- ============ ACCIONES (CAMPANITA + USUARIO) ============ -->
     <div class="admin-topbar-actions">
+
+        <!--  CAMPANITA DE NOTIFICACIONES -->
+        <div class="dropdown">
+            <button class="admin-icon-btn"
+                    data-bs-toggle="dropdown"
+                    data-bs-auto-close="outside"
+                    title="Notificaciones">
+                <i class="bi bi-bell"></i>
+                @if (notificaciones.Any())
+                {
+                    <span class="admin-badge">@notificaciones.Count</span>
+                }
+            </button>
+
+            <ul class="dropdown-menu dropdown-menu-end shadow" style="min-width: 320px;">
+
+                <li class="dropdown-header">
+                    <strong>Notificaciones</strong>
+                </li>
+
+                @if (!notificaciones.Any())
+                {
+                    <li class="text-center text-muted p-4">
+                        <i class="bi bi-bell-slash" style="font-size: 1.8rem;"></i>
+                        <p class="mb-0 mt-2">Sin notificaciones</p>
+                    </li>
+                }
+                else
+                {
+                    @foreach (var noti in notificaciones)
+                    {
+                        <li>
+                            <a class="dropdown-item d-flex align-items-start gap-2 py-2" href="#">
+                                <i class="bi @noti.Icono @noti.Color" style="font-size: 1.2rem; margin-top: 2px;"></i>
+                                <span>@noti.Mensaje</span>
+                            </a>
+                        </li>
+                    }
+                }
+
+            </ul>
+        </div>
+
+        <!--  USUARIO -->
         <div class="dropdown">
             <a href="#"
                class="admin-user"
@@ -50,7 +148,9 @@
                 </li>
             </ul>
         </div>
+
     </div>
+
 </header>
 
 
@@ -71,7 +171,7 @@
                 return;
             }
 
-           
+
             timeout = setTimeout(() => {
                 fetch(`/Reportes/BuscarJson?q=${encodeURIComponent(query)}`)
                     .then(response => response.json())
@@ -105,14 +205,14 @@
             }, 300);
         });
 
-        
+
         document.addEventListener("click", function (e) {
             if (!input.contains(e.target) && !dropdown.contains(e.target)) {
                 dropdown.style.display = "none";
             }
         });
 
-        
+
         input.addEventListener("focus", function () {
             if (input.value.trim().length >= 2 && dropdown.children.length > 0) {
                 dropdown.style.display = "block";

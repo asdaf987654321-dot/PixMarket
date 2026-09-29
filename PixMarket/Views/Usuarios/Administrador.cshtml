@@ -1,166 +1,49 @@
-﻿@{
+﻿@using System.Globalization
+@{
     ViewData["Title"] = "Panel de Administración";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+
+    // Fecha actual en español
+    var cultura = new CultureInfo("es-ES");
+    var fechaActual = DateTime.Now.ToString("dd 'de' MMMM 'de' yyyy", cultura);
+
+    var stockBajo = ViewBag.StockBajo as List<PixMarket.Models.Item> ?? new List<PixMarket.Models.Item>();
+    var pedidosRecientes = ViewBag.PedidosRecientes as List<PixMarket.Servicios.VentaDto> ?? new List<PixMarket.Servicios.VentaDto>();
+    var ventasPorDia = ViewBag.VentasPorDia as List<PixMarket.Servicios.VentaPorDiaDto> ?? new List<PixMarket.Servicios.VentaPorDiaDto>();
 }
 
 <div class="admin-layout">
 
-    <aside class="admin-sidebar">
-
-        <div class="admin-sidebar-brand">
-            <div class="admin-brand-icon">
-                <i class="bi bi-layers"></i>
-            </div>
-            <div class="admin-brand-text">
-                <strong>Block du <span>Booster</span></strong>
-                <small>Cartas · Coleccionables · Comunidad</small>
-            </div>
-        </div>
-
-        <nav class="admin-menu">
-
-            <a asp-controller="Usuarios"
-               asp-action="Administrador"
-               class="admin-menu-link active">
-                <i class="bi bi-house-door"></i>
-                <span>Inicio</span>
-            </a>
-
-            <a asp-controller="Items" asp-action="Index" class="admin-menu-link">
-                <i class="bi bi-box-seam"></i>
-                <span>Productos</span>
-            </a>
-
-            <a asp-controller="Inventario" asp-action="Index" class="admin-menu-link">
-                <i class="bi bi-boxes"></i>
-                <span>Inventario</span>
-            </a>
-
-            <a asp-controller="Ventas" asp-action="Index" class="admin-menu-link">
-                <i class="bi bi-cart-check"></i>
-                <span>Ventas</span>
-            </a>
-
-            <a asp-controller="Pedidos" asp-action="Index" class="admin-menu-link">
-                <i class="bi bi-clipboard-check"></i>
-                <span>Pedidos</span>
-            </a>
-
-            <a asp-controller="Usuarios" asp-action="Gestion" class="admin-menu-link">
-                <i class="bi bi-people"></i>
-                <span>Usuarios</span>
-            </a>
-
-            <a asp-controller="Reportes" asp-action="Index" class="admin-menu-link">
-                <i class="bi bi-bar-chart"></i>
-                <span>Reportes</span>
-            </a>
-
-            <a asp-controller="Configuracion" asp-action="Index" class="admin-menu-link">
-                <i class="bi bi-gear"></i>
-                <span>Configuración</span>
-            </a>
-
-        </nav>
-
-        <div class="admin-sidebar-footer">
-            <img src="~/Imagenes/banner.jpg" alt="Block du Booster" />
-            <p>¡Más que cartas,<br />una pasión!</p>
-        </div>
-
-    </aside>
-
-
+    <partial name="_AdminSidebar" />
     <main class="admin-main">
 
-        
-        <header class="admin-topbar">
-
-            <div class="admin-search-container" style="position: relative; width: 350px;">
-                <form class="admin-search" onsubmit="return false;" style="width: 100%; margin: 0;">
-                    <i class="bi bi-search"></i>
-                    <input type="text" id="inputBusquedaAdmin" placeholder="Buscar productos, usuarios, pedidos..." autocomplete="off" style="width: 100%;" />
-                </form>
-
-                
-                <div id="resultadosBusquedaDropdown" class="dropdown-menu shadow w-100" style="display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 1050; max-height: 350px; overflow-y: auto;">
-                    
-                </div>
-            </div>
-
-            <div class="admin-topbar-actions">
-
-                <div class="dropdown">
-                    <a href="#"
-                       class="admin-user"
-                       data-bs-toggle="dropdown"
-                       data-bs-auto-close="outside"
-                       title="Mi cuenta">
-                        <div class="admin-user-avatar">
-                            <i class="bi bi-person-fill"></i>
-                        </div>
-                        <div class="admin-user-info">
-                            <strong>@(User.Identity?.Name ?? "Admin")</strong>
-                            <small>Administrador</small>
-                        </div>
-                        <i class="bi bi-chevron-down"></i>
-                    </a>
-
-                    <ul class="dropdown-menu dropdown-menu-end shadow">
-                        <li class="dropdown-header text-muted small">
-                            Hola, @(User.Identity?.Name ?? "Admin")
-                        </li>
-
-                        <li>
-                            <a class="dropdown-item"
-                               asp-controller="Categorias"
-                               asp-action="Index">
-                                <i class="bi bi-shop"></i>
-                                Ver tienda
-                            </a>
-                        </li>
-
-                        <li><hr class="dropdown-divider" /></li>
-
-                        <li>
-                            <form method="post"
-                                  asp-controller="Usuarios"
-                                  asp-action="Logout">
-                                @Html.AntiForgeryToken()
-                                <button type="submit" class="dropdown-item">
-                                    <i class="bi bi-box-arrow-right"></i>
-                                    Cerrar sesión
-                                </button>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
-
-            </div>
-
-        </header>
-
-
-       
+        <partial name="_AdminTopbar" />
         <section class="admin-content">
 
-            
+            <!-- BIENVENIDA -->
             <div class="admin-welcome">
                 <div>
-                    <h1>¡Hola, @(User.Identity?.Name ?? "Admin")!</h1>
+                    <h1>¡Hola, Admin!</h1>
                     <p>Aquí tienes un resumen de lo que está pasando en tu tienda.</p>
                 </div>
                 <div class="admin-fecha">
                     <i class="bi bi-calendar3"></i>
                     <div>
-                        <strong>15 de septiembre de 2026</strong>
+                        <strong>@fechaActual</strong>
                         <small>Cochabamba, Bolivia</small>
                     </div>
                 </div>
             </div>
 
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    @ViewBag.Error
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            }
 
-            
+            <!-- TARJETAS DE MÉTRICAS -->
             <div class="admin-stats">
 
                 <div class="admin-stat-card blue">
@@ -169,8 +52,7 @@
                     </div>
                     <div class="admin-stat-info">
                         <span>Productos</span>
-                        
-                        
+                        <strong>@ViewBag.TotalProductos</strong>
                     </div>
                 </div>
 
@@ -180,8 +62,7 @@
                     </div>
                     <div class="admin-stat-info">
                         <span>Ventas del día</span>
-                       
-                       
+                        <strong>Bs @(((decimal)ViewBag.VentasDelDia).ToString("N2"))</strong>
                     </div>
                 </div>
 
@@ -191,8 +72,7 @@
                     </div>
                     <div class="admin-stat-info">
                         <span>Pedidos pendientes</span>
-                       
-                     
+                        <strong>@ViewBag.PedidosPendientes</strong>
                     </div>
                 </div>
 
@@ -202,18 +82,16 @@
                     </div>
                     <div class="admin-stat-info">
                         <span>Usuarios registrados</span>
-                      
-                      
+                        <strong>@ViewBag.UsuariosRegistrados</strong>
                     </div>
                 </div>
 
             </div>
 
-
-            
+            <!-- GRID PRINCIPAL -->
             <div class="admin-grid">
 
-                
+                <!-- GRÁFICO DE VENTAS -->
                 <div class="admin-panel">
                     <div class="admin-panel-header">
                         <h3><i class="bi bi-bar-chart-line"></i> Ventas de los últimos 7 días</h3>
@@ -222,13 +100,12 @@
                             <option>Últimos 30 días</option>
                         </select>
                     </div>
-                    <div class="admin-chart-placeholder">
-                        
+                    <div style="height: 260px; position: relative;">
+                        <canvas id="graficoVentas"></canvas>
                     </div>
                 </div>
 
-
-                
+                <!-- STOCK BAJO -->
                 <div class="admin-panel">
                     <div class="admin-panel-header">
                         <h3><i class="bi bi-exclamation-triangle"></i> Stock bajo</h3>
@@ -243,15 +120,37 @@
                             </tr>
                         </thead>
                         <tbody>
-                            
+                            @if (!stockBajo.Any())
+                            {
+                                <tr>
+                                    <td colspan="3" style="text-align:center; color:#94a3b8; padding: 24px;">
+                                        No hay cartas con stock bajo por ahora.
+                                    </td>
+                                </tr>
+                            }
+                            else
+                            {
+                                @foreach (var item in stockBajo)
+                                {
+                                    <tr>
+                                        <td>@item.Nombre</td>
+                                        <td>@item.Categoria</td>
+                                        <td>
+                                            <span class="stock-badge @(item.Stock <= 2 ? "red" : "orange")">
+                                                @item.Stock
+                                            </span>
+                                        </td>
+                                    </tr>
+                                }
+                            }
                         </tbody>
                     </table>
                 </div>
 
             </div>
 
+            <!-- PEDIDOS RECIENTES -->
 
-            
             <div class="admin-panel full-width">
 
                 <div class="admin-panel-header">
@@ -270,14 +169,37 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
+                        @if (!pedidosRecientes.Any())
+                        {
+                            <tr>
+                                <td colspan="5" style="text-align:center; color:#94a3b8; padding: 24px;">
+                                    No hay pedidos recientes por ahora.
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var pedido in pedidosRecientes)
+                            {
+                                <tr>
+                                    <td>#@pedido.Id.ToString("D6")</td>
+                                    <td>@pedido.NombreUsuario</td>
+                                    <td>Bs @pedido.Total.ToString("N2")</td>
+                                    <td>
+                                        <span class="estado @(pedido.Estado == "Entregado" ? "completado" : "pendiente")">
+                                            @pedido.Estado
+                                        </span>
+                                    </td>
+                                    <td>@pedido.FechaVenta.ToString("dd/MM/yyyy HH:mm")</td>
+                                </tr>
+                            }
+                        }
                     </tbody>
                 </table>
 
             </div>
 
-
-            
+            <!-- RECORDATORIO -->
             <div class="admin-recordatorio">
                 <div class="admin-recordatorio-icon">
                     <i class="bi bi-check-circle"></i>
@@ -297,70 +219,70 @@
 
 </div>
 
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+        // Datos desde el servidor
+        const datosVentas = @Html.Raw(System.Text.Json.JsonSerializer.Serialize(
+                    ventasPorDia.Select(v => new { fecha = v.Fecha, total = v.Total }).ToList()
+            ));
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const input = document.getElementById("inputBusquedaAdmin");
-        const dropdown = document.getElementById("resultadosBusquedaDropdown");
+        // Si no hay datos, mostramos los últimos 7 días con 0
+        let etiquetas = [];
+        let valores = [];
 
-        let timeout = null;
-
-        input.addEventListener("input", function () {
-            clearTimeout(timeout);
-            const query = input.value.trim();
-
-            if (query.length < 2) {
-                dropdown.style.display = "none";
-                dropdown.innerHTML = "";
-                return;
+        if (datosVentas.length > 0) {
+            // Tomamos los últimos 7 días
+            const ultimos7 = datosVentas.slice(-7);
+            etiquetas = ultimos7.map(d => {
+                const fecha = new Date(d.fecha);
+                return fecha.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' });
+            });
+            valores = ultimos7.map(d => d.total);
+        } else {
+            // Datos vacíos: 7 días en cero
+            for (let i = 6; i >= 0; i--) {
+                const fecha = new Date();
+                fecha.setDate(fecha.getDate() - i);
+                etiquetas.push(fecha.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' }));
+                valores.push(0);
             }
+        }
 
-            
-            timeout = setTimeout(() => {
-                fetch(`/Reportes/BuscarJson?q=${encodeURIComponent(query)}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        dropdown.innerHTML = "";
 
-                        if (data && data.length > 0) {
-                            data.forEach(item => {
-                                const a = document.createElement("a");
-                                a.className = "dropdown-item d-flex justify-content-between align-items-center py-2";
-                                a.href = item.url;
-                                a.innerHTML = `
-                                    <div>
-                                        <strong class="text-dark">${item.nombre}</strong>
-                                        <span class="badge bg-secondary ms-2" style="font-size: 0.75rem;">${item.tipo}</span>
-                                    </div>
-                                    <i class="bi bi-chevron-right text-muted small"></i>
-                                `;
-                                dropdown.appendChild(a);
-                            });
-                            dropdown.style.display = "block";
-                        } else {
-                            dropdown.innerHTML = `<span class="dropdown-item text-muted text-center py-2">No se encontraron resultados</span>`;
-                            dropdown.style.display = "block";
+
+        // Crear el gráfico
+        const ctx = document.getElementById('graficoVentas').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: etiquetas,
+                datasets: [{
+                    label: 'Ventas (Bs)',
+                    data: valores,
+                    backgroundColor: 'rgba(45, 212, 191, 0.7)',
+                    borderColor: 'rgba(45, 212, 191, 1)',
+                    borderWidth: 2,
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) { return 'Bs ' + value; }
                         }
-                    })
-                    .catch(err => {
-                        console.error("Error en la búsqueda:", err);
-                        dropdown.style.display = "none";
-                    });
-            }, 300);
+                    }
+                }
+            }
+
         });
 
-        
-        document.addEventListener("click", function (e) {
-            if (!input.contains(e.target) && !dropdown.contains(e.target)) {
-                dropdown.style.display = "none";
-            }
-        });
-
-        
-        input.addEventListener("focus", function () {
-            if (input.value.trim().length >= 2 && dropdown.children.length > 0) {
-                dropdown.style.display = "block";
-            }
-        });
-    });
-</script>
+    </script>
+}

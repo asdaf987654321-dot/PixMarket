@@ -29,6 +29,7 @@ namespace PixMarket.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Agregar(int id, int cantidad = 1)
         {
+
             Item? item;
 
             try
@@ -142,6 +143,8 @@ namespace PixMarket.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Finalizar()
         {
+            
+
             var carrito = ObtenerCarrito();
 
             if (!carrito.Any())

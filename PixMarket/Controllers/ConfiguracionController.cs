@@ -65,5 +65,7 @@ namespace PixMarket.Controllers
             TempData["Mensaje"] = "Configuración guardada correctamente.";
             return RedirectToAction(nameof(Index));
         }
+
+
     }
 }
