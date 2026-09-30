@@ -2,6 +2,8 @@
     ViewData["Title"] = "Inicio";
 }
 
+@model List<ProductoDestacadoDto>
+
 
 <!-- =====================================================
      HERO
@@ -164,220 +166,98 @@
 
     <div class="featured-grid">
 
-
-        <!-- PRODUCTO 1 -->
-
-        <article class="featured-card">
-
-            <button class="favorite">
-                <i class="bi bi-heart"></i>
-            </button>
-
-            <div class="product-image">
-
-                <img src="~/Imagenes/imagen1.jpg"
-                     alt="Blue-Eyes White Dragon" />
-
+        @if (ViewBag.ApiError != null)
+        {
+            <div class="store-empty">
+                <i class="bi bi-cloud-slash" style="font-size: 2.5rem; color: #9aadb8;"></i>
+                <p class="mb-0 mt-2">@ViewBag.ApiError</p>
             </div>
+        }
+        else if (!Model.Any())
+        {
+            <div class="store-empty">
+                <i class="bi bi-inbox" style="font-size: 2.5rem; color: #9aadb8;"></i>
+                <p class="mb-0 mt-2">Aún no hay ventas registradas. ¡Los productos destacados aparecerán aquí!</p>
 
-            <div class="product-info">
-
-                <span class="product-game yugioh-tag">
-                    Yu-Gi-Oh!
-                </span>
-
-                <h3>
-                    Blue-Eyes White Dragon
-                </h3>
-
-                <span class="product-rarity">
-                    Ultra Rara
-                </span>
-
-                <strong class="product-price">
-                    Bs 320
-                </strong>
-
-                <button class="add-cart">
-                    <i class="bi bi-cart3"></i>
-                    Agregar al carrito
-                </button>
-
+                <a asp-controller="Categorias"
+                   asp-action="Index"
+                   class="btn btn-sm btn-outline-primary mt-3">
+                    Ver productos
+                </a>
             </div>
+        }
+        else
+        {
+            @foreach (var item in Model)
+            {
+                var claseJuego = item.Juego switch
+                {
+                    "Yu-Gi-Oh!" => "yugioh-tag",
+                    "Pokémon" => "pokemon-tag",
+                    "Magic: The Gathering" => "magic-tag",
+                    _ => "magic-tag"
+                };
 
-        </article>
+                <article class="featured-card">
 
+                    <div class="product-image">
 
-        <!-- PRODUCTO 2 -->
+                        <img src="@Api.UrlImagen(item.ImagenRuta, Url.Content("~/Imagenes/imagen1.jpg"))"
+                             alt="@item.Nombre" />
 
-        <article class="featured-card">
+                    </div>
 
-            <button class="favorite">
-                <i class="bi bi-heart"></i>
-            </button>
+                    <div class="product-info">
 
-            <div class="product-image">
+                        <span class="product-game @claseJuego">
+                            @item.Juego
+                        </span>
 
-                <img src="~/Imagenes/imagen2.jpg"
-                     alt="Pikachu ex" />
+                        <h3>
+                            @item.Nombre
+                        </h3>
 
-            </div>
+                        <span class="product-rarity">
+                            @item.Rareza
+                        </span>
 
-            <div class="product-info">
+                        <strong class="product-price">
+                            Bs @item.Precio.ToString("N2")
+                        </strong>
 
-                <span class="product-game pokemon-tag">
-                    Pokémon
-                </span>
+                        @if (item.Stock <= 0)
+                        {
+                            <button class="add-cart"
+                                    type="button"
+                                    disabled
+                                    style="background:#cfe0e8;cursor:not-allowed;color:#577b95;">
+                                Agotado
+                            </button>
+                        }
+                        else
+                        {
+                            <form method="post"
+                                  asp-controller="Carrito"
+                                  asp-action="Agregar"
+                                  style="margin: 0;">
 
-                <h3>
-                    Pikachu ex
-                </h3>
+                                @Html.AntiForgeryToken()
 
-                <span class="product-rarity">
-                    Ultra Rara
-                </span>
+                                <input type="hidden" name="id" value="@item.Id" />
 
-                <strong class="product-price">
-                    Bs 280
-                </strong>
+                                <button type="submit" class="add-cart">
+                                    <i class="bi bi-cart3"></i>
+                                    Agregar al carrito
+                                </button>
 
-                <button class="add-cart">
-                    <i class="bi bi-cart3"></i>
-                    Agregar al carrito
-                </button>
+                            </form>
+                        }
 
-            </div>
+                    </div>
 
-        </article>
-
-
-        <!-- PRODUCTO 3 -->
-
-        <article class="featured-card">
-
-            <button class="favorite">
-                <i class="bi bi-heart"></i>
-            </button>
-
-            <div class="product-image">
-
-                <img src="~/Imagenes/banner.jpg"
-                     alt="Black Lotus" />
-
-            </div>
-
-            <div class="product-info">
-
-                <span class="product-game magic-tag">
-                    Magic
-                </span>
-
-                <h3>
-                    Black Lotus
-                </h3>
-
-                <span class="product-rarity">
-                    Rara
-                </span>
-
-                <strong class="product-price">
-                    Bs 950
-                </strong>
-
-                <button class="add-cart">
-                    <i class="bi bi-cart3"></i>
-                    Agregar al carrito
-                </button>
-
-            </div>
-
-        </article>
-
-
-        <!-- PRODUCTO 4 -->
-
-        <article class="featured-card">
-
-            <button class="favorite">
-                <i class="bi bi-heart"></i>
-            </button>
-
-            <div class="product-image">
-
-                <img src="~/Imagenes/imagen1.jpg"
-                     alt="Dark Magician" />
-
-            </div>
-
-            <div class="product-info">
-
-                <span class="product-game yugioh-tag">
-                    Yu-Gi-Oh!
-                </span>
-
-                <h3>
-                    Dark Magician
-                </h3>
-
-                <span class="product-rarity">
-                    Rara
-                </span>
-
-                <strong class="product-price">
-                    Bs 180
-                </strong>
-
-                <button class="add-cart">
-                    <i class="bi bi-cart3"></i>
-                    Agregar al carrito
-                </button>
-
-            </div>
-
-        </article>
-
-
-        <!-- PRODUCTO 5 -->
-
-        <article class="featured-card">
-
-            <button class="favorite">
-                <i class="bi bi-heart"></i>
-            </button>
-
-            <div class="product-image">
-
-                <img src="~/Imagenes/imagen2.jpg"
-                     alt="Charizard ex" />
-
-            </div>
-
-            <div class="product-info">
-
-                <span class="product-game pokemon-tag">
-                    Pokémon
-                </span>
-
-                <h3>
-                    Charizard ex
-                </h3>
-
-                <span class="product-rarity">
-                    Ultra Rara
-                </span>
-
-                <strong class="product-price">
-                    Bs 450
-                </strong>
-
-                <button class="add-cart">
-                    <i class="bi bi-cart3"></i>
-                    Agregar al carrito
-                </button>
-
-            </div>
-
-        </article>
+                </article>
+            }
+        }
 
     </div>
 

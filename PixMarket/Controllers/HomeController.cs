@@ -1,26 +1,38 @@
 using Microsoft.AspNetCore.Mvc;
 using PixMarket.Models;
+using PixMarket.Servicios;
 using System.Diagnostics;
 
 namespace PixMarket.Controllers
 {
     public class HomeController : Controller
     {
-        
         private readonly ILogger<HomeController> _logger;
+        private readonly IPixMarketApiService _api;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IPixMarketApiService api)
         {
             _logger = logger;
+            _api = api;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var destacados = new List<ProductoDestacadoDto>();
+
+            try
+            {
+                destacados = await _api.ObtenerDestacadosAsync();
+            }
+            catch (HttpRequestException)
+            {
+                ViewBag.ApiError =
+                    "No se pudieron cargar los productos destacados. " +
+                    "Verifica que PixMarketAPI esté en ejecución.";
+            }
+
+            return View(destacados);
         }
-
-
-      
 
         public IActionResult Privacy()
         {

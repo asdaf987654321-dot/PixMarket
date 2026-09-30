@@ -77,6 +77,12 @@ namespace PixMarket.Servicios
                 ?? new TiendaResultadoDto();
         }
 
+        public async Task<List<ProductoDestacadoDto>> ObtenerDestacadosAsync()
+        {
+            return await _http.GetFromJsonAsync<List<ProductoDestacadoDto>>("api/tienda/destacados")
+                ?? new List<ProductoDestacadoDto>();
+        }
+
         public async Task<List<Item>> ObtenerItemsAsync()
         {
             return await _http.GetFromJsonAsync<List<Item>>("api/items")

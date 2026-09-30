@@ -13,6 +13,8 @@ namespace PixMarket.Servicios
             decimal? precioMin,
             decimal? precioMax);
 
+        Task<List<ProductoDestacadoDto>> ObtenerDestacadosAsync();
+
         Task<List<Item>> ObtenerItemsAsync();
 
         Task<Item?> ObtenerItemAsync(int id);

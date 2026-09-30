@@ -135,5 +135,60 @@ namespace PixMarketAPI.Controllers
 
             return Ok(resultado);
         }
+
+        /// <summary>
+        /// Devuelve los productos más vendidos (top 5 por unidades vendidas)
+        /// para la sección "Productos destacados" de la página de inicio.
+        /// </summary>
+        /// <returns>Lista de productos destacados ordenada por unidades vendidas.</returns>
+        [HttpGet("destacados")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<ProductoDestacadoDto>>> Destacados()
+        {
+            var destacados = await _context.DetallesVenta
+                .Join(_context.Items,
+                      dv => dv.IdItem,
+                      i => i.Id,
+                      (dv, i) => new
+                      {
+                          i.Id,
+                          i.Nombre,
+                          i.Juego,
+                          i.Categoria,
+                          i.Rareza,
+                          i.Precio,
+                          i.Stock,
+                          i.ImagenRuta,
+                          dv.Cantidad
+                      })
+                .GroupBy(x => new
+                {
+                    x.Id,
+                    x.Nombre,
+                    x.Juego,
+                    x.Categoria,
+                    x.Rareza,
+                    x.Precio,
+                    x.Stock,
+                    x.ImagenRuta
+                })
+                .Select(g => new ProductoDestacadoDto
+                {
+                    Id = g.Key.Id,
+                    Nombre = g.Key.Nombre,
+                    Juego = g.Key.Juego,
+                    Categoria = g.Key.Categoria,
+                    Rareza = g.Key.Rareza,
+                    Precio = g.Key.Precio,
+                    Stock = g.Key.Stock,
+                    ImagenRuta = g.Key.ImagenRuta,
+                    UnidadesVendidas = g.Sum(x => x.Cantidad)
+                })
+                .OrderByDescending(x => x.UnidadesVendidas)
+                .Take(5)
+                .ToListAsync();
+
+            return Ok(destacados);
+        }
     }
 }

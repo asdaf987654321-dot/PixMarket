@@ -162,6 +162,23 @@ namespace PixMarketAPI.Models
         public decimal IngresosTotales { get; set; }
     }
 
+    /// <summary>
+    /// Producto destacado (el más vendido) con la información completa
+    /// que necesita la sección "Productos destacados" de la página de inicio.
+    /// </summary>
+    public class ProductoDestacadoDto
+    {
+        public int Id { get; set; }
+        public string? Nombre { get; set; }
+        public string? Juego { get; set; }
+        public string? Categoria { get; set; }
+        public string? Rareza { get; set; }
+        public decimal Precio { get; set; }
+        public int Stock { get; set; }
+        public string? ImagenRuta { get; set; }
+        public int UnidadesVendidas { get; set; }
+    }
+
     public class VentasStatsDto
     {
         public decimal VentasDelDia { get; set; }

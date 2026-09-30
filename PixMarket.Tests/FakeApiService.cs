@@ -535,6 +535,37 @@ public class FakeApiService : IPixMarketApiService
         return Task.FromResult<List<VentaPorJuegoDto>?>(porJuego);
     }
 
+    public Task<List<ProductoDestacadoDto>> ObtenerDestacadosAsync()
+    {
+        VerificarDisponibilidad();
+
+        var destacados = LineasDeVentas()
+            .GroupBy(l => l.IdItem)
+            .Select(g => new
+            {
+                Item = Items.FirstOrDefault(i => i.Id == g.Key),
+                Unidades = g.Sum(l => l.Cantidad)
+            })
+            .Where(x => x.Item != null)
+            .Select(x => new ProductoDestacadoDto
+            {
+                Id = x.Item!.Id,
+                Nombre = x.Item.Nombre,
+                Juego = x.Item.Juego,
+                Categoria = x.Item.Categoria,
+                Rareza = x.Item.Rareza,
+                Precio = x.Item.Precio,
+                Stock = x.Item.Stock,
+                ImagenRuta = x.Item.ImagenRuta,
+                UnidadesVendidas = x.Unidades
+            })
+            .OrderByDescending(p => p.UnidadesVendidas)
+            .Take(5)
+            .ToList();
+
+        return Task.FromResult(destacados);
+    }
+
     // VENTAS Y PEDIDOS
 
     public Task<List<VentaDto>?> ObtenerPedidosAdminAsync()
