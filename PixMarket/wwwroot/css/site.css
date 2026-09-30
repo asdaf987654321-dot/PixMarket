@@ -3632,3 +3632,25 @@ body {
         background-color: #d1fae5;
         color: #065f46;
     }
+
+/* =====================================================
+   LOGO (Block du Booster)
+   ===================================================== */
+
+/* Logo en el navbar del cliente */
+.brand-icon img {
+    width: 55px;
+    height: 55px;
+    object-fit: contain;
+}
+
+/* Logo en el sidebar del administrador */
+.admin-brand-icon {
+    background: transparent !important;
+}
+
+    .admin-brand-icon img {
+        width: 42px;
+        height: 42px;
+        object-fit: contain;
+    }
