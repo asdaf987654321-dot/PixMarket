@@ -568,6 +568,36 @@ VALUES
                 cambios.Add("configuración inicial de la tienda creada");
             }
 
+            // Catálogo inicial de cartas: solo se inserta si la tabla items está
+            // vacía (igual que el administrador y la configuración). Así la tienda
+            // y la página de inicio ya tienen contenido la primera vez que arranca.
+            if (ExisteTabla(comando, "items") && Contar(comando, "items") == 0)
+            {
+                var tablaItems = NombreRealDeTabla(comando, "items") ?? "items";
+
+                foreach (var carta in CatalogoInicial)
+                {
+                    using var insertarCarta = conexion.CreateCommand();
+                    insertarCarta.CommandText = $@"
+INSERT INTO `{tablaItems}`
+    (`Nombre`, `Juego`, `Categoria`, `Rareza`, `Precio`, `Stock`, `ImagenRuta`)
+VALUES
+    (@nombre, @juego, @categoria, @rareza, @precio, @stock, @imagen);";
+
+                    insertarCarta.Parameters.Add(Parametro(insertarCarta, "@nombre", carta.Nombre));
+                    insertarCarta.Parameters.Add(Parametro(insertarCarta, "@juego", carta.Juego));
+                    insertarCarta.Parameters.Add(Parametro(insertarCarta, "@categoria", carta.Categoria));
+                    insertarCarta.Parameters.Add(Parametro(insertarCarta, "@rareza", carta.Rareza));
+                    insertarCarta.Parameters.Add(Parametro(insertarCarta, "@precio", carta.Precio));
+                    insertarCarta.Parameters.Add(Parametro(insertarCarta, "@stock", carta.Stock));
+                    insertarCarta.Parameters.Add(Parametro(insertarCarta, "@imagen", carta.ImagenRuta));
+
+                    insertarCarta.ExecuteNonQuery();
+                }
+
+                cambios.Add($"catálogo inicial de {CatalogoInicial.Count} cartas creado");
+            }
+
             return cambios;
         }
 
@@ -735,5 +765,46 @@ WHERE TABLE_SCHEMA = DATABASE()
             string TablaPrincipal,
             string[] ColumnasPrincipales,
             DeleteBehavior Comportamiento);
+
+        // =====================================================
+        // CATÁLOGO INICIAL DE CARTAS
+        // =====================================================
+
+        /// <summary>
+        /// Cartas que se insertan la primera vez que la base queda sin productos.
+        /// Las rutas de imagen apuntan a archivos ya subidos en
+        /// PixMarketAPI/wwwroot/Imagenes.
+        /// </summary>
+        private static readonly List<ItemSemilla> CatalogoInicial = new()
+        {
+            // Yu-Gi-Oh!
+            new("Blue-Eyes White Dragon", "Yu-Gi-Oh!", "Monstruo", "Ultra Rare", 320m, 25, "/Imagenes/item-debc8305c316497f9c329e111887879c.jpeg"),
+            new("Dark Magician", "Yu-Gi-Oh!", "Monstruo", "Ultra Rare", 280m, 20, "/Imagenes/item-d80d0f13ab4e4b5993e8490843ec0160.png"),
+            new("Monstruo Renacido", "Yu-Gi-Oh!", "Trampa", "Super Rare", 120m, 30, "/Imagenes/item-7be6912c7a294c4cb78c8f4747d9e0af.jpeg"),
+            new("Ciber Dragón", "Yu-Gi-Oh!", "Monstruo", "Rare", 90m, 40, "/Imagenes/item-678e48add7f841dab2ceefb8f2f535f4.png"),
+            new("Dragón Rojo de Ojos Oscuros", "Yu-Gi-Oh!", "Monstruo", "Secret Rare", 540m, 12, "/Imagenes/item-debc8305c316497f9c329e111887879c.jpeg"),
+
+            // Pokémon
+            new("Pikachu ex", "Pokémon", "Monstruo", "Ultra Rare", 260m, 15, "/Imagenes/item-436c7700f0924f1687f59ea4c57a844a.jpg"),
+            new("Charizard ex", "Pokémon", "Monstruo", "Secret Rare", 450m, 10, "/Imagenes/item-2fc3ca16854c4d8bb5b6721f52da7ca4.png"),
+            new("Mewtwo V", "Pokémon", "Monstruo", "Super Rare", 200m, 12, "/Imagenes/item-debc8305c316497f9c329e111887879c.jpeg"),
+            new("Zapdos ex", "Pokémon", "Monstruo", "Ultra Rare", 240m, 14, "/Imagenes/item-678e48add7f841dab2ceefb8f2f535f4.png"),
+            new("Energía de Fuego", "Pokémon", "Entrenador", "Common", 15m, 80, "/Imagenes/item-d80d0f13ab4e4b5993e8490843ec0160.png"),
+
+            // Magic: The Gathering
+            new("Black Lotus", "Magic: The Gathering", "Otros", "Rare", 950m, 5, "/Imagenes/item-436c7700f0924f1687f59ea4c57a844a.jpg"),
+            new("Ajani, Mentor de Héroes", "Magic: The Gathering", "Hechizo", "Super Rare", 330m, 8, "/Imagenes/item-2fc3ca16854c4d8bb5b6721f52da7ca4.png"),
+            new("Jace, el Escultor de Mentes", "Magic: The Gathering", "Hechizo", "Ultra Rare", 400m, 6, "/Imagenes/item-d80d0f13ab4e4b5993e8490843ec0160.png"),
+            new("Bola de Fuego", "Magic: The Gathering", "Hechizo", "Common", 45m, 60, "/Imagenes/item-7be6912c7a294c4cb78c8f4747d9e0af.jpeg")
+        };
+
+        private sealed record ItemSemilla(
+            string Nombre,
+            string Juego,
+            string Categoria,
+            string Rareza,
+            decimal Precio,
+            int Stock,
+            string ImagenRuta);
     }
 }
